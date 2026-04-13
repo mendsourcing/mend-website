@@ -61,8 +61,8 @@ export default function GovPackingDashboard() {
     { value: formatDollar(stats.dollarAmount), label: "Contract Value", live: true },
     { value: stats.ordersCompleted.toLocaleString(), label: "GP Orders Completed", live: true },
     { value: stats.inProgress.toString(), label: "GP Orders In Progress", live: true },
-    { value: "62", label: "Mfg Partners", live: false },
-    { value: "16+", label: "Years Experience", live: false },
+    { value: "62", label: "Manufacturing Partners", live: true },
+    { value: "16+", label: "Years Experience", live: true },
   ];
 
   return (
