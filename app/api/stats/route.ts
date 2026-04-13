@@ -30,7 +30,7 @@ export async function GET() {
     company: {
       totalContracts: govpackingStats.dlaContracts,
       manufacturingPartners: 62,
-      yearsExperience: 14,
+      yearsExperience: 16,
     },
     lastSynced: new Date().toISOString(),
   });
