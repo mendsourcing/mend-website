@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
+import LiveStats from "@/components/LiveStats";
+import GovPackingDashboard from "@/components/GovPackingDashboard";
 
 const partners = ["Acufast", "MS Aerospace", "Novaria Group", "Space Lok", "Twist Tite"];
 
@@ -105,25 +107,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="hidden lg:flex flex-col gap-12">
-            {[
-              { num: "190+", label: "Awarded Contracts" },
-              { num: "62", label: "Manufacturing Partners" },
-              { num: "14+", label: "Years Experience" },
-            ].map((s) => (
-              <div key={s.label} className="text-right">
-                <div className="text-6xl font-black tracking-tight">
-                  {s.num.replace("+", "")}
-                  {s.num.includes("+") && (
-                    <span className="text-[#03ACED]">+</span>
-                  )}
-                </div>
-                <div className="text-xs text-white/50 uppercase tracking-[2px] mt-1">
-                  {s.label}
-                </div>
-              </div>
-            ))}
-          </div>
+          <LiveStats />
         </div>
       </section>
 
@@ -146,6 +130,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* GOVPACKING LIVE DASHBOARD */}
+      <GovPackingDashboard />
 
       {/* B2B SERVICES */}
       <section id="services" className="py-24 px-6 md:px-15">
