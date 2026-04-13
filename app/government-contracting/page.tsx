@@ -36,7 +36,7 @@ export default function GovernmentContractingPage() {
           <h2 className="text-4xl font-extrabold tracking-tight mb-6">
             Products We Supply — Quality You Deserve
           </h2>
-          <p className="text-[#888] text-base leading-relaxed max-w-3xl mb-12">
+          <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-12">
             MeND is a distinguished and fully certified fastener authority, specializing in the procurement of high-performance AN, MS, and NAS components for the aerospace industry. We are AS9100 and ISO 9001 certified, committed to quality, timely delivery, and personalized service.
           </p>
 
@@ -57,7 +57,7 @@ export default function GovernmentContractingPage() {
                 ))}
                 <div className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
                   <span className="text-[#03ACED]">→</span>
-                  <span className="text-sm text-[#888] italic">
+                  <span className="text-sm text-[#bbb] italic">
                     And more — provide the part number or NSN and we&apos;ll source it
                   </span>
                 </div>

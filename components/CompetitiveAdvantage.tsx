@@ -36,7 +36,7 @@ export default function CompetitiveAdvantage() {
                 0{i + 1}
               </div>
               <h3 className="text-xl font-bold mb-4">{a.title}</h3>
-              <p className="text-[#888] text-sm leading-relaxed italic">
+              <p className="text-[#bbb] text-sm leading-relaxed italic">
                 &ldquo;{a.quote}&rdquo;
               </p>
             </div>

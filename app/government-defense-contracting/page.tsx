@@ -60,7 +60,7 @@ export default function DefenseContractingPage() {
       {/* Intro */}
       <section className="py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[#888] text-base leading-relaxed max-w-3xl mb-8">
+          <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-8">
             MeND is a certified SDVOSB (Service-Disabled Veteran-Owned Small Business) recognized by the Small Business Association. We conduct rigorous analysis of RFQs from platforms like DIBBS, SAM.gov, and NECO, using our proprietary algorithm to optimize bids resulting in competitive proposals with reduced lead times and strong pricing.
           </p>
           <div className="flex flex-wrap gap-3">
@@ -92,7 +92,7 @@ export default function DefenseContractingPage() {
                 className="text-center bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6"
               >
                 <div className="text-3xl font-black text-[#03ACED] mb-2">{s.num}</div>
-                <div className="text-xs text-[#888] leading-tight">{s.label}</div>
+                <div className="text-xs text-[#bbb] leading-tight">{s.label}</div>
               </div>
             ))}
           </div>
@@ -128,7 +128,7 @@ export default function DefenseContractingPage() {
       <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold mb-4">Looking to Win Government Contracts?</h2>
-          <p className="text-[#888] mb-10">
+          <p className="text-[#bbb] mb-10">
             Our team can get you up to speed and ready to win. Add your contact information below.
           </p>
           {formStatus === "sent" ? (

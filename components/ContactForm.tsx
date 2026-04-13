@@ -52,7 +52,7 @@ export default function ContactForm() {
       <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-12 text-center">
         <div className="text-4xl mb-4">&#9989;</div>
         <h3 className="text-2xl font-bold mb-2">Thank You!</h3>
-        <p className="text-[#888]">
+        <p className="text-[#bbb]">
           We&apos;ll get back to you within 24 hours.
         </p>
       </div>
@@ -66,7 +66,7 @@ export default function ContactForm() {
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="block text-xs font-medium text-[#888] mb-2">
+          <label className="block text-xs font-medium text-[#bbb] mb-2">
             First Name
           </label>
           <input
@@ -77,7 +77,7 @@ export default function ContactForm() {
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-[#888] mb-2">
+          <label className="block text-xs font-medium text-[#bbb] mb-2">
             Last Name
           </label>
           <input
@@ -90,7 +90,7 @@ export default function ContactForm() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="block text-xs font-medium text-[#888] mb-2">
+          <label className="block text-xs font-medium text-[#bbb] mb-2">
             Email
           </label>
           <input
@@ -102,7 +102,7 @@ export default function ContactForm() {
           />
         </div>
         <div>
-          <label className="block text-xs font-medium text-[#888] mb-2">
+          <label className="block text-xs font-medium text-[#bbb] mb-2">
             Phone
           </label>
           <input
@@ -114,7 +114,7 @@ export default function ContactForm() {
         </div>
       </div>
       <div className="mb-4">
-        <label className="block text-xs font-medium text-[#888] mb-2">
+        <label className="block text-xs font-medium text-[#bbb] mb-2">
           Topic
         </label>
         <select
@@ -133,7 +133,7 @@ export default function ContactForm() {
         </select>
       </div>
       <div className="mb-6">
-        <label className="block text-xs font-medium text-[#888] mb-2">
+        <label className="block text-xs font-medium text-[#bbb] mb-2">
           Message
         </label>
         <textarea

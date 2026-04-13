@@ -59,7 +59,7 @@ export default function Footer() {
               height={52}
               className="h-11 w-auto mb-4"
             />
-            <p className="text-sm text-[#666] leading-relaxed">
+            <p className="text-sm text-[#aaa] leading-relaxed">
               Simplifying government contracting at peak efficiency. Veteran
               owned &amp; operated.
             </p>
@@ -71,7 +71,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[#888] hover:text-[#03ACED] hover:bg-white/10 transition-all"
+                  className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[#bbb] hover:text-[#03ACED] hover:bg-white/10 transition-all"
                 >
                   {s.icon}
                 </a>
@@ -89,7 +89,7 @@ export default function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm text-[#666] hover:text-[#03ACED] transition-colors"
+                  className="text-sm text-[#aaa] hover:text-[#03ACED] transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -102,7 +102,7 @@ export default function Footer() {
             <h4 className="text-xs uppercase tracking-[2px] text-[#03ACED] font-semibold mb-6">
               Contact
             </h4>
-            <div className="space-y-4 text-sm text-[#666]">
+            <div className="space-y-4 text-sm text-[#aaa]">
               <p>1713 E. 58th Pl. Unit G</p>
               <p>Los Angeles, CA 90001</p>
               <a
@@ -116,11 +116,11 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-[#444]">
+          <p className="text-xs text-[#999]">
             &copy; {new Date().getFullYear()} MeND Sourcing Solutions. All
             rights reserved.
           </p>
-          <p className="text-xs text-[#444]">
+          <p className="text-xs text-[#999]">
             Veteran Owned Small Business (SDVOSB)
           </p>
         </div>

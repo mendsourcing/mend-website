@@ -166,7 +166,7 @@ export default function Navbar() {
                 <Link
                   key={child.href}
                   href={child.href}
-                  className="block pl-4 py-1 text-sm text-[#888] hover:text-[#03ACED]"
+                  className="block pl-4 py-1 text-sm text-[#bbb] hover:text-[#03ACED]"
                   onClick={() => setMobileOpen(false)}
                 >
                   {child.label}

@@ -24,7 +24,7 @@ export default function PartIdentifierPage() {
       {/* Intro */}
       <section className="py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[#888] text-base leading-relaxed max-w-3xl mb-8">
+          <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-8">
             The industry has been plagued with archaic processes — hidden in-house inventory, abstract lead times, and outdated quoting methods. We believe it&apos;s time for a change. We offer current inventory &amp; lead times, inventory on demand, accessible parts with P/N &amp; associated NSN, and transparent request-for-quote processes.
           </p>
           <div className="flex flex-wrap gap-4">
@@ -46,7 +46,7 @@ export default function PartIdentifierPage() {
           <h2 className="text-4xl font-extrabold tracking-tight mb-4">
             Sample Stock Items
           </h2>
-          <p className="text-sm text-[#888] mb-10">
+          <p className="text-sm text-[#bbb] mb-10">
             Contact us for the full inventory list. Use CTRL+F to search.
           </p>
           <div className="overflow-x-auto">
@@ -65,10 +65,10 @@ export default function PartIdentifierPage() {
                 {sampleInventory.map((item, i) => (
                   <tr key={i} className="border-b border-white/[0.04] hover:bg-white/[0.02]">
                     <td className="py-3 px-4 text-[#ccc] font-mono text-xs">{item.pn}</td>
-                    <td className="py-3 px-4 text-[#888]">{item.desc}</td>
-                    <td className="py-3 px-4 text-[#888] font-mono text-xs">{item.nsn}</td>
+                    <td className="py-3 px-4 text-[#bbb]">{item.desc}</td>
+                    <td className="py-3 px-4 text-[#bbb] font-mono text-xs">{item.nsn}</td>
                     <td className="py-3 px-4"><span className="text-green-400 text-xs font-semibold">{item.condition}</span></td>
-                    <td className="py-3 px-4 text-[#888]">{item.lead}</td>
+                    <td className="py-3 px-4 text-[#bbb]">{item.lead}</td>
                     <td className="py-3 px-4 text-[#ccc]">{item.qty}</td>
                   </tr>
                 ))}

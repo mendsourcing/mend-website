@@ -14,7 +14,7 @@ export default function GovTrainingPage() {
       {/* Intro */}
       <section className="py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto max-w-3xl">
-          <p className="text-lg text-[#888] leading-relaxed mb-6">
+          <p className="text-lg text-[#bbb] leading-relaxed mb-6">
             Our training modules cover contract review, strategic packaging solutions (MIL-STD &amp; Commercial), WAWF billing, contract modification, and quality inspection (AS9100 &amp; ISO9001). Whether you&apos;re brand new or looking to sharpen your skills, we provide the practical foundation to be self-sufficient in government contracting.
           </p>
         </div>
@@ -29,10 +29,10 @@ export default function GovTrainingPage() {
               Flagship Program
             </div>
             <h3 className="text-2xl font-bold mb-4">GovTraining MasterClass</h3>
-            <p className="text-sm text-[#888] leading-relaxed mb-6">
+            <p className="text-sm text-[#bbb] leading-relaxed mb-6">
               Our flagship, in-person training designed to take you from zero to fully capable in every step of government contracting. We sit with you face-to-face and walk through bidding, packaging, compliance, vendor traceability, quality requirements, and real DLA workflows.
             </p>
-            <p className="text-sm text-[#888] leading-relaxed mb-8">
+            <p className="text-sm text-[#bbb] leading-relaxed mb-8">
               You leave with total confidence, a repeatable process, and the ability to win and deliver contracts correctly the first time.
             </p>
             <div className="flex items-center gap-4">
@@ -52,10 +52,10 @@ export default function GovTrainingPage() {
               Virtual Program
             </div>
             <h3 className="text-2xl font-bold mb-4">GovCon Jumpstart!</h3>
-            <p className="text-sm text-[#888] leading-relaxed mb-6">
+            <p className="text-sm text-[#bbb] leading-relaxed mb-6">
               A four-week, one-hour-per-week virtual program that gives you the fundamentals you need to get started quickly. We cover the core essentials — how to read RFQs, how to quote, how packaging works, how delivery works, and how to avoid the common mistakes new contractors make.
             </p>
-            <p className="text-sm text-[#888] leading-relaxed mb-8">
+            <p className="text-sm text-[#bbb] leading-relaxed mb-8">
               Streamlined, practical, and built for busy people who want to start executing without committing to in-person training yet.
             </p>
             <div className="flex items-center gap-4">
@@ -75,7 +75,7 @@ export default function GovTrainingPage() {
       <section className="py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Not Sure Which Training Fits You?</h2>
-          <p className="text-[#888] mb-8">
+          <p className="text-[#bbb] mb-8">
             Speak with our team to get clear direction and choose confidently.
           </p>
           <Link

@@ -130,13 +130,13 @@ export default function HomePage() {
       {/* TRUST BAR */}
       <section className="py-12 px-6 border-y border-white/[0.06]">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-12">
-          <span className="text-xs uppercase tracking-[2px] text-[#444] font-semibold">
+          <span className="text-xs uppercase tracking-[2px] text-[#999] font-semibold">
             Trusted By
           </span>
           {partners.map((p) => (
             <div
               key={p}
-              className="flex items-center gap-3 text-[#666] text-sm font-medium"
+              className="flex items-center gap-3 text-[#aaa] text-sm font-medium"
             >
               <div className="w-10 h-10 rounded-lg bg-[#03ACED]/10 flex items-center justify-center text-[#03ACED] font-bold text-sm">
                 {p[0]}
@@ -156,7 +156,7 @@ export default function HomePage() {
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Our B2B Solutions
           </h2>
-          <p className="text-lg text-[#666] max-w-[560px] mb-16">
+          <p className="text-lg text-[#aaa] max-w-[560px] mb-16">
             Powerful tools and training designed to help businesses win and
             manage government contracts.
           </p>
@@ -177,7 +177,7 @@ export default function HomePage() {
                   />
                 </div>
                 <h3 className="text-[22px] font-bold mb-3">{svc.name}</h3>
-                <p className="text-[15px] text-[#888] leading-relaxed mb-5">
+                <p className="text-[15px] text-[#bbb] leading-relaxed mb-5">
                   {svc.desc}
                 </p>
                 {svc.external ? (
@@ -212,7 +212,7 @@ export default function HomePage() {
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Direct Government Services
           </h2>
-          <p className="text-lg text-[#666] max-w-[560px] mb-16">
+          <p className="text-lg text-[#aaa] max-w-[560px] mb-16">
             End-to-end contract management and procurement for defense and
             government agencies.
           </p>
@@ -225,7 +225,7 @@ export default function HomePage() {
                   </div>
                   <div>
                     <h4 className="text-lg font-bold mb-2">{f.title}</h4>
-                    <p className="text-sm text-[#888] leading-relaxed">
+                    <p className="text-sm text-[#bbb] leading-relaxed">
                       {f.desc}
                     </p>
                   </div>
@@ -265,7 +265,7 @@ export default function HomePage() {
               >
                 <div className="text-3xl mb-4">{w.icon}</div>
                 <h4 className="text-[15px] font-semibold mb-2">{w.title}</h4>
-                <p className="text-xs text-[#888] leading-relaxed">{w.desc}</p>
+                <p className="text-xs text-[#bbb] leading-relaxed">{w.desc}</p>
               </div>
             ))}
           </div>
@@ -288,7 +288,7 @@ export default function HomePage() {
               <h3 className="text-3xl font-extrabold mb-6">
                 Let&apos;s work together
               </h3>
-              <p className="text-[#888] text-base leading-relaxed mb-8">
+              <p className="text-[#bbb] text-base leading-relaxed mb-8">
                 Whether you need packaging compliance, procurement support, or
                 government contracting training, we&apos;re here to help.
               </p>
@@ -314,7 +314,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="mt-10">
-                <span className="text-xs text-[#666] uppercase tracking-[2px]">
+                <span className="text-xs text-[#aaa] uppercase tracking-[2px]">
                   Follow Us
                 </span>
                 <div className="flex gap-3 mt-3">
@@ -328,7 +328,7 @@ export default function HomePage() {
                       href={s.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[#888] text-sm hover:text-[#03ACED] hover:bg-white/10 transition-all"
+                      className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[#bbb] text-sm hover:text-[#03ACED] hover:bg-white/10 transition-all"
                     >
                       {s.label}
                     </a>

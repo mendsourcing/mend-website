@@ -12,7 +12,7 @@ export default function TermsPage() {
 
       <section className="py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-[#888] text-base leading-relaxed mb-8">
+          <p className="text-[#bbb] text-base leading-relaxed mb-8">
             To view the full document of MeND Supplier and Purchase Terms &amp; Conditions, please follow the link below:
           </p>
           <a
@@ -21,7 +21,7 @@ export default function TermsPage() {
           >
             Master Supplier and Purchase Terms and Conditions — 2025 →
           </a>
-          <p className="text-xs text-[#666] mt-4">
+          <p className="text-xs text-[#aaa] mt-4">
             PDF document will open in a new tab
           </p>
         </div>

@@ -79,7 +79,7 @@ export default function PackagingLogisticsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10">
               <h3 className="text-xl font-bold mb-4">Custom Kitting Solutions</h3>
-              <ul className="space-y-3 text-[#888] text-sm">
+              <ul className="space-y-3 text-[#bbb] text-sm">
                 <li className="flex gap-3">
                   <span className="text-[#03ACED]">→</span>
                   Discuss with our team about your kitting needs
@@ -92,7 +92,7 @@ export default function PackagingLogisticsPage() {
             </div>
             <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10">
               <h3 className="text-xl font-bold mb-4">Package Labeling & RFID Integration</h3>
-              <ul className="space-y-3 text-[#888] text-sm">
+              <ul className="space-y-3 text-[#bbb] text-sm">
                 <li className="flex gap-3">
                   <span className="text-[#03ACED]">→</span>
                   Labels provided as needed to complete your shipment
@@ -126,7 +126,7 @@ export default function PackagingLogisticsPage() {
                   0{i + 1}
                 </div>
                 <h3 className="text-xl font-bold mb-3">{item.title}</h3>
-                <p className="text-sm text-[#888] leading-relaxed mb-4">
+                <p className="text-sm text-[#bbb] leading-relaxed mb-4">
                   {item.desc}
                 </p>
                 {item.cta && (

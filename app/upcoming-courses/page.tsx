@@ -49,7 +49,7 @@ export default function UpcomingCoursesPage() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <span className={`w-2 h-2 rounded-full ${c.statusColor}`} />
-                    <span className="text-xs uppercase tracking-wider text-[#888] font-semibold">
+                    <span className="text-xs uppercase tracking-wider text-[#bbb] font-semibold">
                       {c.status}
                     </span>
                     <span className="text-xs bg-white/10 px-2 py-1 rounded text-[#ccc]">
@@ -57,7 +57,7 @@ export default function UpcomingCoursesPage() {
                     </span>
                   </div>
                   <h3 className="text-xl font-bold mb-1">{c.title}</h3>
-                  <p className="text-sm text-[#888]">{c.subtitle}</p>
+                  <p className="text-sm text-[#bbb]">{c.subtitle}</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="text-2xl font-bold text-[#03ACED]">{c.price}</span>

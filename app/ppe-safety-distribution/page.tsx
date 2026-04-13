@@ -48,7 +48,7 @@ export default function PPESafetyPage() {
           <h2 className="text-4xl font-extrabold tracking-tight mb-6">
             Elevating Excellence in PPE &amp; Safety
           </h2>
-          <p className="text-[#888] text-base leading-relaxed max-w-3xl mb-16">
+          <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-16">
             We specialize in sourcing top-tier protective equipment from industry-leading manufacturers, implementing our own supply chain process. We serve renowned organizations prioritizing safety with swift service, personalized interactions, and solving sourcing challenges. No safety demand is too extreme.
           </p>
 
@@ -59,7 +59,7 @@ export default function PPESafetyPage() {
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 hover:border-[#03ACED]/30 transition-colors"
               >
                 <h3 className="text-lg font-bold mb-3">{c.title}</h3>
-                <p className="text-sm text-[#888] leading-relaxed">{c.desc}</p>
+                <p className="text-sm text-[#bbb] leading-relaxed">{c.desc}</p>
               </div>
             ))}
           </div>

@@ -80,7 +80,7 @@ export default function JumpstartPage() {
                   {w.num}
                 </div>
                 <h3 className="text-lg font-bold mb-3">{w.title}</h3>
-                <p className="text-sm text-[#888] leading-relaxed">{w.desc}</p>
+                <p className="text-sm text-[#bbb] leading-relaxed">{w.desc}</p>
               </div>
             ))}
           </div>
@@ -103,7 +103,7 @@ export default function JumpstartPage() {
               >
                 <h3 className="text-lg font-bold mb-1">{f.title}</h3>
                 <div className="text-[#03ACED] text-sm font-semibold mb-4">{f.sub}</div>
-                <p className="text-sm text-[#888] leading-relaxed">{f.desc}</p>
+                <p className="text-sm text-[#bbb] leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -117,7 +117,7 @@ export default function JumpstartPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div>
                 <div className="text-5xl font-black text-[#03ACED] mb-2">$500</div>
-                <p className="text-[#888] mb-6">
+                <p className="text-[#bbb] mb-6">
                   Government contracting training done at the convenience of your laptop.
                 </p>
                 <h3 className="text-lg font-bold mb-4">What You&apos;ll Learn:</h3>
@@ -136,7 +136,7 @@ export default function JumpstartPage() {
                 >
                   RSVP Your Spot Today! →
                 </Link>
-                <p className="text-sm text-[#888] mt-6">
+                <p className="text-sm text-[#bbb] mt-6">
                   Not sure? <Link href="/#contact" className="text-[#03ACED] font-semibold">Book a call</Link> to get clear direction.
                 </p>
               </div>

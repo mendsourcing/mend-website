@@ -34,7 +34,7 @@ export default function AboutUsPage() {
           <h2 className="text-4xl font-extrabold tracking-tight mb-6">
             Disruptive Innovation to Better Serve
           </h2>
-          <p className="text-[#888] text-base leading-relaxed max-w-3xl mb-12">
+          <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-12">
             MeND focuses on disrupting archaic processes that have remained unchanged for over 20 years. Serving industries including Aerospace, PPE &amp; Safety, Government Contracting, and more, our mission is to deliver the highest quality parts and services with prompt, friendly service.
           </p>
 
@@ -43,7 +43,7 @@ export default function AboutUsPage() {
               <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
                 Mission
               </div>
-              <p className="text-sm text-[#888] leading-relaxed">
+              <p className="text-sm text-[#bbb] leading-relaxed">
                 MeND is dedicated to serving those that make up the backbone of America by providing essential parts and equipment. Our mission is to revolutionize these sectors through innovation, transparency, and unwavering reliability. We aim to empower the communities we serve, from government agencies to local manufacturers, with exceptional service and open communication.
               </p>
             </div>
@@ -51,7 +51,7 @@ export default function AboutUsPage() {
               <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
                 Vision
               </div>
-              <p className="text-sm text-[#888] leading-relaxed">
+              <p className="text-sm text-[#bbb] leading-relaxed">
                 At MeND, we envision a future where all industries that we serve are transformed by technology through transparency. We strive to break down complex barriers and level the playing field for all stakeholders. Our vision is to be the trusted partner that pioneers innovation, fosters communication, and redefines reliability.
               </p>
             </div>
@@ -78,7 +78,7 @@ export default function AboutUsPage() {
                   0{i + 1}
                 </div>
                 <h3 className="text-sm font-bold mb-2">{v.title}</h3>
-                <p className="text-xs text-[#888] leading-relaxed">{v.desc}</p>
+                <p className="text-xs text-[#bbb] leading-relaxed">{v.desc}</p>
               </div>
             ))}
           </div>
@@ -94,7 +94,7 @@ export default function AboutUsPage() {
           <h2 className="text-4xl font-extrabold tracking-tight mb-6">
             Meet the Experts
           </h2>
-          <p className="text-[#888] text-base leading-relaxed max-w-3xl mb-16">
+          <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-16">
             Get to know the passionate experts at MeND. Our diverse team, drawn from various fields, is driven to exceed your expectations, deliver exceptional results, and find new ways to innovate.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -107,7 +107,7 @@ export default function AboutUsPage() {
                   {t.name.split(" ").map((n) => n[0]).join("")}
                 </div>
                 <h3 className="text-lg font-bold">{t.name}</h3>
-                <p className="text-sm text-[#888]">{t.role}</p>
+                <p className="text-sm text-[#bbb]">{t.role}</p>
               </div>
             ))}
           </div>
@@ -118,7 +118,7 @@ export default function AboutUsPage() {
       <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Come Work With Us!</h2>
-          <p className="text-[#888] max-w-xl mx-auto mb-8">
+          <p className="text-[#bbb] max-w-xl mx-auto mb-8">
             We&apos;re seeking talent who see themselves as essential building blocks, eager to help construct something exceptional from the ground up. If you&apos;re ready to be a foundational piece in our vision, come shape greatness with us.
           </p>
           <a

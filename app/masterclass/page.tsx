@@ -89,7 +89,7 @@ export default function MasterClassPage() {
                   {step.num}
                 </div>
                 <h3 className="text-lg font-bold mb-3">{step.title}</h3>
-                <p className="text-sm text-[#888] leading-relaxed">{step.desc}</p>
+                <p className="text-sm text-[#bbb] leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -111,7 +111,7 @@ export default function MasterClassPage() {
               >
                 <div className="text-4xl mb-4">{f.icon}</div>
                 <h3 className="text-lg font-bold mb-2">{f.title}</h3>
-                <p className="text-sm text-[#888]">{f.desc}</p>
+                <p className="text-sm text-[#bbb]">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -120,8 +120,8 @@ export default function MasterClassPage() {
           <div className="bg-gradient-to-br from-[#03ACED]/10 to-transparent border border-[#03ACED]/30 rounded-2xl p-12 text-center">
             <h3 className="text-3xl font-bold mb-4">Ready to Master Government Contracting?</h3>
             <div className="text-5xl font-black text-[#03ACED] mb-2">$4,000</div>
-            <p className="text-sm text-[#888] mb-2">Los Angeles, CA location</p>
-            <p className="text-sm text-[#888] mb-8">+ $1,000 travel fee if we come to your location within the USA</p>
+            <p className="text-sm text-[#bbb] mb-2">Los Angeles, CA location</p>
+            <p className="text-sm text-[#bbb] mb-8">+ $1,000 travel fee if we come to your location within the USA</p>
             <Link
               href="/#contact"
               className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
