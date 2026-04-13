@@ -76,12 +76,12 @@ export default function GovPackingDashboard() {
       {cards.map((card) => (
         <div
           key={card.label}
-          className="bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-xl py-3 px-5 text-right w-[220px]"
+          className="bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-xl py-3 px-5 text-right w-[260px]"
         >
           <div className="text-2xl font-black text-[#03ACED] leading-tight">
             {card.value}
           </div>
-          <div className="text-[10px] uppercase tracking-[1.5px] text-white/50 font-semibold flex items-center justify-end gap-1.5 mt-0.5">
+          <div className="text-[10px] uppercase tracking-[1.5px] text-white/50 font-semibold flex items-center justify-end gap-1.5 mt-0.5 whitespace-nowrap">
             {card.live && (
               <span className="w-1 h-1 bg-green-400 rounded-full" />
             )}
