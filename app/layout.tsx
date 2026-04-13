@@ -26,6 +26,10 @@ export const metadata: Metadata = {
     "GovScraper",
     "GovTraining",
   ],
+  icons: {
+    icon: "/favicon-mend.png",
+    apple: "/favicon-mend.png",
+  },
 };
 
 export default function RootLayout({

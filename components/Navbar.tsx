@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 const navItems = [
@@ -44,12 +45,14 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 w-full z-50 px-6 md:px-15 h-[72px] flex items-center justify-between bg-[#0a0a0a]/85 backdrop-blur-xl border-b border-[#03ACED]/15">
       <Link href="/" className="flex-shrink-0">
-        <div className="text-[28px] font-black tracking-tight leading-none">
-          Me<span className="text-[#03ACED]">ND</span>
-          <span className="block text-[10px] font-normal tracking-[3px] uppercase text-[#888]">
-            Sourcing Solutions
-          </span>
-        </div>
+        <Image
+          src="/images/mend-logo.png"
+          alt="MeND Sourcing Solutions"
+          width={160}
+          height={52}
+          className="h-11 w-auto"
+          priority
+        />
       </Link>
 
       {/* Desktop Nav */}

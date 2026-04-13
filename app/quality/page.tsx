@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Hero from "@/components/Hero";
 
 export const metadata = { title: "Quality Assurance | MeND Sourcing Solutions" };
@@ -23,13 +24,15 @@ export default function QualityPage() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            <div className="bg-gradient-to-br from-[#03ACED]/10 to-transparent border border-[#03ACED]/30 rounded-2xl p-10">
+            <div className="bg-gradient-to-br from-[#03ACED]/10 to-transparent border border-[#03ACED]/30 rounded-2xl p-10 flex flex-col items-center text-center">
+              <Image src="/images/as9100-cert.png" alt="AS9100 Rev. D Certified" width={150} height={150} className="h-28 w-auto mb-6" />
               <h3 className="text-2xl font-bold mb-4">AS9100D Certified</h3>
               <p className="text-sm text-[#888] leading-relaxed">
                 The aerospace quality management standard that ensures we meet the stringent requirements of the aerospace industry for safety, reliability, and quality.
               </p>
             </div>
-            <div className="bg-gradient-to-br from-[#03ACED]/10 to-transparent border border-[#03ACED]/30 rounded-2xl p-10">
+            <div className="bg-gradient-to-br from-[#03ACED]/10 to-transparent border border-[#03ACED]/30 rounded-2xl p-10 flex flex-col items-center text-center">
+              <Image src="/images/iso9001-cert.png" alt="ISO 9001:2015 Certified" width={150} height={150} className="h-28 w-auto mb-6" />
               <h3 className="text-2xl font-bold mb-4">ISO 9001:2015 Certified</h3>
               <p className="text-sm text-[#888] leading-relaxed">
                 The international standard for quality management systems, demonstrating our ability to consistently provide products and services that meet customer and regulatory requirements.

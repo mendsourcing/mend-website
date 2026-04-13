@@ -1,18 +1,19 @@
 import Link from "next/link";
+import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 
 const partners = ["Acufast", "MS Aerospace", "Novaria Group", "Space Lok", "Twist Tite"];
 
 const b2bServices = [
   {
-    icon: "📦",
+    logo: "/images/govpacking-logo.png",
     name: "GovPacking",
     desc: "Decode MIL-STD-2073 & ASTM government packaging requirements with precision. Streamline your compliance process.",
     href: "/packaging-logistics",
     cta: "Package Your Contract",
   },
   {
-    icon: "🔍",
+    logo: "/images/govscraper-logo.png",
     name: "GovScraper",
     desc: "Automated DLA & DIBBS solicitation scraping. Get real-time RFQs without manually downloading PDFs.",
     href: "https://www.govscraper.com",
@@ -20,7 +21,7 @@ const b2bServices = [
     external: true,
   },
   {
-    icon: "🎓",
+    logo: "/images/govtraining-logo.png",
     name: "GovTraining",
     desc: "Expert-led courses on government contract bidding, compliance, and procurement. MasterClass and Jumpstart programs available.",
     href: "/govtraining",
@@ -84,7 +85,7 @@ export default function HomePage() {
               opportunities within government contracting. AS9100 &amp; ISO9001
               certified.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 mb-10">
               <Link
                 href="/#contact"
                 className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
@@ -97,6 +98,10 @@ export default function HomePage() {
               >
                 Explore Services
               </Link>
+            </div>
+            <div className="flex items-center gap-6">
+              <Image src="/images/as9100-cert.png" alt="AS9100 Rev. D Certified" width={80} height={80} className="h-16 w-auto opacity-70" />
+              <Image src="/images/iso9001-cert.png" alt="ISO 9001:2015 Certified" width={80} height={80} className="h-16 w-auto opacity-70" />
             </div>
           </div>
 
@@ -162,8 +167,14 @@ export default function HomePage() {
                 className="group bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 transition-all hover:border-[#03ACED]/30 hover:bg-[#03ACED]/[0.03] hover:-translate-y-1 relative overflow-hidden"
               >
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#03ACED] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#03ACED]/15 to-[#03ACED]/5 flex items-center justify-center mb-6 text-2xl">
-                  {svc.icon}
+                <div className="h-12 mb-6 flex items-center">
+                  <Image
+                    src={svc.logo}
+                    alt={svc.name}
+                    width={200}
+                    height={48}
+                    className="h-10 w-auto brightness-0 invert"
+                  />
                 </div>
                 <h3 className="text-[22px] font-bold mb-3">{svc.name}</h3>
                 <p className="text-[15px] text-[#888] leading-relaxed mb-5">

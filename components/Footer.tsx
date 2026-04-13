@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const footerLinks = [
   { label: "Part Identifier", href: "/part-identifier" },
@@ -51,12 +52,13 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="text-[28px] font-black tracking-tight leading-none mb-4">
-              Me<span className="text-[#03ACED]">ND</span>
-              <span className="block text-[10px] font-normal tracking-[3px] uppercase text-[#888]">
-                Sourcing Solutions
-              </span>
-            </div>
+            <Image
+              src="/images/mend-logo.png"
+              alt="MeND Sourcing Solutions"
+              width={160}
+              height={52}
+              className="h-11 w-auto mb-4"
+            />
             <p className="text-sm text-[#666] leading-relaxed">
               Simplifying government contracting at peak efficiency. Veteran
               owned &amp; operated.
