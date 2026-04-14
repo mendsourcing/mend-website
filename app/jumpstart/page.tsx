@@ -28,7 +28,7 @@ export default function JumpstartPage() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=1920&q=80&fit=crop')",
+            backgroundImage: "url('https://images.unsplash.com/photo-1588702547923-7093a6c3ba33?w=1920&q=80&fit=crop')",
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/50" />
@@ -194,14 +194,40 @@ export default function JumpstartPage() {
   );
 }
 
+interface Cohort {
+  id: number;
+  title: string;
+  start_date: string;
+  end_date: string | null;
+  max_seats: number;
+  seats_taken: number;
+  price: number;
+  status: string;
+}
+
 function EnrollForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
+  const [cohorts, setCohorts] = useState<Cohort[]>([]);
+  const [selectedCohort, setSelectedCohort] = useState("");
+
+  useState(() => {
+    fetch(`${process.env.NEXT_PUBLIC_CRM_URL || "https://services.mendsourcing.com"}/api/training-cohorts?status=open&program=jumpstart`)
+      .then((r) => r.json())
+      .then((data) => setCohorts(data.filter((c: Cohort) => c.seats_taken < c.max_seats)))
+      .catch(() => {});
+  });
+
+  function formatCohortDate(d: string) {
+    return new Date(d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
     const form = e.currentTarget;
     const data = new FormData(form);
+
+    const cohort = cohorts.find((c) => c.id.toString() === selectedCohort);
 
     try {
       const res = await fetch("/api/jumpstart-checkout", {
@@ -213,7 +239,8 @@ function EnrollForm() {
           email: data.get("email"),
           phone: data.get("phone"),
           company: data.get("company"),
-          preferredDates: data.get("dates") || "Next available cohort",
+          preferredDates: cohort ? `${cohort.title} — Starting ${formatCohortDate(cohort.start_date)}` : (data.get("dates") || "Next available cohort"),
+          cohortId: selectedCohort || null,
           message: data.get("message") || "",
         }),
       });
@@ -256,10 +283,32 @@ function EnrollForm() {
         <label className="block text-xs font-medium text-[#bbb] mb-2">Company *</label>
         <input name="company" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Company Name" />
       </div>
+
+      {/* Cohort Selection */}
       <div className="mb-4">
-        <label className="block text-xs font-medium text-[#bbb] mb-2">Preferred Start Date</label>
-        <input name="dates" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="e.g. First week of May, or 'next available'" />
+        <label className="block text-xs font-medium text-[#bbb] mb-2">Select Your Cohort *</label>
+        {cohorts.length > 0 ? (
+          <select
+            value={selectedCohort}
+            onChange={(e) => setSelectedCohort(e.target.value)}
+            required
+            className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
+          >
+            <option value="" className="bg-[#111]">Choose a start date...</option>
+            {cohorts.map((c) => (
+              <option key={c.id} value={c.id} className="bg-[#111]">
+                {c.title} — Starts {formatCohortDate(c.start_date)} ({c.max_seats - c.seats_taken} spots left)
+              </option>
+            ))}
+          </select>
+        ) : (
+          <div>
+            <p className="text-xs text-[#999] mb-2">No upcoming cohorts scheduled yet. Enter your preferred start date and we&apos;ll coordinate with you.</p>
+            <input name="dates" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="e.g. First week of May, or 'next available'" />
+          </div>
+        )}
       </div>
+
       <div className="mb-6">
         <label className="block text-xs font-medium text-[#bbb] mb-2">Anything else?</label>
         <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="Tell us about your experience level or goals..." />

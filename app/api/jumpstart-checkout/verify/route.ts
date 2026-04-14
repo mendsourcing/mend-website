@@ -31,7 +31,21 @@ export async function POST(request: Request) {
     const phone = meta.phone || "";
     const company = meta.company || "";
     const preferredDates = meta.preferredDates || "Next available";
+    const cohortId = meta.cohortId || "";
     const message = meta.message || "";
+
+    // Increment seats_taken on the cohort if one was selected
+    if (cohortId) {
+      try {
+        await fetch(`${CRM_URL}/api/training-cohorts/increment`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: parseInt(cohortId) }),
+        });
+      } catch (err) {
+        console.error("Cohort increment error:", err);
+      }
+    }
 
     // Push to CRM — create customer, contact, training session, activity
     try {

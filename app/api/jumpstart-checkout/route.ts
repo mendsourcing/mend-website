@@ -11,7 +11,7 @@ function getStripe() {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { firstName, lastName, email, phone, company, preferredDates, message } = body;
+  const { firstName, lastName, email, phone, company, preferredDates, cohortId, message } = body;
 
   try {
     const stripe = getStripe();
@@ -41,6 +41,7 @@ export async function POST(request: Request) {
         preferredDates: preferredDates || "Next available",
         message: message || "",
         totalCost: "500",
+        cohortId: cohortId || "",
         program: "Jumpstart",
         source: "Jumpstart Enrollment",
       },
