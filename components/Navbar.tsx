@@ -27,6 +27,7 @@ const navItems = [
       { label: "Part Identifier / Stock List", href: "/part-identifier" },
     ],
   },
+  { label: "Blog", href: "/blog" },
   {
     label: "About Us",
     href: "/about-us",
