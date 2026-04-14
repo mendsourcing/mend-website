@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { generateICS, pstToEst, formatTimePST } from "@/lib/calendar";
 
 export const dynamic = "force-dynamic";
 
@@ -46,6 +47,34 @@ export async function POST(request: Request) {
         console.error("Cohort increment error:", err);
       }
     }
+
+    // Fetch cohort details for Zoom link and time
+    let cohortData: { session_time?: string; zoom_link?: string; start_date?: string; title?: string } = {};
+    if (cohortId) {
+      try {
+        const cohortRes = await fetch(`${CRM_URL}/api/training-cohorts?status=open`);
+        const allCohorts = await cohortRes.json();
+        cohortData = allCohorts.find((c: { id: number }) => c.id === parseInt(cohortId)) || {};
+      } catch { /* ignore */ }
+    }
+
+    // Generate .ics calendar invite if we have cohort details
+    let icsContent = "";
+    if (cohortData.start_date && cohortData.session_time) {
+      icsContent = generateICS({
+        title: `GovTraining Jumpstart! — ${cohortData.title || "Training Session"}`,
+        description: `Your GovTraining Jumpstart! session.\\nCompany: ${company}\\n${cohortData.zoom_link ? `Join Zoom: ${cohortData.zoom_link}` : "Zoom link will be sent separately."}`,
+        startDate: cohortData.start_date.split("T")[0],
+        startTime: cohortData.session_time,
+        durationMinutes: 60,
+        zoomLink: cohortData.zoom_link || undefined,
+        organizerEmail: "sales@mendsourcing.com",
+      });
+    }
+
+    const timeDisplay = cohortData.session_time
+      ? `${formatTimePST(cohortData.session_time)} PST / ${pstToEst(cohortData.session_time)} EST`
+      : preferredDates;
 
     // Push to CRM — create customer, contact, training session, activity
     try {
@@ -96,15 +125,16 @@ export async function POST(request: Request) {
                   <tr><td style="padding:8px 0;color:#666;">Company:</td><td style="padding:8px 0;font-weight:bold;">${company}</td></tr>
                   <tr><td style="padding:8px 0;color:#666;">Program:</td><td style="padding:8px 0;font-weight:bold;">Jumpstart! — 4 weeks via Zoom</td></tr>
                   <tr><td style="padding:8px 0;color:#666;">Amount Paid:</td><td style="padding:8px 0;font-weight:bold;">$500</td></tr>
-                  <tr><td style="padding:8px 0;color:#666;">Preferred Start:</td><td style="padding:8px 0;font-weight:bold;">${preferredDates}</td></tr>
+                  <tr><td style="padding:8px 0;color:#666;">Schedule:</td><td style="padding:8px 0;font-weight:bold;">${timeDisplay}</td></tr>
+                  ${cohortData.zoom_link ? `<tr><td style="padding:8px 0;color:#666;">Zoom Link:</td><td style="padding:8px 0;font-weight:bold;"><a href="${cohortData.zoom_link}" style="color:#03ACED;">${cohortData.zoom_link}</a></td></tr>` : ""}
                 </table>
 
                 <h3 style="margin-top:24px;">What Happens Next:</h3>
                 <ol style="color:#333;line-height:1.8;">
-                  <li>We'll contact you within <strong>24 hours</strong> to confirm your cohort dates.</li>
-                  <li>You'll receive a Zoom link before your first session.</li>
+                  ${cohortData.zoom_link ? `<li>Your Zoom link is above — <strong>add the calendar invite</strong> attached to this email.</li>` : `<li>We'll contact you within <strong>24 hours</strong> to confirm your cohort dates and send your Zoom link.</li>`}
+                  <li>Sessions are <strong>1 hour each week for 4 consecutive weeks</strong>.</li>
                   <li>Your <strong>2-week GovScraper access</strong> will be activated at the start of training.</li>
-                  <li>Sessions are 1 hour each week for 4 weeks.</li>
+                  <li>You'll receive a reminder <strong>24 hours before</strong> and <strong>1 hour before</strong> each session.</li>
                 </ol>
 
                 <p style="margin-top:24px;">Questions? Reply to this email or contact <a href="mailto:sales@mendsourcing.com" style="color:#03ACED;">sales@mendsourcing.com</a>.</p>
@@ -116,6 +146,13 @@ export async function POST(request: Request) {
                 <p style="color:#888;font-size:12px;">MeND Sourcing Solutions<br/>1713 E. 58th Pl. Unit G, Los Angeles, CA 90001<br/>sales@mendsourcing.com</p>
               </div>
             `,
+            ...(icsContent ? {
+              attachments: [{
+                filename: "govtraining-jumpstart.ics",
+                content: Buffer.from(icsContent).toString("base64"),
+                type: "text/calendar",
+              }],
+            } : {}),
           }),
         });
       } catch (err) {
