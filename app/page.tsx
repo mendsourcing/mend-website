@@ -3,28 +3,37 @@ import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 import GovPackingDashboard from "@/components/GovPackingDashboard";
 
-const partners = ["Acufast", "MS Aerospace", "Novaria Group", "Space Lok", "Twist Tite"];
+const vendorLogos = [
+  { name: "Boeing", src: "/images/vendors/boeing.png", hasBg: true },
+  { name: "Acufast", src: "/images/vendors/acufast.webp", hasBg: true },
+  { name: "MS Aerospace", src: "/images/vendors/ms-aerospace.jpeg", hasBg: true },
+  { name: "Novaria Group", src: "/images/vendors/novaria-group.webp", hasBg: false },
+  { name: "Space-Lok", src: "/images/vendors/space-lok.png", hasBg: true, tall: true },
+  { name: "WG", src: "/images/vendors/wg.webp", hasBg: false },
+];
 
-const b2bServices = [
+const services = [
+  {
+    logo: "/images/govscraper-logo.png",
+    name: "GovScraper",
+    desc: "We scrape and organize over 2,000 DLA solicitations daily so you don't have to. GovScraper filters the noise and delivers the RFQs that match your capabilities — saving members an average of 2 hours every day.",
+    forThose: "Cut through the clutter and bid smarter, not harder.",
+    href: "/govscraper",
+    cta: "See GovScraper In Action",
+  },
   {
     logo: "/images/govpacking-logo.png",
     name: "GovPacking",
-    desc: "Decode MIL-STD-2073 & ASTM government packaging requirements with precision. Streamline your compliance process.",
+    desc: "Government packaging doesn't have to be confusing. We decode ASTM and MIL-STD-2073 requirements, source the right materials, and make sure every shipment leaves your dock fully compliant.",
+    forThose: "Take the guesswork out of military packaging compliance.",
     href: "/packaging-logistics",
     cta: "Package Your Contract",
   },
   {
-    logo: "/images/govscraper-logo.png",
-    name: "GovScraper",
-    desc: "Automated DLA & DIBBS solicitation scraping. Get real-time RFQs without manually downloading PDFs.",
-    href: "https://www.govscraper.com",
-    cta: "See GovScraper In Action",
-    external: true,
-  },
-  {
     logo: "/images/govtraining-logo.png",
     name: "GovTraining",
-    desc: "Expert-led courses on government contract bidding, compliance, and procurement. MasterClass and Jumpstart programs available.",
+    desc: "Whether you're just getting started or ready to master the entire process, our hands-on training gives you the real-world knowledge to bid, win, and deliver government contracts with confidence.",
+    forThose: "Build a foundation or go deep — and start winning.",
     href: "/govtraining",
     cta: "Win More Contracts",
   },
@@ -91,7 +100,7 @@ export default function HomePage() {
                 href="/#contact"
                 className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
               >
-                Start Your Contract →
+                How Can We Help? →
               </Link>
               <Link
                 href="#services"
@@ -100,9 +109,21 @@ export default function HomePage() {
                 Explore Services
               </Link>
             </div>
-            <div className="flex items-center gap-6">
-              <Image src="/images/as9100-cert.png" alt="AS9100 Rev. D Certified" width={80} height={80} className="h-16 w-auto opacity-70" />
-              <Image src="/images/iso9001-cert.png" alt="ISO 9001:2015 Certified" width={80} height={80} className="h-16 w-auto opacity-70" />
+            <div className="flex items-center gap-4">
+              <div className="bg-white rounded-xl px-4 py-3 flex items-center gap-3">
+                <Image src="/images/as9100-cert.png" alt="AS9100 Rev. D Certified" width={50} height={50} className="h-12 w-auto" />
+                <div>
+                  <div className="text-xs font-bold text-gray-900">AS9100</div>
+                  <div className="text-[10px] text-gray-500">Rev. D Certified</div>
+                </div>
+              </div>
+              <div className="bg-white rounded-xl px-4 py-3 flex items-center gap-3">
+                <Image src="/images/iso9001-cert.png" alt="ISO 9001:2015 Certified" width={50} height={50} className="h-12 w-auto" />
+                <div>
+                  <div className="text-xs font-bold text-gray-900">ISO 9001</div>
+                  <div className="text-[10px] text-gray-500">2015 Certified</div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -110,23 +131,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TRUST BAR */}
-      <section className="py-12 px-6 border-y border-white/[0.06]">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-12">
-          <span className="text-xs uppercase tracking-[2px] text-[#999] font-semibold">
+      {/* TRUSTED BY - SCROLLING LOGOS */}
+      <section className="py-10 border-y border-white/[0.06] overflow-hidden">
+        <div className="text-center mb-6">
+          <span className="text-xs uppercase tracking-[3px] text-[#999] font-semibold">
             Trusted By
           </span>
-          {partners.map((p) => (
-            <div
-              key={p}
-              className="flex items-center gap-3 text-[#aaa] text-sm font-medium"
-            >
-              <div className="w-10 h-10 rounded-lg bg-[#03ACED]/10 flex items-center justify-center text-[#03ACED] font-bold text-sm">
-                {p[0]}
+        </div>
+        <div className="relative">
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10" />
+          <div className="flex animate-scroll">
+            {[...vendorLogos, ...vendorLogos].map((v, i) => (
+              <div key={`${v.name}-${i}`} className="flex-shrink-0 mx-10 flex items-center justify-center h-16">
+                <div className={`flex items-center justify-center px-4 py-2 rounded-lg ${v.hasBg ? "bg-white" : ""}`}>
+                  <Image
+                    src={v.src}
+                    alt={v.name}
+                    width={160}
+                    height={60}
+                    className={`${v.tall ? "h-14" : "h-9"} w-auto object-contain`}
+                  />
+                </div>
               </div>
-              {p}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -134,20 +163,20 @@ export default function HomePage() {
       <section id="services" className="py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
-            Business-to-Business
+            Our Products & Services
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-            Our B2B Solutions
+            Our Solutions
           </h2>
           <p className="text-lg text-[#aaa] max-w-[560px] mb-16">
-            Powerful tools and training designed to help businesses win and
+            Powerful tools and training designed to help you win and
             manage government contracts.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {b2bServices.map((svc) => (
+            {services.map((svc) => (
               <div
                 key={svc.name}
-                className="group bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 transition-all hover:border-[#03ACED]/30 hover:bg-[#03ACED]/[0.03] hover:-translate-y-1 relative overflow-hidden"
+                className="group bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 transition-all hover:border-[#03ACED]/30 hover:bg-[#03ACED]/[0.03] hover:-translate-y-1 relative overflow-hidden flex flex-col"
               >
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#03ACED] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="h-12 mb-6 flex items-center">
@@ -160,26 +189,19 @@ export default function HomePage() {
                   />
                 </div>
                 <h3 className="text-[22px] font-bold mb-3">{svc.name}</h3>
-                <p className="text-[15px] text-[#bbb] leading-relaxed mb-5">
+                <p className="text-[15px] text-[#bbb] leading-relaxed mb-4 flex-1">
                   {svc.desc}
                 </p>
-                {svc.external ? (
-                  <a
-                    href={svc.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-[#03ACED] text-sm font-semibold"
-                  >
-                    {svc.cta} →
-                  </a>
-                ) : (
-                  <Link
-                    href={svc.href}
-                    className="inline-flex items-center gap-2 text-[#03ACED] text-sm font-semibold"
-                  >
-                    {svc.cta} →
-                  </Link>
-                )}
+                <div className="pt-4 border-t border-white/[0.06] mb-5">
+                  <span className="text-[11px] uppercase tracking-[2px] text-[#03ACED] font-semibold">For Those Looking To:</span>
+                  <p className="text-sm text-white/80 mt-1">{svc.forThose}</p>
+                </div>
+                <Link
+                  href={svc.href}
+                  className="inline-flex items-center gap-2 text-[#03ACED] text-sm font-semibold"
+                >
+                  {svc.cta} →
+                </Link>
               </div>
             ))}
           </div>

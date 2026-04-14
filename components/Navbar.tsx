@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 const navItems = [
+  { label: "GovScraper", href: "/govscraper" },
   { label: "GovPacking", href: "/packaging-logistics" },
   {
     label: "GovTraining",
@@ -15,7 +16,6 @@ const navItems = [
       { label: "Upcoming Courses", href: "/upcoming-courses" },
     ],
   },
-  { label: "GovScraper", href: "https://www.govscraper.com", external: true },
   {
     label: "Government Contracting",
     href: "/government-contracting",
@@ -67,23 +67,12 @@ export default function Navbar() {
             }
             onMouseLeave={() => setOpenDropdown(null)}
           >
-            {item.external ? (
-              <a
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#ccc] text-sm font-medium hover:text-[#03ACED] transition-colors"
-              >
-                {item.label}
-              </a>
-            ) : (
-              <Link
-                href={item.href}
-                className="text-[#ccc] text-sm font-medium hover:text-[#03ACED] transition-colors"
-              >
-                {item.label}
-              </Link>
-            )}
+            <Link
+              href={item.href}
+              className="text-[#ccc] text-sm font-medium hover:text-[#03ACED] transition-colors"
+            >
+              {item.label}
+            </Link>
             {item.children && openDropdown === item.label && (
               <div className="absolute top-full left-0 pt-2 min-w-[240px]">
                 <div className="bg-[#111] border border-white/10 rounded-lg py-2 shadow-xl">
@@ -144,25 +133,13 @@ export default function Navbar() {
         <div className="lg:hidden absolute top-[72px] left-0 w-full bg-[#0a0a0a]/98 backdrop-blur-xl border-b border-white/10 py-6 px-6">
           {navItems.map((item) => (
             <div key={item.label} className="mb-4">
-              {item.external ? (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block text-white font-medium mb-2"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="block text-white font-medium mb-2"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              )}
+              <Link
+                href={item.href}
+                className="block text-white font-medium mb-2"
+                onClick={() => setMobileOpen(false)}
+              >
+                {item.label}
+              </Link>
               {item.children?.map((child) => (
                 <Link
                   key={child.href}

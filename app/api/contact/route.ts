@@ -4,7 +4,8 @@ const CRM_URL = process.env.CRM_URL || "https://services.mendsourcing.com";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { firstName, lastName, email, phone, company, topic, message } = body;
+  const { firstName, lastName, email, phone, company, topic, message, source } = body;
+  const formSource = source || "MeND Website Contact Form";
 
   // 1. Send email via Resend with BCC
   if (process.env.RESEND_API_KEY) {
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
             <p><strong>Topic:</strong> ${topic || "Not selected"}</p>
             <p><strong>Message:</strong> ${message || "No message"}</p>
             <hr/>
-            <p style="color:#888;font-size:12px;">Submitted via mendsourcing.com contact form</p>
+            <p style="color:#888;font-size:12px;">Submitted via: ${formSource}</p>
           `,
         }),
       });
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
         company,
         topic: topic || "General",
         message: message || "",
-        source: "MeND Website",
+        source: formSource,
       }),
     });
   } catch (err) {
