@@ -4,20 +4,20 @@ import CompetitiveAdvantage from "@/components/CompetitiveAdvantage";
 export const metadata = { title: "Aerospace Distribution | MeND Sourcing Solutions" };
 
 const products = [
-  "Bolts & Screws",
-  "Nuts & Nutplates",
-  "Threaded Inserts",
-  "Pins & Collars",
-  "Washers",
-  "Rivets & Tooling",
+  { name: "Bolts & Screws", examples: "AN, MS, NAS, BACB" },
+  { name: "Nuts & Nutplates", examples: "MS21042, NAS1291, Plate Nuts" },
+  { name: "Threaded Inserts", examples: "Heli-Coil, KEENSERTS, Tridair" },
+  { name: "Pins & Collars", examples: "Hi-Lok, Hi-Lite, Taper-Lok" },
+  { name: "Washers", examples: "AN960, MS15795, Countersunk" },
+  { name: "Rivets & Tooling", examples: "MS20470, NAS1398, Cherrymax" },
 ];
 
 const markets = [
-  "Commercial Aircraft",
-  "General Aviation",
-  "Military & Defense",
-  "Business & Regional Jet",
-  "Rotary Aircraft & Helicopter",
+  { name: "Commercial Aircraft", examples: "Boeing 737, 747, 777, 787 Dreamliner, Airbus A320, A350" },
+  { name: "General Aviation", examples: "Cessna, Piper, Beechcraft, Cirrus, Mooney" },
+  { name: "Military & Defense", examples: "F-15, F-18, F-22, F-35, C-17, C-130" },
+  { name: "Business & Regional Jet", examples: "Gulfstream, Bombardier, Embraer, Dassault Falcon" },
+  { name: "Rotary Aircraft & Helicopter", examples: "Sikorsky Black Hawk, Bell, Airbus Helicopters, Boeing Chinook" },
 ];
 
 export default function GovernmentContractingPage() {
@@ -48,11 +48,14 @@ export default function GovernmentContractingPage() {
               <div className="space-y-3">
                 {products.map((p) => (
                   <div
-                    key={p}
-                    className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-4"
+                    key={p.name}
+                    className="flex items-start gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-4"
                   >
-                    <span className="text-[#03ACED]">→</span>
-                    <span className="text-sm text-[#ccc]">{p}</span>
+                    <span className="text-[#03ACED] mt-0.5">→</span>
+                    <div>
+                      <div className="text-sm text-white font-medium">{p.name}</div>
+                      <div className="text-xs text-[#999] mt-0.5">{p.examples}</div>
+                    </div>
                   </div>
                 ))}
                 <div className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
@@ -71,11 +74,14 @@ export default function GovernmentContractingPage() {
               <div className="space-y-3">
                 {markets.map((m) => (
                   <div
-                    key={m}
-                    className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-4"
+                    key={m.name}
+                    className="flex items-start gap-3 bg-white/[0.03] border border-white/[0.06] rounded-xl p-4"
                   >
-                    <span className="text-[#03ACED]">→</span>
-                    <span className="text-sm text-[#ccc]">{m}</span>
+                    <span className="text-[#03ACED] mt-0.5">→</span>
+                    <div>
+                      <div className="text-sm text-white font-medium">{m.name}</div>
+                      <div className="text-xs text-[#999] mt-0.5">{m.examples}</div>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -16,10 +16,12 @@ export default function TermsPage() {
             To view the full document of MeND Supplier and Purchase Terms &amp; Conditions, please follow the link below:
           </p>
           <a
-            href="#"
+            href="https://www.dropbox.com/scl/fi/fnf27gxl50aklz7go3gsu/MeND-Sourcing-Solutions-LLC.pdf?rlkey=u8zuofsqawx8b2p0gbgwve9g1&st=8ftwmcd5&dl=0"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
           >
-            Master Supplier and Purchase Terms and Conditions — 2025 →
+            Master Supplier and Purchase Terms and Conditions — 2026 →
           </a>
           <p className="text-xs text-[#aaa] mt-4">
             PDF document will open in a new tab

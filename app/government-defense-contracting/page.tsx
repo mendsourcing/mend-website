@@ -1,16 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 
-const stats = [
-  { num: "64", label: "SDVOSB Contracts" },
-  { num: "142", label: "Trusted Manufacturing Partners" },
-  { num: "284", label: "Awarded CLINs Serviced" },
-  { num: "4/5", label: "Green Average Rating" },
-  { num: "2.8", label: "SPRS Score" },
-  { num: "$2.8M", label: "In Awarded Contracts" },
-];
+function useGovPackingStats() {
+  const [stats, setStats] = useState({ dlaContracts: 325, dollarAmount: 8000000, ordersCompleted: 634, inProgress: 29 });
+  useEffect(() => {
+    fetch("/api/stats").then(r => r.json()).then(d => { if (d.govpacking) setStats(d.govpacking); }).catch(() => {});
+  }, []);
+  return stats;
+}
 
 const steps = [
   "Review of the RFQ",
@@ -22,8 +21,24 @@ const steps = [
 
 const platforms = ["DIBBS", "SAM.gov", "NECO", "SAF/AQC"];
 
+function formatDollar(amount: number): string {
+  if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
+  if (amount >= 1000) return `$${(amount / 1000).toFixed(0)}K`;
+  return `$${amount}`;
+}
+
 export default function DefenseContractingPage() {
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const gp = useGovPackingStats();
+
+  const stats = [
+    { num: gp.dlaContracts.toLocaleString(), label: "DLA Contracts", live: true },
+    { num: formatDollar(gp.dollarAmount), label: "Contract Value", live: true },
+    { num: gp.ordersCompleted.toLocaleString(), label: "GovPacking Orders Completed", live: true },
+    { num: gp.inProgress.toString(), label: "GovPacking Orders In Progress", live: true },
+    { num: "16+", label: "Years Experience", live: true },
+    { num: "314", label: "SPRS Score", live: true },
+  ];
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,8 +54,10 @@ export default function DefenseContractingPage() {
           lastName: data.get("lastName"),
           email: data.get("email"),
           phone: data.get("phone"),
+          company: data.get("company"),
           topic: "Gov't & Defense Contracting - Lead",
-          message: "Lead from defense contracting page",
+          message: data.get("message") || "Lead from Gov't & Defense Contracting page",
+          source: "Gov't & Defense Contracting Form",
         }),
       });
       setFormStatus("sent");
@@ -82,15 +99,24 @@ export default function DefenseContractingPage() {
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             By The Numbers
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-4xl font-extrabold tracking-tight mb-4">
             Our Achievements
           </h2>
+          <div className="flex items-center gap-2 mb-12">
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+            <span className="text-sm text-green-400/90 font-medium">
+              Live numbers — updated daily as of {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+            </span>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {stats.map((s) => (
               <div
                 key={s.label}
-                className="text-center bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6"
+                className="text-center bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6 relative"
               >
+                {s.live && (
+                  <span className="absolute top-3 right-3 w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+                )}
                 <div className="text-3xl font-black text-[#03ACED] mb-2">{s.num}</div>
                 <div className="text-xs text-[#bbb] leading-tight">{s.label}</div>
               </div>
@@ -126,27 +152,58 @@ export default function DefenseContractingPage() {
 
       {/* Lead Gen Form */}
       <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
-        <div className="max-w-7xl mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold mb-4">Looking to Win Government Contracts?</h2>
-          <p className="text-[#bbb] mb-10">
-            Our team can get you up to speed and ready to win. Add your contact information below.
-          </p>
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+              Get Started
+            </div>
+            <h2 className="text-4xl font-extrabold tracking-tight mb-4">Looking to Win Government Contracts?</h2>
+            <p className="text-[#bbb]">
+              Our team can get you up to speed and ready to win. Tell us about yourself and we&apos;ll be in touch within 24 hours.
+            </p>
+          </div>
           {formStatus === "sent" ? (
-            <div className="bg-white/[0.03] border border-[#03ACED]/30 rounded-2xl p-10">
-              <div className="text-3xl mb-3">✅</div>
-              <p className="text-lg font-bold">Thank you! We&apos;ll be in touch within 24 hours.</p>
+            <div className="bg-white/[0.03] border border-[#03ACED]/30 rounded-2xl p-12 text-center">
+              <div className="text-4xl mb-4">✅</div>
+              <h3 className="text-2xl font-bold mb-2">Thank You!</h3>
+              <p className="text-[#bbb]">We&apos;ll be in touch within 24 hours to get you started.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4 text-left">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input name="firstName" required placeholder="First Name" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED]" />
-                <input name="lastName" required placeholder="Last Name" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED]" />
+            <form onSubmit={handleSubmit} className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 md:p-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-medium text-[#bbb] mb-2">First Name *</label>
+                  <input name="firstName" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="John" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-[#bbb] mb-2">Last Name</label>
+                  <input name="lastName" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Doe" />
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input name="email" type="email" required placeholder="Email" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED]" />
-                <input name="phone" type="tel" placeholder="Phone" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED]" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs font-medium text-[#bbb] mb-2">Email *</label>
+                  <input name="email" type="email" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="john@company.com" />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-[#bbb] mb-2">Phone</label>
+                  <input
+                    name="phone" type="tel" maxLength={14}
+                    className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
+                    placeholder="(555) 000-0000"
+                    onInput={(e) => { const input = e.currentTarget; let v = input.value.replace(/\D/g, "").slice(0, 10); if (v.length >= 7) v = `(${v.slice(0,3)}) ${v.slice(3,6)}-${v.slice(6)}`; else if (v.length >= 4) v = `(${v.slice(0,3)}) ${v.slice(3)}`; else if (v.length >= 1) v = `(${v}`; input.value = v; }}
+                  />
+                </div>
               </div>
-              <button type="submit" disabled={formStatus === "sending"} className="w-full py-4 bg-[#03ACED] text-black font-bold rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
+              <div className="mb-4">
+                <label className="block text-xs font-medium text-[#bbb] mb-2">Company *</label>
+                <input name="company" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Company Name" />
+              </div>
+              <div className="mb-6">
+                <label className="block text-xs font-medium text-[#bbb] mb-2">Tell us about your goals</label>
+                <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="What are you looking to accomplish with government contracting?" />
+              </div>
+              <button type="submit" disabled={formStatus === "sending"} className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
                 {formStatus === "sending" ? "Sending..." : "Start Winning Contracts Now! →"}
               </button>
             </form>

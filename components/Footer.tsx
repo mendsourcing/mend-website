@@ -4,7 +4,6 @@ import Image from "next/image";
 const footerLinks = [
   { label: "Part Identifier", href: "/part-identifier" },
   { label: "Aerospace Distribution", href: "/government-contracting" },
-  { label: "PPE & Safety", href: "/ppe-safety-distribution" },
   {
     label: "Gov't & Defense Contracting",
     href: "/government-defense-contracting",
