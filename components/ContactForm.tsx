@@ -31,6 +31,7 @@ export default function ContactForm() {
           lastName: data.get("lastName"),
           email: data.get("email"),
           phone: data.get("phone"),
+          company: data.get("company"),
           topic: data.get("topic"),
           message: data.get("message"),
         }),
@@ -67,7 +68,7 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">
-            First Name
+            First Name *
           </label>
           <input
             name="firstName"
@@ -82,7 +83,6 @@ export default function ContactForm() {
           </label>
           <input
             name="lastName"
-            required
             className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
             placeholder="Doe"
           />
@@ -91,7 +91,7 @@ export default function ContactForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">
-            Email
+            Email *
           </label>
           <input
             name="email"
@@ -108,10 +108,31 @@ export default function ContactForm() {
           <input
             name="phone"
             type="tel"
+            pattern="\(\d{3}\) \d{3}-\d{4}"
+            maxLength={14}
             className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
             placeholder="(555) 000-0000"
+            onInput={(e) => {
+              const input = e.currentTarget;
+              let v = input.value.replace(/\D/g, "").slice(0, 10);
+              if (v.length >= 7) v = `(${v.slice(0,3)}) ${v.slice(3,6)}-${v.slice(6)}`;
+              else if (v.length >= 4) v = `(${v.slice(0,3)}) ${v.slice(3)}`;
+              else if (v.length >= 1) v = `(${v}`;
+              input.value = v;
+            }}
           />
         </div>
+      </div>
+      <div className="mb-4">
+        <label className="block text-xs font-medium text-[#bbb] mb-2">
+          Company *
+        </label>
+        <input
+          name="company"
+          required
+          className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
+          placeholder="Company Name"
+        />
       </div>
       <div className="mb-4">
         <label className="block text-xs font-medium text-[#bbb] mb-2">
@@ -119,7 +140,6 @@ export default function ContactForm() {
         </label>
         <select
           name="topic"
-          required
           className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
         >
           <option value="" className="bg-[#111]">

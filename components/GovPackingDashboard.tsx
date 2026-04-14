@@ -59,8 +59,8 @@ export default function GovPackingDashboard() {
   const cards = [
     { value: stats.dlaContracts.toLocaleString(), label: "DLA Contracts", live: true },
     { value: formatDollar(stats.dollarAmount), label: "Contract Value", live: true },
-    { value: stats.ordersCompleted.toLocaleString(), label: "GP Orders Completed", live: true },
-    { value: stats.inProgress.toString(), label: "GP Orders In Progress", live: true },
+    { value: stats.ordersCompleted.toLocaleString(), label: "GovPacking Orders Completed", live: true },
+    { value: stats.inProgress.toString(), label: "GovPacking Orders In Progress", live: true },
     { value: "62", label: "Manufacturing Partners", live: true },
     { value: "16+", label: "Years Experience", live: true },
   ];
@@ -76,7 +76,7 @@ export default function GovPackingDashboard() {
       {cards.map((card) => (
         <div
           key={card.label}
-          className="bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-xl py-3 px-5 text-right w-[260px]"
+          className="bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-xl py-3 px-5 text-right w-[320px]"
         >
           <div className="text-2xl font-black text-[#03ACED] leading-tight">
             {card.value}

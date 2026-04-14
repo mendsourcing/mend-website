@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 
+const CRM_URL = process.env.CRM_URL || "https://services.mendsourcing.com";
+
 export async function POST(request: Request) {
   const body = await request.json();
-  const { firstName, lastName, email, phone, topic, message } = body;
+  const { firstName, lastName, email, phone, company, topic, message } = body;
 
-  // If Resend API key is configured, send via Resend
+  // 1. Send email via Resend with BCC
   if (process.env.RESEND_API_KEY) {
     try {
       const res = await fetch("https://api.resend.com/emails", {
@@ -16,14 +18,18 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           from: "MeND Website <noreply@mendsourcing.com>",
           to: ["sales@mendsourcing.com"],
-          subject: `New Contact: ${topic} - ${firstName} ${lastName}`,
+          bcc: ["tristan@mendsourcing.com"],
+          subject: `New Contact: ${topic || "General"} - ${firstName} ${lastName || ""} (${company})`,
           html: `
             <h2>New Contact Form Submission</h2>
-            <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+            <p><strong>Name:</strong> ${firstName} ${lastName || ""}</p>
+            <p><strong>Company:</strong> ${company}</p>
             <p><strong>Email:</strong> ${email}</p>
             <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-            <p><strong>Topic:</strong> ${topic}</p>
+            <p><strong>Topic:</strong> ${topic || "Not selected"}</p>
             <p><strong>Message:</strong> ${message || "No message"}</p>
+            <hr/>
+            <p style="color:#888;font-size:12px;">Submitted via mendsourcing.com contact form</p>
           `,
         }),
       });
@@ -31,28 +37,33 @@ export async function POST(request: Request) {
       if (!res.ok) {
         const error = await res.text();
         console.error("Resend error:", error);
-        return NextResponse.json(
-          { error: "Failed to send email" },
-          { status: 500 }
-        );
       }
     } catch (err) {
       console.error("Email send error:", err);
-      return NextResponse.json(
-        { error: "Failed to send email" },
-        { status: 500 }
-      );
     }
   } else {
-    // Log to console if no Resend key (development mode)
-    console.log("Contact form submission:", {
-      firstName,
-      lastName,
-      email,
-      phone,
-      topic,
-      message,
+    console.log("Contact form submission:", { firstName, lastName, email, phone, company, topic, message });
+  }
+
+  // 2. Push to CRM - cross-reference customer, create contact, log activity
+  try {
+    await fetch(`${CRM_URL}/api/website-contact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName,
+        lastName: lastName || "",
+        email,
+        phone: phone || "",
+        company,
+        topic: topic || "General",
+        message: message || "",
+        source: "MeND Website",
+      }),
     });
+  } catch (err) {
+    console.error("CRM push error:", err);
+    // Don't fail the response if CRM is down - email was still sent
   }
 
   return NextResponse.json({ success: true });
