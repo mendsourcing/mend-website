@@ -39,6 +39,34 @@ export async function POST(request: Request) {
         const error = await res.text();
         console.error("Resend error:", error);
       }
+
+      // Send confirmation email to the submitter
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "MeND Sourcing Solutions <noreply@mendsourcing.com>",
+          to: [email],
+          subject: `We received your message, ${firstName}!`,
+          html: `
+            <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
+              <h2 style="color:#03ACED;">Thank you for reaching out, ${firstName}!</h2>
+              <p>We've received your message and our team will get back to you within 24 hours.</p>
+              <p><strong>Here's what you submitted:</strong></p>
+              <ul>
+                <li><strong>Topic:</strong> ${topic || "General inquiry"}</li>
+                <li><strong>Company:</strong> ${company}</li>
+              </ul>
+              <p>In the meantime, feel free to explore our services at <a href="https://mendsourcing.com" style="color:#03ACED;">mendsourcing.com</a>.</p>
+              <hr style="border:none;border-top:1px solid #eee;margin:24px 0;"/>
+              <p style="color:#888;font-size:12px;">MeND Sourcing Solutions<br/>1713 E. 58th Pl. Unit G, Los Angeles, CA 90001<br/>sales@mendsourcing.com</p>
+            </div>
+          `,
+        }),
+      }).catch(() => {});
     } catch (err) {
       console.error("Email send error:", err);
     }
