@@ -163,12 +163,12 @@ export default function GovScraperPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             How It Works
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             Ditch the PDF. Forever.
           </h2>
           <p className="text-lg text-[#bbb] max-w-2xl mb-16">
@@ -190,12 +190,12 @@ export default function GovScraperPage() {
       </section>
 
       {/* FEATURES */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Features
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Everything You Need to Win
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -213,7 +213,7 @@ export default function GovScraperPage() {
       </section>
 
       {/* SEARCH TOOLS - HIGHLIGHTED */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-10 md:p-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -221,7 +221,7 @@ export default function GovScraperPage() {
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#03ACED]/20 rounded-full text-[10px] font-bold text-[#03ACED] uppercase tracking-wider mb-4">
                   Built-In Intelligence
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-4">
+                <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-4">
                   Stop Using Outdated Search Tools
                 </h2>
                 <p className="text-[#bbb] leading-relaxed mb-6">
@@ -267,11 +267,11 @@ export default function GovScraperPage() {
                 <div className="bg-[#0a0a0a] border border-white/[0.08] rounded-2xl p-8 inline-block">
                   <div className="grid grid-cols-2 gap-6">
                     <div className="text-center">
-                      <div className="text-4xl font-black text-[#03ACED]">15M+</div>
+                      <div className="text-3xl sm:text-4xl font-black text-[#03ACED]">15M+</div>
                       <div className="text-xs text-[#999] uppercase tracking-wider mt-1">NSNs Searchable</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-4xl font-black text-[#03ACED]">1.6M+</div>
+                      <div className="text-3xl sm:text-4xl font-black text-[#03ACED]">1.6M+</div>
                       <div className="text-xs text-[#999] uppercase tracking-wider mt-1">CAGE Codes</div>
                     </div>
                   </div>
@@ -287,13 +287,13 @@ export default function GovScraperPage() {
       </section>
 
       {/* PRICING */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Pricing
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Join Contractors Who&apos;ve Won 250+ Contracts
             </h2>
           </div>
@@ -315,7 +315,7 @@ export default function GovScraperPage() {
                 <h3 className="text-xl font-bold mt-4 mb-1">{plan.name}</h3>
                 <p className="text-sm text-[#bbb] mb-4">{plan.desc}</p>
                 <div className="mb-6">
-                  <span className="text-4xl font-black text-[#03ACED]">{plan.price}</span>
+                  <span className="text-3xl sm:text-4xl font-black text-[#03ACED]">{plan.price}</span>
                   <span className="text-[#999]">{plan.period}</span>
                 </div>
                 <ul className="space-y-3 mb-8">
@@ -344,13 +344,13 @@ export default function GovScraperPage() {
       </section>
 
       {/* DEMO REQUEST FORM */}
-      <section id="demo" className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section id="demo" className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               See It In Action
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Request a GovScraper Demo
             </h2>
             <p className="text-[#bbb]">

@@ -50,7 +50,7 @@ export default async function BlogPage() {
         subtitle="Insights and updates on government contracting, procurement, and supply chain."
       />
 
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           {posts.length === 0 ? (
             <div className="text-center py-20">

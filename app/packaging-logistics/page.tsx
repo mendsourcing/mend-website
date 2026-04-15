@@ -144,12 +144,12 @@ export default function GovPackingPage() {
       </section>
 
       {/* SERVICES */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             What We Offer
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Packaging Services &amp; Materials
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -168,12 +168,12 @@ export default function GovPackingPage() {
       </section>
 
       {/* WHY GOVPACKING */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Why GovPacking
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Why Contractors Trust Us
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -182,7 +182,7 @@ export default function GovPackingPage() {
                 key={i}
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 hover:border-[#03ACED]/30 transition-colors"
               >
-                <div className="text-[#03ACED] text-4xl font-black opacity-20 mb-4">0{i + 1}</div>
+                <div className="text-[#03ACED] text-3xl sm:text-4xl font-black opacity-20 mb-4">0{i + 1}</div>
                 <h3 className="text-lg font-bold mb-3">{item.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{item.desc}</p>
               </div>
@@ -192,7 +192,7 @@ export default function GovPackingPage() {
       </section>
 
       {/* PACKING CODES */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="bg-gradient-to-br from-[#03ACED]/10 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-10 md:p-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -244,12 +244,12 @@ export default function GovPackingPage() {
       </section>
 
       {/* PROCESS */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             How It Works
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             From Contract to Compliant Delivery
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -258,7 +258,7 @@ export default function GovPackingPage() {
                 key={step.num}
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors"
               >
-                <div className="text-[#03ACED] text-4xl font-black opacity-20 mb-4">{step.num}</div>
+                <div className="text-[#03ACED] text-3xl sm:text-4xl font-black opacity-20 mb-4">{step.num}</div>
                 <h3 className="text-lg font-bold mb-3">{step.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{step.desc}</p>
               </div>
@@ -268,13 +268,13 @@ export default function GovPackingPage() {
       </section>
 
       {/* LABELS PRICING */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               MIL-STD-129 Labels
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Compliant Labels, Fast
             </h2>
             <p className="text-[#bbb] max-w-xl mx-auto">
@@ -307,13 +307,13 @@ export default function GovPackingPage() {
       </section>
 
       {/* QUOTE / DEMO REQUEST */}
-      <section id="quote" className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section id="quote" className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Get Started
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Let&apos;s Discuss Your Packaging Needs
             </h2>
             <p className="text-[#bbb]">

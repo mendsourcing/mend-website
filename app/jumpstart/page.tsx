@@ -82,12 +82,12 @@ export default function JumpstartPage() {
       </section>
 
       {/* WHAT'S INCLUDED */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             What&apos;s Included
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Built for Busy People
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -103,12 +103,12 @@ export default function JumpstartPage() {
       </section>
 
       {/* WEEK BY WEEK */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             4-Week Curriculum
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             From Zero to First Bid
           </h2>
           <p className="text-[#bbb] mb-16 max-w-2xl">
@@ -122,7 +122,7 @@ export default function JumpstartPage() {
                     {w.week}
                   </span>
                 </div>
-                <div className="text-[#03ACED] text-4xl font-black opacity-20 mb-4">{String(i + 1).padStart(2, "0")}</div>
+                <div className="text-[#03ACED] text-3xl sm:text-4xl font-black opacity-20 mb-4">{String(i + 1).padStart(2, "0")}</div>
                 <h3 className="text-lg font-bold mb-3">{w.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{w.desc}</p>
               </div>
@@ -132,7 +132,7 @@ export default function JumpstartPage() {
       </section>
 
       {/* PRICING CTA */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-4xl mx-auto">
           <div className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-12 md:p-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -167,13 +167,13 @@ export default function JumpstartPage() {
       </section>
 
       {/* ENROLLMENT FORM */}
-      <section id="enroll" className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section id="enroll" className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Enroll Now
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Join the Next Jumpstart! Cohort
             </h2>
             <p className="text-[#bbb]">

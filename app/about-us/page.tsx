@@ -26,12 +26,12 @@ export default function AboutUsPage() {
       />
 
       {/* Innovation Section */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Our Story
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-6">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6">
             Disruptive Innovation to Better Serve
           </h2>
           <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-12">
@@ -60,12 +60,12 @@ export default function AboutUsPage() {
       </section>
 
       {/* Core Values */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             What Drives Us
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Core Values
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -86,12 +86,12 @@ export default function AboutUsPage() {
       </section>
 
       {/* Team */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Our Team
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-6">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6">
             Meet the Experts
           </h2>
           <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-16">
@@ -116,7 +116,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* Careers */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Come Work With Us!</h2>
           <p className="text-[#bbb] max-w-xl mx-auto mb-8">

@@ -89,14 +89,14 @@ export default function GovTrainingPage() {
       </section>
 
       {/* COMPETENCE CURVE */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="space-y-16">
             <div>
               <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
                 Our Training Philosophy
               </div>
-              <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-6">
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6">
                 We Get You to <span className="text-[#03ACED]">Mastery</span> — Not Another Upsell
               </h2>
               <p className="text-[#bbb] leading-relaxed mb-6">
@@ -205,12 +205,12 @@ export default function GovTrainingPage() {
       </section>
 
       {/* TWO PROGRAMS SIDE BY SIDE */}
-      <section id="programs" className="py-24 px-6 md:px-15">
+      <section id="programs" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Choose Your Path
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Two Programs. One Mission: You Win.
           </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -225,7 +225,7 @@ export default function GovTrainingPage() {
               </div>
               <h3 className="text-3xl font-black mb-2">MasterClass</h3>
               <div className="mb-6">
-                <span className="text-4xl font-black text-[#03ACED]">$4,000</span>
+                <span className="text-3xl sm:text-4xl font-black text-[#03ACED]">$4,000</span>
                 <span className="text-sm text-[#999] ml-2">+ $1,000 travel fee outside LA</span>
               </div>
               <p className="text-sm text-[#bbb] leading-relaxed mb-6">
@@ -253,7 +253,7 @@ export default function GovTrainingPage() {
               </div>
               <h3 className="text-3xl font-black mb-2">Jumpstart!</h3>
               <div className="mb-6">
-                <span className="text-4xl font-black text-[#03ACED]">$500</span>
+                <span className="text-3xl sm:text-4xl font-black text-[#03ACED]">$500</span>
                 <span className="text-sm text-[#999] ml-2">4 weeks via Zoom</span>
               </div>
               <p className="text-sm text-[#bbb] leading-relaxed mb-6">
@@ -275,12 +275,12 @@ export default function GovTrainingPage() {
       </section>
 
       {/* WHAT YOU'LL LEARN - MASTERCLASS TOPICS */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             MasterClass Curriculum
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             What the MasterClass Covers
           </h2>
           <p className="text-[#bbb] mb-12 max-w-2xl">
@@ -322,12 +322,12 @@ export default function GovTrainingPage() {
       </section>
 
       {/* JUMPSTART WEEK BY WEEK */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Jumpstart Curriculum
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             4 Weeks to Your First Bid
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -346,13 +346,13 @@ export default function GovTrainingPage() {
       </section>
 
       {/* COMPARISON */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Compare Programs
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
               Which One Is Right For You?
             </h2>
           </div>
@@ -410,13 +410,13 @@ export default function GovTrainingPage() {
       </section>
 
       {/* CONSULTATION FORM */}
-      <section id="consult" className="py-24 px-6 md:px-15">
+      <section id="consult" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Not Sure Which Program?
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Book a Free Consultation
             </h2>
             <p className="text-[#bbb]">

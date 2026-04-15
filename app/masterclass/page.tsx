@@ -84,12 +84,12 @@ export default function MasterClassPage() {
       </section>
 
       {/* WHAT'S INCLUDED */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             What&apos;s Included
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             More Than Just Training
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -105,12 +105,12 @@ export default function MasterClassPage() {
       </section>
 
       {/* DAY 1 & DAY 2 CURRICULUM */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Two-Day Curriculum
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             What You&apos;ll Master
           </h2>
           <p className="text-[#bbb] mb-16 max-w-2xl">
@@ -164,12 +164,12 @@ export default function MasterClassPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             How It Works
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             4 Simple Steps
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -180,7 +180,7 @@ export default function MasterClassPage() {
               { num: "04", title: "6 Months Mentorship", desc: "Training doesn't end on Day 2. We're with you for 6 months — questions, reviews, and guidance." },
             ].map((step) => (
               <div key={step.num} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors">
-                <div className="text-[#03ACED] text-4xl font-black opacity-20 mb-4">{step.num}</div>
+                <div className="text-[#03ACED] text-3xl sm:text-4xl font-black opacity-20 mb-4">{step.num}</div>
                 <h3 className="text-lg font-bold mb-3">{step.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{step.desc}</p>
               </div>
@@ -190,7 +190,7 @@ export default function MasterClassPage() {
       </section>
 
       {/* PRICING CTA */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-4xl mx-auto">
           <div className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-12 md:p-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -226,13 +226,13 @@ export default function MasterClassPage() {
       </section>
 
       {/* ENROLLMENT FORM */}
-      <section id="enroll" className="py-24 px-6 md:px-15">
+      <section id="enroll" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Enroll Now
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               RSVP Your MasterClass Spot
             </h2>
             <p className="text-[#bbb]">

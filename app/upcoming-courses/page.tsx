@@ -85,7 +85,7 @@ export default function UpcomingCoursesPage() {
       </section>
 
       {/* CONTENT */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           {loading ? (
             <div className="space-y-4">

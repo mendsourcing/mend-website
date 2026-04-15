@@ -10,7 +10,7 @@ export default function TermsPage() {
         subtitle="MeND Supplier and Purchase Terms & Conditions documentation."
       />
 
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-[#bbb] text-base leading-relaxed mb-8">
             To view the full document of MeND Supplier and Purchase Terms &amp; Conditions, please follow the link below:

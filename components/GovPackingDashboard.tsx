@@ -66,29 +66,59 @@ export default function GovPackingDashboard() {
   ];
 
   return (
-    <div className="hidden lg:flex flex-col gap-3">
-      <div className="flex items-center gap-1.5 justify-end mb-1">
-        <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-        <span className="text-[10px] text-green-400/80 font-medium">
-          Synced {formatDate(stats.lastSynced)}
-        </span>
-      </div>
-      {cards.map((card) => (
-        <div
-          key={card.label}
-          className="bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-xl py-3 px-5 text-right w-[320px]"
-        >
-          <div className="text-2xl font-black text-[#03ACED] leading-tight">
-            {card.value}
-          </div>
-          <div className="text-[10px] uppercase tracking-[1.5px] text-white/50 font-semibold flex items-center justify-end gap-1.5 mt-0.5 whitespace-nowrap">
-            {card.live && (
-              <span className="w-1 h-1 bg-green-400 rounded-full" />
-            )}
-            {card.label}
-          </div>
+    <>
+      {/* Desktop: vertical stack */}
+      <div className="hidden lg:flex flex-col gap-3">
+        <div className="flex items-center gap-1.5 justify-end mb-1">
+          <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+          <span className="text-[10px] text-green-400/80 font-medium">
+            Synced {formatDate(stats.lastSynced)}
+          </span>
         </div>
-      ))}
-    </div>
+        {cards.map((card) => (
+          <div
+            key={card.label}
+            className="bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-xl py-3 px-5 text-right w-[320px]"
+          >
+            <div className="text-2xl font-black text-[#03ACED] leading-tight">
+              {card.value}
+            </div>
+            <div className="text-[10px] uppercase tracking-[1.5px] text-white/50 font-semibold flex items-center justify-end gap-1.5 mt-0.5 whitespace-nowrap">
+              {card.live && (
+                <span className="w-1 h-1 bg-green-400 rounded-full" />
+              )}
+              {card.label}
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* Mobile/Tablet: 2-column grid */}
+      <div className="lg:hidden w-full">
+        <div className="flex items-center gap-1.5 mb-3">
+          <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
+          <span className="text-[10px] text-green-400/80 font-medium">
+            Synced {formatDate(stats.lastSynced)}
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {cards.map((card) => (
+            <div
+              key={card.label}
+              className="bg-white/[0.07] backdrop-blur-md border border-white/[0.12] rounded-xl py-3 px-3 text-center"
+            >
+              <div className="text-xl sm:text-2xl font-black text-[#03ACED] leading-tight">
+                {card.value}
+              </div>
+              <div className="text-[9px] uppercase tracking-[1px] text-white/50 font-semibold flex items-center justify-center gap-1.5 mt-1">
+                {card.live && (
+                  <span className="w-1 h-1 bg-green-400 rounded-full" />
+                )}
+                <span className="truncate">{card.label}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 }

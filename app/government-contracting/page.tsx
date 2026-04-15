@@ -28,12 +28,12 @@ export default function GovernmentContractingPage() {
         subtitle="Engineering fastener solutions and offering parts from the world's leading manufacturers."
       />
 
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             What We Supply
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-6">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-6">
             Products We Supply — Quality You Deserve
           </h2>
           <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-12">

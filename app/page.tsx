@@ -79,46 +79,46 @@ export default function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-br from-black/[0.88] via-black/60 to-black/[0.82]" />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 w-full flex flex-col lg:flex-row items-center justify-between gap-12">
-          <div className="max-w-[720px]">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-8">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 w-full flex flex-col lg:flex-row items-center justify-between gap-12 py-24 lg:py-0">
+          <div className="max-w-[720px] w-full">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6 md:mb-8">
               <span className="w-1.5 h-1.5 bg-[#03ACED] rounded-full animate-pulse" />
               Veteran Owned &amp; Operated
             </div>
-            <h1 className="text-5xl md:text-7xl font-black leading-[1.05] tracking-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight mb-6">
               Simplifying{" "}
               <span className="text-[#03ACED]">Government</span> Contracting at
               Peak Efficiency
             </h1>
-            <p className="text-lg md:text-xl text-white/70 max-w-[560px] mb-10 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-[560px] mb-8 md:mb-10 leading-relaxed">
               Unraveling procurement and supply chain complexities to uncover
               opportunities within government contracting. AS9100 &amp; ISO9001
               certified.
             </p>
-            <div className="flex flex-wrap gap-4 mb-10">
+            <div className="flex flex-wrap gap-3 sm:gap-4 mb-8 md:mb-10">
               <Link
                 href="/#contact"
-                className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
+                className="bg-[#03ACED] text-black px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-sm sm:text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
               >
                 How Can We Help? →
               </Link>
               <Link
                 href="#services"
-                className="bg-white/[0.06] text-white px-8 py-4 rounded-lg font-semibold text-[15px] border border-white/[0.12] hover:bg-white/10 transition-colors backdrop-blur-sm"
+                className="bg-white/[0.06] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-[15px] border border-white/[0.12] hover:bg-white/10 transition-colors backdrop-blur-sm"
               >
                 Explore Services
               </Link>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="bg-white rounded-xl px-4 py-3 flex items-center gap-3">
-                <Image src="/images/as9100-cert.png" alt="AS9100 Rev. D Certified" width={50} height={50} className="h-12 w-auto" />
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <div className="bg-white rounded-xl px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-3">
+                <Image src="/images/as9100-cert.png" alt="AS9100 Rev. D Certified" width={50} height={50} className="h-10 sm:h-12 w-auto" />
                 <div>
                   <div className="text-xs font-bold text-gray-900">AS9100</div>
                   <div className="text-[10px] text-gray-500">Rev. D Certified</div>
                 </div>
               </div>
-              <div className="bg-white rounded-xl px-4 py-3 flex items-center gap-3">
-                <Image src="/images/iso9001-cert.png" alt="ISO 9001:2015 Certified" width={50} height={50} className="h-12 w-auto" />
+              <div className="bg-white rounded-xl px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-3">
+                <Image src="/images/iso9001-cert.png" alt="ISO 9001:2015 Certified" width={50} height={50} className="h-10 sm:h-12 w-auto" />
                 <div>
                   <div className="text-xs font-bold text-gray-900">ISO 9001</div>
                   <div className="text-[10px] text-gray-500">2015 Certified</div>
@@ -139,18 +139,18 @@ export default function HomePage() {
           </span>
         </div>
         <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
-          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10" />
+          <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10" />
           <div className="flex animate-scroll">
             {[...vendorLogos, ...vendorLogos].map((v, i) => (
-              <div key={`${v.name}-${i}`} className="flex-shrink-0 mx-10 flex items-center justify-center h-16">
-                <div className={`flex items-center justify-center px-4 py-2 rounded-lg ${v.hasBg ? "bg-white" : ""}`}>
+              <div key={`${v.name}-${i}`} className="flex-shrink-0 mx-6 sm:mx-10 flex items-center justify-center h-16">
+                <div className={`flex items-center justify-center px-3 sm:px-4 py-2 rounded-lg ${v.hasBg ? "bg-white" : ""}`}>
                   <Image
                     src={v.src}
                     alt={v.name}
                     width={160}
                     height={60}
-                    className={`${v.tall ? "h-14" : "h-9"} w-auto object-contain`}
+                    className={`${v.tall ? "h-10 sm:h-14" : "h-7 sm:h-9"} w-auto object-contain`}
                   />
                 </div>
               </div>
@@ -160,12 +160,12 @@ export default function HomePage() {
       </section>
 
       {/* B2B SERVICES */}
-      <section id="services" className="py-24 px-6 md:px-15">
+      <section id="services" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Our Products & Services
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Our Solutions
           </h2>
           <p className="text-lg text-[#aaa] max-w-[560px] mb-16">
@@ -209,12 +209,12 @@ export default function HomePage() {
       </section>
 
       {/* B2G SERVICES */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Business-to-Government
           </div>
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Direct Government Services
           </h2>
           <p className="text-lg text-[#aaa] max-w-[560px] mb-16">
@@ -251,14 +251,14 @@ export default function HomePage() {
       </section>
 
       {/* WHY MEND */}
-      <section className="py-24 px-6 md:px-15 relative">
+      <section className="py-16 md:py-24 px-6 md:px-15 relative">
         <div className="absolute inset-0 bg-gradient-to-br from-[#03ACED]/[0.03] via-transparent to-[#E94615]/[0.02]" />
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Why MeND
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
               What Sets Us Apart
             </h2>
           </div>
@@ -278,13 +278,13 @@ export default function HomePage() {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-24 px-6 md:px-15">
+      <section id="contact" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Get in Touch
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
               Have Questions?
             </h2>
           </div>

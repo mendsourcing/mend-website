@@ -22,7 +22,7 @@ export default function PartIdentifierPage() {
       />
 
       {/* Intro */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-8">
             The industry has been plagued with archaic processes — hidden in-house inventory, abstract lead times, and outdated quoting methods. We believe it&apos;s time for a change. We offer current inventory &amp; lead times, inventory on demand, accessible parts with P/N &amp; associated NSN, and transparent request-for-quote processes.
@@ -38,12 +38,12 @@ export default function PartIdentifierPage() {
       </section>
 
       {/* Inventory Table */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Inventory List
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             Sample Stock Items
           </h2>
           <p className="text-sm text-[#bbb] mb-10">

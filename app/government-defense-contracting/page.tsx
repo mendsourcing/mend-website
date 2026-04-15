@@ -75,7 +75,7 @@ export default function DefenseContractingPage() {
       />
 
       {/* Intro */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-8">
             MeND is a certified SDVOSB (Service-Disabled Veteran-Owned Small Business) recognized by the Small Business Association. We conduct rigorous analysis of RFQs from platforms like DIBBS, SAM.gov, and NECO, using our proprietary algorithm to optimize bids resulting in competitive proposals with reduced lead times and strong pricing.
@@ -94,12 +94,12 @@ export default function DefenseContractingPage() {
       </section>
 
       {/* Stats */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             By The Numbers
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             Our Achievements
           </h2>
           <div className="flex items-center gap-2 mb-12">
@@ -126,12 +126,12 @@ export default function DefenseContractingPage() {
       </section>
 
       {/* Process */}
-      <section className="py-24 px-6 md:px-15">
+      <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Our Process
           </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Our Contracting Process
           </h2>
           <div className="space-y-4">
@@ -151,13 +151,13 @@ export default function DefenseContractingPage() {
       </section>
 
       {/* Lead Gen Form */}
-      <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
+      <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
             <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Get Started
             </div>
-            <h2 className="text-4xl font-extrabold tracking-tight mb-4">Looking to Win Government Contracts?</h2>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Looking to Win Government Contracts?</h2>
             <p className="text-[#bbb]">
               Our team can get you up to speed and ready to win. Tell us about yourself and we&apos;ll be in touch within 24 hours.
             </p>

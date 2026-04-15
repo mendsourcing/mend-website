@@ -18,12 +18,12 @@ const advantages = [
 
 export default function CompetitiveAdvantage() {
   return (
-    <section className="py-24 px-6 md:px-15">
+    <section className="py-16 md:py-24 px-6 md:px-15">
       <div className="max-w-7xl mx-auto">
         <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
           Why Choose Us
         </div>
-        <h2 className="text-4xl font-extrabold tracking-tight mb-16">
+        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
           Competitive Advantage
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
