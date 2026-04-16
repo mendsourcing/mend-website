@@ -26,12 +26,20 @@ function formatTime(time: string): string {
   return `${pst} PST / ${est} EST`;
 }
 
+// Parse a YYYY-MM-DD (or ISO) string as a local calendar date, not UTC midnight
+// — otherwise PST viewers see the previous day.
+function parseCalendarDate(d: string): Date {
+  const dateOnly = typeof d === "string" ? d.split("T")[0] : d;
+  const [y, m, day] = String(dateOnly).split("-").map(Number);
+  return new Date(y, (m || 1) - 1, day || 1);
+}
+
 function formatDate(d: string) {
-  return new Date(d).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  return parseCalendarDate(d).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
 }
 
 function formatShortDate(d: string) {
-  return new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  return parseCalendarDate(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
 export default function UpcomingCoursesPage() {

@@ -218,7 +218,12 @@ function EnrollForm() {
   });
 
   function formatCohortDate(d: string) {
-    return new Date(d).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+    // Parse as local calendar date — not UTC midnight — so PST viewers don't
+    // see the previous day.
+    const dateOnly = typeof d === "string" ? d.split("T")[0] : d;
+    const [y, m, day] = String(dateOnly).split("-").map(Number);
+    const dt = new Date(y, (m || 1) - 1, day || 1);
+    return dt.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
