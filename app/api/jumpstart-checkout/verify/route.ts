@@ -38,13 +38,33 @@ export async function POST(request: Request) {
     // Increment seats_taken on the cohort if one was selected
     if (cohortId) {
       try {
-        await fetch(`${CRM_URL}/api/training-cohorts/increment`, {
+        const enrollRes = await fetch(`${CRM_URL}/api/training-cohorts/enroll`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: parseInt(cohortId) }),
+          body: JSON.stringify({
+            cohort_id: parseInt(cohortId),
+            name: `${firstName} ${lastName}`.trim() || email,
+            email,
+            phone: phone || null,
+            company_name: company || null,
+            stripe_session_id: sessionId,
+            program: "jumpstart",
+            amount_paid: session.amount_total || 50000, // cents
+            message: message || null,
+          }),
         });
+        if (!enrollRes.ok) throw new Error(`Enroll returned HTTP ${enrollRes.status}`);
       } catch (err) {
-        console.error("Cohort increment error:", err);
+        console.error("Cohort enroll failed; falling back to /increment so at least seat count bumps:", err);
+        try {
+          await fetch(`${CRM_URL}/api/training-cohorts/increment`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: parseInt(cohortId) }),
+          });
+        } catch (fallbackErr) {
+          console.error("Increment fallback also failed:", fallbackErr);
+        }
       }
     }
 
