@@ -211,9 +211,12 @@ function EnrollForm() {
   const [selectedCohort, setSelectedCohort] = useState("");
 
   useState(() => {
+    // Pull all open + visible cohorts. Full ones stay in the list but render
+    // as a disabled "Fully Booked" option (instead of being hidden), so
+    // visitors can see upcoming dates that will open up later.
     fetch(`${process.env.NEXT_PUBLIC_CRM_URL || "https://services.mendsourcing.com"}/api/training-cohorts?status=open&program=jumpstart`)
       .then((r) => r.json())
-      .then((data) => setCohorts(data.filter((c: Cohort) => c.seats_taken < c.max_seats)))
+      .then((data) => setCohorts(Array.isArray(data) ? data : []))
       .catch(() => {});
   });
 
@@ -300,11 +303,23 @@ function EnrollForm() {
             className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
           >
             <option value="" className="bg-[#111]">Choose a start date...</option>
-            {cohorts.map((c) => (
-              <option key={c.id} value={c.id} className="bg-[#111]">
-                {c.title} — Starts {formatCohortDate(c.start_date)} ({c.max_seats - c.seats_taken} spots left)
-              </option>
-            ))}
+            {cohorts.map((c) => {
+              const isFull = c.seats_taken >= c.max_seats;
+              const label = isFull
+                ? `${c.title} — Starts ${formatCohortDate(c.start_date)} — Fully Booked`
+                : `${c.title} — Starts ${formatCohortDate(c.start_date)}`;
+              return (
+                <option
+                  key={c.id}
+                  value={c.id}
+                  disabled={isFull}
+                  className="bg-[#111]"
+                  style={isFull ? { color: "#666" } : undefined}
+                >
+                  {label}
+                </option>
+              );
+            })}
           </select>
         ) : (
           <div>
