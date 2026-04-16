@@ -9,8 +9,9 @@ export function generateICS(options: {
   location?: string;
   zoomLink?: string;
   organizerEmail?: string;
+  recurring?: { freq: "WEEKLY" | "DAILY" | "MONTHLY"; count: number }; // optional recurrence
 }): string {
-  const { title, description, startDate, startTime, durationMinutes, location, zoomLink, organizerEmail } = options;
+  const { title, description, startDate, startTime, durationMinutes, location, zoomLink, organizerEmail, recurring } = options;
 
   // Parse PST time
   const [year, month, day] = startDate.split("-").map(Number);
@@ -68,6 +69,7 @@ export function generateICS(options: {
     `DESCRIPTION:${desc}`,
     `LOCATION:${loc}`,
     organizerEmail ? `ORGANIZER;CN=MeND Sourcing:mailto:${organizerEmail}` : "",
+    recurring ? `RRULE:FREQ=${recurring.freq};COUNT=${recurring.count}` : "",
     // Reminder: 24 hours before
     "BEGIN:VALARM",
     "TRIGGER:-P1D",

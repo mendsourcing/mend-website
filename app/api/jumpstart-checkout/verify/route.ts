@@ -59,16 +59,18 @@ export async function POST(request: Request) {
     }
 
     // Generate .ics calendar invite if we have cohort details
+    // Recurring 4 weeks — same Zoom link for all sessions
     let icsContent = "";
     if (cohortData.start_date && cohortData.session_time) {
       icsContent = generateICS({
         title: `GovTraining Jumpstart! — ${cohortData.title || "Training Session"}`,
-        description: `Your GovTraining Jumpstart! session.\\nCompany: ${company}\\n${cohortData.zoom_link ? `Join Zoom: ${cohortData.zoom_link}` : "Zoom link will be sent separately."}`,
+        description: `Your GovTraining Jumpstart! session. 4 weekly sessions.\\nCompany: ${company}\\n${cohortData.zoom_link ? `Join Zoom (same link for all 4 weeks): ${cohortData.zoom_link}` : "Zoom link will be sent separately."}`,
         startDate: cohortData.start_date.split("T")[0],
         startTime: cohortData.session_time,
         durationMinutes: 60,
         zoomLink: cohortData.zoom_link || undefined,
         organizerEmail: "sales@mendsourcing.com",
+        recurring: { freq: "WEEKLY", count: 4 },
       });
     }
 
