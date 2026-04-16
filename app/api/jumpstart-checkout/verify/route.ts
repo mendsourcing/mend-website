@@ -132,7 +132,7 @@ export async function POST(request: Request) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            from: "MeND Sourcing Solutions <noreply@mendsourcing.com>",
+            from: "MeND Sourcing Solutions <sales@mendsourcing.com>",
             to: [email],
             bcc: ["tristan@mendsourcing.com"],
             subject: `Jumpstart! Enrollment Confirmed — Welcome, ${firstName}!`,
@@ -190,7 +190,7 @@ export async function POST(request: Request) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            from: "MeND Website <noreply@mendsourcing.com>",
+            from: "MeND Website <sales@mendsourcing.com>",
             to: ["sales@mendsourcing.com"],
             bcc: ["tristan@mendsourcing.com"],
             subject: `🎉 NEW Jumpstart! Enrollment — ${firstName} ${lastName} (${company})`,
