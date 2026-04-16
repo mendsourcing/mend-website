@@ -36,7 +36,36 @@ export async function POST(request: Request) {
     const message = meta.message || "";
     const totalCost = parseInt(meta.totalCost || "4000");
 
-    // 2. Push to CRM — create customer, contact, training session, activity
+    // 2a. Push to CRM /masterclass-deposit (new canonical endpoint) so the
+    //     deposit shows up on /govtraining under "MasterClass Deposits" with
+    //     the payer, company, location, preferred dates, and total cost.
+    //     Idempotent on stripe_session_id.
+    try {
+      const depositRes = await fetch(`${CRM_URL}/api/training-cohorts/masterclass-deposit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: `${firstName} ${lastName}`.trim() || email,
+          email,
+          phone: phone || null,
+          company_name: company || null,
+          stripe_session_id: sessionId,
+          product_id: "prod_ULbhXdLUz5tDjc",  // MasterClass product
+          deposit_amount: session.amount_total || 50000, // cents
+          total_cost: totalCost,
+          location: location || null,
+          preferred_dates: preferredDates || null,
+          message: message || null,
+        }),
+      });
+      if (!depositRes.ok) throw new Error(`MasterClass deposit returned HTTP ${depositRes.status}`);
+    } catch (err) {
+      console.error("CRM masterclass-deposit error:", err);
+    }
+
+    // 2b. Legacy: also push to /training-session so the old Pending list still
+    //     gets a row. Remove this block once /govtraining's MasterClass card
+    //     has proven out.
     try {
       await fetch(`${CRM_URL}/api/training-session`, {
         method: "POST",
