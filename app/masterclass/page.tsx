@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Reveal from "@/components/Reveal";
 
 const day1Topics = [
   { title: "FSC Codes, NSNs & How to Find Opportunities", desc: "Understand how Federal Supply Classes and National Stock Numbers work, and learn to identify the right opportunities for your business." },
@@ -41,34 +42,36 @@ export default function MasterClassPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/50" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 py-24 md:py-32">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
+            <Reveal direction="up" delay={0} className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
               Flagship In-Person Training
-            </div>
-            <Image
-              src="/images/govtraining-logo.png"
-              alt="GovTraining"
-              width={200}
-              height={40}
-              className="h-10 w-auto brightness-0 invert mb-4"
-            />
-            <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight mb-6">
+            </Reveal>
+            <Reveal direction="up" delay={80}>
+              <Image
+                src="/images/govtraining-logo.png"
+                alt="GovTraining"
+                width={200}
+                height={40}
+                className="h-10 w-auto brightness-0 invert mb-4"
+              />
+            </Reveal>
+            <Reveal direction="up" delay={180} as="h1" className="text-4xl md:text-6xl font-black tracking-tight leading-tight mb-6">
               <span className="text-[#03ACED]">MasterClass</span>
-            </h1>
-            <p className="text-lg text-[#ccc] leading-relaxed mb-4 max-w-xl">
+            </Reveal>
+            <Reveal direction="up" delay={260} as="p" className="text-lg text-[#ccc] leading-relaxed mb-4 max-w-xl">
               Two full days. Face-to-face. We sit with you and walk through every step of government contracting — bidding, packaging, compliance, vendor relationships, and real DLA workflows — using real parts, real materials, and real examples.
-            </p>
-            <p className="text-sm text-[#03ACED] font-semibold mb-8">
+            </Reveal>
+            <Reveal direction="up" delay={320} as="p" className="text-sm text-[#03ACED] font-semibold mb-8">
               You leave with total confidence, a repeatable process, and the ability to win and deliver contracts correctly the first time.
-            </p>
-            <div className="flex flex-wrap gap-4 mb-8">
-              <a href="#enroll" className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors">
-                RSVP Your Spot →
+            </Reveal>
+            <Reveal direction="up" delay={380} className="flex flex-wrap gap-4 mb-8">
+              <a href="#enroll" className="group bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2">
+                RSVP Your Spot <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
               <Link href="/govtraining#programs" className="bg-white/[0.06] text-white px-8 py-4 rounded-lg font-semibold text-[15px] border border-white/[0.12] hover:bg-white/10 transition-colors">
                 Compare Programs
               </Link>
-            </div>
-            <div className="flex items-center gap-6">
+            </Reveal>
+            <Reveal direction="up" delay={460} className="flex items-center gap-6">
               <div>
                 <div className="text-3xl font-black text-[#03ACED]">$4,000</div>
                 <div className="text-xs text-[#999]">+ $1,000 travel outside LA</div>
@@ -78,7 +81,7 @@ export default function MasterClassPage() {
                 <div className="text-3xl font-black text-white">2 Days</div>
                 <div className="text-xs text-[#999]">In-person, in your city</div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -86,19 +89,19 @@ export default function MasterClassPage() {
       {/* WHAT'S INCLUDED */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             What&apos;s Included
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             More Than Just Training
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {includes.map((item) => (
-              <div key={item.title} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors">
+            {includes.map((item, i) => (
+              <Reveal key={item.title} direction="up" delay={i * 90} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors">
                 <div className="text-3xl mb-4">{item.icon}</div>
                 <h3 className="text-lg font-bold mb-2">{item.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{item.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -107,19 +110,19 @@ export default function MasterClassPage() {
       {/* DAY 1 & DAY 2 CURRICULUM */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Two-Day Curriculum
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             What You&apos;ll Master
-          </h2>
-          <p className="text-[#bbb] mb-16 max-w-2xl">
+          </Reveal>
+          <Reveal direction="up" delay={160} as="p" className="text-[#bbb] mb-16 max-w-2xl">
             Every topic is taught through real-world examples and hands-on exercises — not slides and theory.
-          </p>
+          </Reveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
             {/* Day 1 */}
-            <div>
+            <Reveal direction="right">
               <div className="flex items-center gap-3 mb-6">
                 <span className="bg-[#03ACED] text-black text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-lg">Day 1</span>
                 <span className="text-sm text-[#bbb] font-medium">Procurement Foundation</span>
@@ -137,10 +140,10 @@ export default function MasterClassPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
 
             {/* Day 2 */}
-            <div>
+            <Reveal direction="left">
               <div className="flex items-center gap-3 mb-6">
                 <span className="bg-white/10 text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-lg border border-white/[0.12]">Day 2</span>
                 <span className="text-sm text-[#bbb] font-medium">Advanced Techniques</span>
@@ -158,7 +161,7 @@ export default function MasterClassPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -166,24 +169,24 @@ export default function MasterClassPage() {
       {/* HOW IT WORKS */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             How It Works
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             4 Simple Steps
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
               { num: "01", title: "Pick Your Dates", desc: "Choose 2 consecutive days that work for you. We'll book a professional space in your city." },
               { num: "02", title: "Day 1 — Foundation", desc: "FSC codes, suppliers, RFQs, pricing strategy — the full procurement pipeline from start to finish." },
               { num: "03", title: "Day 2 — Advanced", desc: "Packaging, vendor relationships, WAWF, invoicing, contract review — everything to deliver and get paid." },
               { num: "04", title: "6 Months Mentorship", desc: "Training doesn't end on Day 2. We're with you for 6 months — questions, reviews, and guidance." },
-            ].map((step) => (
-              <div key={step.num} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors">
+            ].map((step, i) => (
+              <Reveal key={step.num} direction="left" delay={i * 120} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors">
                 <div className="text-[#03ACED] text-3xl sm:text-4xl font-black opacity-20 mb-4">{step.num}</div>
                 <h3 className="text-lg font-bold mb-3">{step.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{step.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -192,7 +195,7 @@ export default function MasterClassPage() {
       {/* PRICING CTA */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-12 md:p-16">
+          <Reveal direction="up" className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-12 md:p-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl font-black mb-4">Ready to Master Government Contracting?</h2>
@@ -210,8 +213,8 @@ export default function MasterClassPage() {
                 </ul>
               </div>
               <div className="text-center">
-                <a href="#enroll" className="bg-[#03ACED] text-black px-10 py-4 rounded-lg font-bold text-base hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2">
-                  RSVP Your Spot Today →
+                <a href="#enroll" className="group bg-[#03ACED] text-black px-10 py-4 rounded-lg font-bold text-base hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2">
+                  RSVP Your Spot Today <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </a>
                 <p className="text-xs text-[#999] mt-4">Limited availability — we only train one client at a time.</p>
                 <div className="mt-6">
@@ -221,7 +224,7 @@ export default function MasterClassPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -229,15 +232,15 @@ export default function MasterClassPage() {
       <section id="enroll" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Enroll Now
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               RSVP Your MasterClass Spot
-            </h2>
-            <p className="text-[#bbb]">
+            </Reveal>
+            <Reveal direction="up" delay={160} as="p" className="text-[#bbb]">
               Fill out the form below and we&apos;ll reach out to confirm your dates and location.
-            </p>
+            </Reveal>
           </div>
           <EnrollForm />
         </div>

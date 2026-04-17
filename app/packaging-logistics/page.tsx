@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Reveal from "@/components/Reveal";
 
 const services = [
   {
@@ -88,35 +89,37 @@ export default function GovPackingPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 py-24 md:py-32">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
+            <Reveal direction="up" delay={0} className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
               Government Packaging Specialists
-            </div>
-            <Image
-              src="/images/govpacking-logo.png"
-              alt="GovPacking"
-              width={300}
-              height={60}
-              className="h-14 w-auto brightness-0 invert mb-6"
-            />
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
+            </Reveal>
+            <Reveal direction="up" delay={80}>
+              <Image
+                src="/images/govpacking-logo.png"
+                alt="GovPacking"
+                width={300}
+                height={60}
+                className="h-14 w-auto brightness-0 invert mb-6"
+              />
+            </Reveal>
+            <Reveal direction="up" delay={180} as="h1" className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
               ASTM &amp; MIL-STD-2073 <span className="text-[#03ACED]">Packaging Compliance</span>
-            </h1>
-            <p className="text-lg text-[#bbb] leading-relaxed mb-4 max-w-2xl">
+            </Reveal>
+            <Reveal direction="up" delay={260} as="p" className="text-lg text-[#bbb] leading-relaxed mb-4 max-w-2xl">
               Whether you need us to package your products to specification or supply the compliant materials for your team, we ensure 100% compliance on every government contract.
-            </p>
-            <ul className="space-y-2 mb-8">
+            </Reveal>
+            <Reveal direction="up" delay={340} as="ul" className="space-y-2 mb-8">
               {["Full-service packaging to contract spec", "Compliant materials & supplies shipped to you", "100% compliance guaranteed on every order"].map((item) => (
                 <li key={item} className="flex items-center gap-3 text-sm text-[#ccc]">
                   <span className="text-[#03ACED]">✓</span> {item}
                 </li>
               ))}
-            </ul>
-            <div className="flex flex-wrap gap-4">
+            </Reveal>
+            <Reveal direction="up" delay={420} className="flex flex-wrap gap-4">
               <a
                 href="#quote"
-                className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors"
+                className="group bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
               >
-                Request a Packaging Quote →
+                Request a Packaging Quote <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
               <a
                 href="https://govpacking.com"
@@ -126,9 +129,9 @@ export default function GovPackingPage() {
               >
                 Enter Packing Codes on GovPacking.com
               </a>
-            </div>
+            </Reveal>
           </div>
-            <div className="hidden lg:block">
+            <Reveal direction="left" delay={200} className="hidden lg:block">
               <div className="bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-2xl p-3 shadow-2xl">
                 <Image
                   src="/images/govpacking-hero.png"
@@ -138,7 +141,7 @@ export default function GovPackingPage() {
                   className="rounded-xl w-full"
                 />
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -146,22 +149,24 @@ export default function GovPackingPage() {
       {/* SERVICES */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             What We Offer
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Packaging Services &amp; Materials
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.map((svc) => (
-              <div
+            {services.map((svc, i) => (
+              <Reveal
                 key={svc.title}
+                direction="up"
+                delay={i * 120}
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 hover:border-[#03ACED]/30 transition-colors"
               >
                 <div className="text-3xl mb-4">{svc.icon}</div>
                 <h3 className="text-xl font-bold mb-3">{svc.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{svc.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -170,22 +175,24 @@ export default function GovPackingPage() {
       {/* WHY GOVPACKING */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Why GovPacking
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Why Contractors Trust Us
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {whyGovPacking.map((item, i) => (
-              <div
+              <Reveal
                 key={i}
+                direction="up"
+                delay={i * 120}
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 hover:border-[#03ACED]/30 transition-colors"
               >
                 <div className="text-[#03ACED] text-3xl sm:text-4xl font-black opacity-20 mb-4">0{i + 1}</div>
                 <h3 className="text-lg font-bold mb-3">{item.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{item.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -194,7 +201,7 @@ export default function GovPackingPage() {
       {/* PACKING CODES */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-br from-[#03ACED]/10 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-10 md:p-16">
+          <Reveal direction="up" className="bg-gradient-to-br from-[#03ACED]/10 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-10 md:p-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#03ACED]/20 rounded-full text-[10px] font-bold text-[#03ACED] uppercase tracking-wider mb-4">
@@ -239,29 +246,31 @@ export default function GovPackingPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* PROCESS */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             How It Works
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             From Contract to Compliant Delivery
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {processSteps.map((step) => (
-              <div
+            {processSteps.map((step, i) => (
+              <Reveal
                 key={step.num}
+                direction="left"
+                delay={i * 120}
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors"
               >
                 <div className="text-[#03ACED] text-3xl sm:text-4xl font-black opacity-20 mb-4">{step.num}</div>
                 <h3 className="text-lg font-bold mb-3">{step.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{step.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -271,17 +280,17 @@ export default function GovPackingPage() {
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               MIL-STD-129 Labels
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Compliant Labels, Fast
-            </h2>
-            <p className="text-[#bbb] max-w-xl mx-auto">
+            </Reveal>
+            <Reveal direction="up" delay={160} as="p" className="text-[#bbb] max-w-xl mx-auto">
               Custom printed MIL-STD-129 compliant labels for unit and intermediate containers. Shipped via FedEx Ground.
-            </p>
+            </Reveal>
           </div>
-          <div className="max-w-md mx-auto bg-gradient-to-br from-[#03ACED]/15 to-transparent border border-[#03ACED]/30 rounded-2xl p-10 text-center">
+          <Reveal direction="up" className="max-w-md mx-auto bg-gradient-to-br from-[#03ACED]/15 to-transparent border border-[#03ACED]/30 rounded-2xl p-10 text-center">
             <div className="text-5xl font-black text-[#03ACED] mb-2">$50</div>
             <p className="text-sm text-[#bbb] mb-6">Up to 1,000 total labels</p>
             <div className="space-y-2 text-sm text-[#ccc] mb-8">
@@ -302,7 +311,7 @@ export default function GovPackingPage() {
             >
               Order Labels on GovPacking.com →
             </a>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -310,15 +319,15 @@ export default function GovPackingPage() {
       <section id="quote" className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Get Started
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Let&apos;s Discuss Your Packaging Needs
-            </h2>
-            <p className="text-[#bbb]">
+            </Reveal>
+            <Reveal direction="up" delay={160} as="p" className="text-[#bbb]">
               Tell us about your contract and we&apos;ll prepare a quote. Or schedule a call to walk through your requirements.
-            </p>
+            </Reveal>
           </div>
           <PackagingForm />
         </div>

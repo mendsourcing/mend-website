@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import CompetitiveAdvantage from "@/components/CompetitiveAdvantage";
+import Reveal from "@/components/Reveal";
 
 export const metadata = { title: "PPE & Safety Distribution | MeND Sourcing Solutions" };
 
@@ -42,25 +43,27 @@ export default function PPESafetyPage() {
       {/* Intro */}
       <section className="py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Our Expansion
-          </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-6">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-4xl font-extrabold tracking-tight mb-6">
             Elevating Excellence in PPE &amp; Safety
-          </h2>
-          <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={160} as="p" className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-16">
             We specialize in sourcing top-tier protective equipment from industry-leading manufacturers, implementing our own supply chain process. We serve renowned organizations prioritizing safety with swift service, personalized interactions, and solving sourcing challenges. No safety demand is too extreme.
-          </p>
+          </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {categories.map((c, i) => (
-              <div
+              <Reveal
                 key={i}
+                direction="up"
+                delay={i * 120}
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 hover:border-[#03ACED]/30 transition-colors"
               >
                 <h3 className="text-lg font-bold mb-3">{c.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{c.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -69,21 +72,23 @@ export default function PPESafetyPage() {
       {/* Featured */}
       <section className="py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Most Popular
-          </div>
-          <h2 className="text-4xl font-extrabold tracking-tight mb-12">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-4xl font-extrabold tracking-tight mb-12">
             Featured Products
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {featuredProducts.map((p) => (
-              <div
+            {featuredProducts.map((p, i) => (
+              <Reveal
                 key={p}
+                direction="up"
+                delay={i * 90}
                 className="flex items-center gap-4 bg-white/[0.03] border border-white/[0.06] rounded-xl p-5 hover:border-[#03ACED]/30 transition-colors"
               >
                 <span className="text-[#03ACED]">→</span>
                 <span className="text-sm text-[#ccc]">{p}</span>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

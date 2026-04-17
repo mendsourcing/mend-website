@@ -3,6 +3,9 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Reveal from "@/components/Reveal";
+import AnimatedNumber from "@/components/AnimatedNumber";
+import CompetenceCurve from "@/components/CompetenceCurve";
 
 const day1Topics = [
   "FSC Codes, NSNs & How to Find Opportunities",
@@ -25,12 +28,6 @@ const jumpstartWeeks = [
   { week: "Week 4", title: "Q&A and Tools to Streamline", desc: "Get answers and learn the tools, shortcuts, and workflows that make contracting faster." },
 ];
 
-const results = [
-  { value: "100%", label: "Of trained members have won a contract within 90 days" },
-  { value: "2", label: "Training Programs — In-Person & Virtual" },
-  { value: "6 mo", label: "Post-Training Mentorship (MasterClass)" },
-];
-
 export default function GovTrainingPage() {
   return (
     <>
@@ -44,32 +41,66 @@ export default function GovTrainingPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/60" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 py-24 md:py-32">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
-              Government Contracting Education
+          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-12 items-center">
+            {/* LEFT — copy */}
+            <div className="max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
+                Government Contracting Education
+              </div>
+              <Image
+                src="/images/govtraining-logo.png"
+                alt="GovTraining"
+                width={300}
+                height={60}
+                className="h-14 w-auto brightness-0 invert mb-6"
+              />
+              <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
+                Learn to <span className="text-[#03ACED]">Win Government Contracts</span> — From A to Z
+              </h1>
+              <p className="text-lg text-[#ccc] leading-relaxed mb-4">
+                We don&apos;t just teach you <em>what</em> to do — we teach you <em>how</em>. Hands-on, practical training built from the exact system we use to win and deliver government contracts every day.
+              </p>
+              <p className="text-sm text-[#03ACED] font-semibold mb-8">
+                100% of trained members have won a contract within the first 90 days.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <a href="#programs" className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors">
+                  See Training Programs →
+                </a>
+                <a href="#consult" className="bg-white/[0.06] text-white px-8 py-4 rounded-lg font-semibold text-[15px] border border-white/[0.12] hover:bg-white/10 transition-colors">
+                  Book a Free Consultation
+                </a>
+              </div>
             </div>
-            <Image
-              src="/images/govtraining-logo.png"
-              alt="GovTraining"
-              width={300}
-              height={60}
-              className="h-14 w-auto brightness-0 invert mb-6"
-            />
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
-              Learn to <span className="text-[#03ACED]">Win Government Contracts</span> — From A to Z
-            </h1>
-            <p className="text-lg text-[#ccc] leading-relaxed mb-4">
-              We don&apos;t just teach you <em>what</em> to do — we teach you <em>how</em>. Hands-on, practical training built from the exact system we use to win and deliver government contracts every day.
-            </p>
-            <p className="text-sm text-[#03ACED] font-semibold mb-8">
-              100% of trained members have won a contract within the first 90 days.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#programs" className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors">
-                See Training Programs →
-              </a>
-              <a href="#consult" className="bg-white/[0.06] text-white px-8 py-4 rounded-lg font-semibold text-[15px] border border-white/[0.12] hover:bg-white/10 transition-colors">
-                Book a Free Consultation
+
+            {/* RIGHT — muted autoplay YouTube preview (0–60s loop, HD) */}
+            <div className="relative">
+              <div className="relative rounded-2xl overflow-hidden border border-[#03ACED]/30 shadow-[0_0_40px_rgba(3,172,237,0.15)] bg-black aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/v4ulUMKE5xA?autoplay=1&mute=1&start=0&end=60&loop=1&playlist=v4ulUMKE5xA&controls=0&modestbranding=1&rel=0&playsinline=1&vq=hd1080&iv_load_policy=3"
+                  title="GovTraining preview"
+                  className="absolute inset-0 w-full h-full"
+                  style={{ border: 0 }}
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+                {/* subtle cyan border overlay (non-interactive) */}
+                <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-[#03ACED]/20 rounded-2xl" />
+              </div>
+
+              {/* Visit us on YouTube link */}
+              <a
+                href="https://www.youtube.com/@mendsourcing"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-4 inline-flex items-center gap-2 text-sm text-white/70 hover:text-[#03ACED] transition-colors"
+              >
+                <svg className="w-5 h-5 text-[#ff0033]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                </svg>
+                <span className="font-semibold">Watch the full series on YouTube</span>
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
             </div>
           </div>
@@ -78,13 +109,31 @@ export default function GovTrainingPage() {
 
       {/* STATS */}
       <section className="py-14 px-6 border-y border-white/[0.06]">
-        <div className="max-w-7xl mx-auto grid grid-cols-3 gap-8">
-          {results.map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="text-4xl md:text-5xl font-black text-[#03ACED]">{s.value}</div>
-              <div className="text-xs uppercase tracking-[2px] text-[#999] mt-2 max-w-[200px] mx-auto">{s.label}</div>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <Reveal direction="up" delay={0} className="text-center">
+            <div className="text-4xl md:text-5xl font-black text-[#03ACED] tabular-nums">
+              <AnimatedNumber to={100} suffix="%" />
             </div>
-          ))}
+            <div className="text-xs uppercase tracking-[2px] text-[#999] mt-2 max-w-[200px] mx-auto">
+              Of trained members have won a contract within 90 days
+            </div>
+          </Reveal>
+          <Reveal direction="up" delay={120} className="text-center">
+            <div className="text-4xl md:text-5xl font-black text-[#03ACED] tabular-nums">
+              <AnimatedNumber to={2} />
+            </div>
+            <div className="text-xs uppercase tracking-[2px] text-[#999] mt-2 max-w-[200px] mx-auto">
+              Training Programs — In-Person &amp; Virtual
+            </div>
+          </Reveal>
+          <Reveal direction="up" delay={240} className="text-center">
+            <div className="text-4xl md:text-5xl font-black text-[#03ACED] tabular-nums">
+              <AnimatedNumber to={6} suffix=" mo" />
+            </div>
+            <div className="text-xs uppercase tracking-[2px] text-[#999] mt-2 max-w-[200px] mx-auto">
+              Post-Training Mentorship (MasterClass)
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -93,113 +142,23 @@ export default function GovTrainingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="space-y-16">
             <div>
-              <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+              <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
                 Our Training Philosophy
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6">
+              </Reveal>
+              <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-black tracking-tight mb-6">
                 We Get You to <span className="text-[#03ACED]">Mastery</span> — Not Another Upsell
-              </h2>
-              <p className="text-[#bbb] leading-relaxed mb-6">
+              </Reveal>
+              <Reveal direction="up" delay={160} as="p" className="text-[#bbb] leading-relaxed mb-6">
                 Most people enter government contracting not knowing what they don&apos;t know. That&apos;s Stage 1. Then reality hits — the codes, the compliance, the paperwork — and confidence drops. That&apos;s the Valley of Despair.
-              </p>
-              <p className="text-[#bbb] leading-relaxed mb-6">
+              </Reveal>
+              <Reveal direction="up" delay={240} as="p" className="text-[#bbb] leading-relaxed mb-6">
                 With over 10 years of business training experience, we don&apos;t just hand you a manual and walk away. We guide you through the struggle phase with real examples, real materials, and real mentorship — until government contracting becomes second nature.
-              </p>
-              <p className="text-white font-semibold">
+              </Reveal>
+              <Reveal direction="up" delay={320} as="p" className="text-white font-semibold">
                 Our goal: get you to Stage 4 — where competence and confidence meet. That&apos;s true mastery, and that&apos;s where winning contracts becomes second nature.
-              </p>
+              </Reveal>
             </div>
-            <div className="max-w-4xl mx-auto">
-              {/* Custom Competence Curve SVG */}
-              <svg viewBox="0 0 700 420" className="w-full" xmlns="http://www.w3.org/2000/svg">
-                {/* Background */}
-                <rect width="700" height="420" rx="16" fill="#111318" />
-
-                {/* Grid lines */}
-                <line x1="70" y1="50" x2="70" y2="350" stroke="#1a1f2e" strokeWidth="1" />
-                <line x1="70" y1="350" x2="660" y2="350" stroke="#1a1f2e" strokeWidth="1" />
-                {[100, 150, 200, 250, 300].map((y) => (
-                  <line key={y} x1="70" y1={y} x2="660" y2={y} stroke="#1a1f2e" strokeWidth="0.5" strokeDasharray="4" />
-                ))}
-
-                {/* Axis labels */}
-                <text x="30" y="200" fill="#666" fontSize="11" fontWeight="600" transform="rotate(-90,30,200)" textAnchor="middle" fontFamily="Inter,sans-serif">CONFIDENCE</text>
-                <text x="365" y="395" fill="#666" fontSize="12" fontWeight="600" textAnchor="middle" fontFamily="Inter,sans-serif">COMPETENCY</text>
-
-                {/* Gradient fills for phases */}
-                <defs>
-                  <linearGradient id="struggleGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#E94615" stopOpacity="0.15" />
-                    <stop offset="100%" stopColor="#E94615" stopOpacity="0" />
-                  </linearGradient>
-                  <linearGradient id="successGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#03ACED" stopOpacity="0.15" />
-                    <stop offset="100%" stopColor="#03ACED" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-
-                {/* Phase backgrounds */}
-                <rect x="190" y="50" width="220" height="300" fill="url(#struggleGrad)" rx="4" />
-                <rect x="410" y="50" width="250" height="300" fill="url(#successGrad)" rx="4" />
-
-                {/* The curve */}
-                <path
-                  d="M 80,330 C 110,320 140,100 190,90 C 240,80 270,310 330,320 C 370,325 420,280 480,190 C 530,110 580,85 640,75"
-                  fill="none"
-                  stroke="#03ACED"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                />
-
-                {/* Stage dots */}
-                <circle cx="190" cy="90" r="7" fill="#E94615" />
-                <circle cx="330" cy="320" r="7" fill="#E94615" />
-                <circle cx="480" cy="190" r="7" fill="#03ACED" />
-                <circle cx="640" cy="75" r="7" fill="#22c55e" />
-
-                {/* Stage labels */}
-                {/* Stage 1 */}
-                <rect x="148" y="58" width="22" height="22" rx="4" fill="#E94615" />
-                <text x="159" y="74" fill="white" fontSize="13" fontWeight="700" textAnchor="middle" fontFamily="Inter,sans-serif">1</text>
-                <text x="178" y="68" fill="#ccc" fontSize="11" fontWeight="600" fontFamily="Inter,sans-serif">You don&apos;t know</text>
-                <text x="178" y="82" fill="#999" fontSize="10" fontFamily="Inter,sans-serif">what you don&apos;t know</text>
-
-                {/* Valley of Despair */}
-                <text x="330" y="348" fill="#E94615" fontSize="11" fontWeight="700" textAnchor="middle" fontFamily="Inter,sans-serif">Valley of Despair</text>
-
-                {/* Stage 2 */}
-                <rect x="255" y="278" width="22" height="22" rx="4" fill="#E94615" />
-                <text x="266" y="294" fill="white" fontSize="13" fontWeight="700" textAnchor="middle" fontFamily="Inter,sans-serif">2</text>
-                <text x="285" y="290" fill="#ccc" fontSize="11" fontWeight="600" fontFamily="Inter,sans-serif">Reality hits</text>
-
-                {/* Phase of Struggle label */}
-                <text x="300" y="250" fill="#E94615" fontSize="14" fontWeight="800" textAnchor="middle" fontFamily="Inter,sans-serif" opacity="0.5">PHASE OF STRUGGLE</text>
-
-                {/* Stage 3 */}
-                <rect x="452" y="160" width="22" height="22" rx="4" fill="#03ACED" />
-                <text x="463" y="176" fill="white" fontSize="13" fontWeight="700" textAnchor="middle" fontFamily="Inter,sans-serif">3</text>
-                <text x="483" y="158" fill="#ccc" fontSize="11" fontWeight="600" fontFamily="Inter,sans-serif">Building</text>
-                <text x="483" y="172" fill="#999" fontSize="10" fontFamily="Inter,sans-serif">confidence</text>
-
-                {/* Stage 4 */}
-                <rect x="610" y="48" width="22" height="22" rx="4" fill="#22c55e" />
-                <text x="621" y="64" fill="white" fontSize="13" fontWeight="700" textAnchor="middle" fontFamily="Inter,sans-serif">4</text>
-                <text x="595" y="43" fill="#22c55e" fontSize="11" fontWeight="700" fontFamily="Inter,sans-serif">True Mastery</text>
-                <text x="595" y="31" fill="#22c55e" fontSize="10" fontFamily="Inter,sans-serif">Competence + Confidence</text>
-
-                {/* GovTraining gets you here - prominent */}
-                <rect x="385" y="285" width="250" height="40" rx="8" fill="#03ACED" fillOpacity="0.15" stroke="#03ACED" strokeWidth="1.5" />
-                <text x="510" y="305" fill="#03ACED" fontSize="13" fontWeight="800" textAnchor="middle" fontFamily="Inter,sans-serif">GOVTRAINING GETS YOU HERE</text>
-                <text x="510" y="319" fill="#03ACED" fontSize="10" fontWeight="500" textAnchor="middle" fontFamily="Inter,sans-serif" opacity="0.7">From Stage 1 → Stage 4</text>
-                {/* Arrow from label to stage 4 */}
-                <path d="M 560,285 C 580,260 610,200 630,120" fill="none" stroke="#03ACED" strokeWidth="2" strokeDasharray="6 4" markerEnd="url(#arrowhead)" />
-                <defs>
-                  <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-                    <polygon points="0 0, 8 3, 0 6" fill="#03ACED" />
-                  </marker>
-                </defs>
-              </svg>
-            </div>
+            <CompetenceCurve />
           </div>
         </div>
       </section>
@@ -207,16 +166,16 @@ export default function GovTrainingPage() {
       {/* TWO PROGRAMS SIDE BY SIDE */}
       <section id="programs" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Choose Your Path
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Two Programs. One Mission: You Win.
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
             {/* MASTERCLASS */}
-            <div className="bg-gradient-to-br from-[#03ACED]/10 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-10 relative overflow-hidden">
+            <Reveal direction="left" className="bg-gradient-to-br from-[#03ACED]/10 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-10 relative overflow-hidden">
               <span className="absolute top-6 right-6 text-[10px] uppercase tracking-wider bg-[#03ACED] text-black font-bold px-3 py-1 rounded-full">
                 Flagship
               </span>
@@ -238,13 +197,13 @@ export default function GovTrainingPage() {
                   </div>
                 ))}
               </div>
-              <Link href="/masterclass" className="block text-center bg-[#03ACED] text-black py-3 rounded-lg font-semibold text-sm hover:bg-[#02a0db] transition-colors">
-                Learn More About MasterClass →
+              <Link href="/masterclass" className="group block text-center bg-[#03ACED] text-black py-3 rounded-lg font-semibold text-sm hover:bg-[#02a0db] transition-colors">
+                Learn More About MasterClass <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
-            </div>
+            </Reveal>
 
             {/* JUMPSTART */}
-            <div className="bg-white/[0.03] border border-white/[0.06] rounded-3xl p-10 relative overflow-hidden">
+            <Reveal direction="right" className="bg-white/[0.03] border border-white/[0.06] rounded-3xl p-10 relative overflow-hidden">
               <span className="absolute top-6 right-6 text-[10px] uppercase tracking-wider bg-white/10 text-white font-bold px-3 py-1 rounded-full">
                 Virtual
               </span>
@@ -266,10 +225,10 @@ export default function GovTrainingPage() {
                   </div>
                 ))}
               </div>
-              <Link href="/jumpstart" className="block text-center bg-white/10 text-white py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/15 transition-colors">
-                Learn More About Jumpstart! →
+              <Link href="/jumpstart" className="group block text-center bg-white/10 text-white py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/15 transition-colors">
+                Learn More About Jumpstart! <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -277,15 +236,15 @@ export default function GovTrainingPage() {
       {/* WHAT YOU'LL LEARN - MASTERCLASS TOPICS */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             MasterClass Curriculum
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             What the MasterClass Covers
-          </h2>
-          <p className="text-[#bbb] mb-12 max-w-2xl">
+          </Reveal>
+          <Reveal direction="up" delay={160} as="p" className="text-[#bbb] mb-12 max-w-2xl">
             Everything you need to confidently bid, win, and deliver government contracts — taught through real-world examples and hands-on exercises.
-          </p>
+          </Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Day 1 */}
             <div>
@@ -295,10 +254,10 @@ export default function GovTrainingPage() {
               </div>
               <div className="space-y-3">
                 {day1Topics.map((topic, i) => (
-                  <div key={i} className="flex items-center gap-4 bg-white/[0.03] border border-white/[0.06] rounded-xl p-5 hover:border-[#03ACED]/30 transition-colors">
+                  <Reveal key={i} direction="left" delay={i * 120} className="flex items-center gap-4 bg-white/[0.03] border border-white/[0.06] rounded-xl p-5 hover:border-[#03ACED]/30 transition-colors">
                     <span className="text-[#03ACED] font-bold text-lg min-w-[32px]">{String(i + 1).padStart(2, "0")}</span>
                     <span className="text-sm text-[#ccc]">{topic}</span>
-                  </div>
+                  </Reveal>
                 ))}
               </div>
             </div>
@@ -310,10 +269,10 @@ export default function GovTrainingPage() {
               </div>
               <div className="space-y-3">
                 {day2Topics.map((topic, i) => (
-                  <div key={i} className="flex items-center gap-4 bg-white/[0.03] border border-white/[0.06] rounded-xl p-5 hover:border-[#03ACED]/30 transition-colors">
+                  <Reveal key={i} direction="left" delay={i * 120} className="flex items-center gap-4 bg-white/[0.03] border border-white/[0.06] rounded-xl p-5 hover:border-[#03ACED]/30 transition-colors">
                     <span className="text-[#03ACED] font-bold text-lg min-w-[32px]">{String(i + 5).padStart(2, "0")}</span>
                     <span className="text-sm text-[#ccc]">{topic}</span>
-                  </div>
+                  </Reveal>
                 ))}
               </div>
             </div>
@@ -324,22 +283,24 @@ export default function GovTrainingPage() {
       {/* JUMPSTART WEEK BY WEEK */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Jumpstart Curriculum
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             4 Weeks to Your First Bid
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {jumpstartWeeks.map((w) => (
-              <div
+            {jumpstartWeeks.map((w, i) => (
+              <Reveal
                 key={w.week}
+                direction="up"
+                delay={i * 120}
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors"
               >
                 <div className="text-[#03ACED] text-sm font-bold uppercase tracking-wider mb-3">{w.week}</div>
                 <h3 className="text-lg font-bold mb-3">{w.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{w.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -349,14 +310,14 @@ export default function GovTrainingPage() {
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Compare Programs
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight">
               Which One Is Right For You?
-            </h2>
+            </Reveal>
           </div>
-          <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl overflow-hidden">
+          <Reveal direction="up" delay={160} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl overflow-hidden">
             {/* Header row */}
             <div className="grid grid-cols-3 border-b border-white/[0.06]">
               <div className="p-6"></div>
@@ -400,12 +361,12 @@ export default function GovTrainingPage() {
                 </Link>
               </div>
               <div className="p-6">
-                <Link href="/jumpstart" className="block text-center bg-white/10 text-white py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/15 transition-colors">
-                  Learn More →
+                <Link href="/jumpstart" className="group block text-center bg-white/10 text-white py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/15 transition-colors">
+                  Learn More <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </Link>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -413,17 +374,19 @@ export default function GovTrainingPage() {
       <section id="consult" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Not Sure Which Program?
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Book a Free Consultation
-            </h2>
-            <p className="text-[#bbb]">
+            </Reveal>
+            <Reveal direction="up" delay={160} as="p" className="text-[#bbb]">
               Talk with our team to find the right training path for where you are in government contracting.
-            </p>
+            </Reveal>
           </div>
-          <ConsultForm />
+          <Reveal direction="up" delay={240}>
+            <ConsultForm />
+          </Reveal>
         </div>
       </section>
 

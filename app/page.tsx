@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 import GovPackingDashboard from "@/components/GovPackingDashboard";
+import Reveal from "@/components/Reveal";
+import LocationMap from "@/components/LocationMap";
+import CertBadges from "@/components/CertBadges";
 
 const vendorLogos = [
   { name: "Boeing", src: "/images/vendors/boeing.png", hasBg: true },
@@ -55,14 +58,20 @@ const b2gServices = [
     title: "Supplier Relationship Management",
     desc: "Extensive annual audits of approved manufacturers ensuring quality, reliability, and compliance.",
   },
+  {
+    num: "04",
+    title: "Packaging & Fulfillment",
+    desc: "Military-spec packaging compliant with ASTM standards and MIL-STD-2073. We decode the codes, source the right materials, and ship every contract ready for acceptance.",
+  },
 ];
 
 const whyMend = [
-  { icon: "⏱", title: "15+ Years", desc: "Procurement and contracted work experience" },
-  { icon: "✅", title: "AS9100 & ISO9001", desc: "High level quality certification" },
-  { icon: "🎖", title: "Veteran Owned", desc: "Owned and operated by veterans" },
-  { icon: "👂", title: "Listen First", desc: "Execute second approach" },
-  { icon: "⭐", title: "Quality First", desc: "Timeliness and exceeding expectations" },
+  { icon: "⏱", title: "16+ Years", desc: "Deep experience in procurement and government contracting" },
+  { icon: "✅", title: "AS9100 & ISO9001", desc: "Certified quality standards for aerospace and defense" },
+  { icon: "🎖", title: "Veteran Owned", desc: "Proudly owned and operated by military veterans" },
+  { icon: "👂", title: "Listen First", desc: "Understand the mission before executing the solution" },
+  { icon: "⭐", title: "Quality First", desc: "On-time delivery that exceeds every expectation" },
+  { icon: "🚀", title: "Disruptive Innovation", desc: "Refining procurement, training, packaging, and fulfillment" },
 ];
 
 export default function HomePage() {
@@ -81,50 +90,39 @@ export default function HomePage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 w-full flex flex-col lg:flex-row items-center justify-between gap-12 py-24 lg:py-0">
           <div className="max-w-[720px] w-full">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6 md:mb-8">
+            <Reveal direction="up" delay={0} className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6 md:mb-8">
               <span className="w-1.5 h-1.5 bg-[#03ACED] rounded-full animate-pulse" />
               Veteran Owned &amp; Operated
-            </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight mb-6">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h1" className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.05] tracking-tight mb-6">
               Simplifying{" "}
               <span className="text-[#03ACED]">Government</span> Contracting at
               Peak Efficiency
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-[560px] mb-8 md:mb-10 leading-relaxed">
+            </Reveal>
+            <Reveal direction="up" delay={180} as="p" className="text-base sm:text-lg md:text-xl text-white/70 max-w-[560px] mb-8 md:mb-10 leading-relaxed">
               Unraveling procurement and supply chain complexities to uncover
               opportunities within government contracting. AS9100 &amp; ISO9001
               certified.
-            </p>
-            <div className="flex flex-wrap gap-3 sm:gap-4 mb-8 md:mb-10">
+            </Reveal>
+            <Reveal direction="up" delay={260} className="flex flex-wrap gap-3 sm:gap-4 mb-8 md:mb-10">
               <Link
                 href="/#contact"
-                className="bg-[#03ACED] text-black px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-sm sm:text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
+                className="group bg-[#03ACED] text-black px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-bold text-sm sm:text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
               >
-                How Can We Help? →
+                How Can We Help?
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </Link>
               <Link
                 href="#services"
-                className="bg-white/[0.06] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-[15px] border border-white/[0.12] hover:bg-white/10 transition-colors backdrop-blur-sm"
+                className="group bg-white/[0.06] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold text-sm sm:text-[15px] border border-white/[0.12] hover:bg-white/10 hover:border-white/20 transition-all backdrop-blur-sm inline-flex items-center gap-2"
               >
                 Explore Services
+                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1 opacity-60 group-hover:opacity-100">→</span>
               </Link>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-              <div className="bg-white rounded-xl px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-3">
-                <Image src="/images/as9100-cert.png" alt="AS9100 Rev. D Certified" width={50} height={50} className="h-10 sm:h-12 w-auto" />
-                <div>
-                  <div className="text-xs font-bold text-gray-900">AS9100</div>
-                  <div className="text-[10px] text-gray-500">Rev. D Certified</div>
-                </div>
-              </div>
-              <div className="bg-white rounded-xl px-3 sm:px-4 py-2 sm:py-3 flex items-center gap-3">
-                <Image src="/images/iso9001-cert.png" alt="ISO 9001:2015 Certified" width={50} height={50} className="h-10 sm:h-12 w-auto" />
-                <div>
-                  <div className="text-xs font-bold text-gray-900">ISO 9001</div>
-                  <div className="text-[10px] text-gray-500">2015 Certified</div>
-                </div>
-              </div>
-            </div>
+            </Reveal>
+            <Reveal direction="up" delay={340} className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <CertBadges />
+            </Reveal>
           </div>
 
           <GovPackingDashboard />
@@ -162,30 +160,32 @@ export default function HomePage() {
       {/* B2B SERVICES */}
       <section id="services" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Our Products & Services
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Our Solutions
-          </h2>
-          <p className="text-lg text-[#aaa] max-w-[560px] mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={160} as="p" className="text-lg text-[#aaa] max-w-[560px] mb-16">
             Powerful tools and training designed to help you win and
             manage government contracts.
-          </p>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {services.map((svc) => (
-              <div
+            {services.map((svc, i) => (
+              <Reveal
                 key={svc.name}
+                direction="up"
+                delay={i * 120}
                 className="group bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 transition-all hover:border-[#03ACED]/30 hover:bg-[#03ACED]/[0.03] hover:-translate-y-1 relative overflow-hidden flex flex-col"
               >
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#03ACED] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="h-12 mb-6 flex items-center">
+                <div className="h-12 mb-6 flex items-center overflow-hidden">
                   <Image
                     src={svc.logo}
                     alt={svc.name}
                     width={200}
                     height={48}
-                    className="h-10 w-auto brightness-0 invert"
+                    className="h-10 w-auto brightness-0 invert transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
                 <h3 className="text-[22px] font-bold mb-3">{svc.name}</h3>
@@ -200,9 +200,10 @@ export default function HomePage() {
                   href={svc.href}
                   className="inline-flex items-center gap-2 text-[#03ACED] text-sm font-semibold"
                 >
-                  {svc.cta} →
+                  {svc.cta}
+                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </Link>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -211,20 +212,20 @@ export default function HomePage() {
       {/* B2G SERVICES */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Business-to-Government
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
             Direct Government Services
-          </h2>
-          <p className="text-lg text-[#aaa] max-w-[560px] mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={160} as="p" className="text-lg text-[#aaa] max-w-[560px] mb-16">
             End-to-end contract management and procurement for defense and
             government agencies.
-          </p>
+          </Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <div className="space-y-8">
-              {b2gServices.map((f) => (
-                <div key={f.num} className="flex gap-5">
+              {b2gServices.map((f, i) => (
+                <Reveal key={f.num} direction="left" delay={i * 120} className="flex gap-5">
                   <div className="text-[32px] font-black text-[#03ACED]/30 min-w-[48px]">
                     {f.num}
                   </div>
@@ -234,7 +235,7 @@ export default function HomePage() {
                       {f.desc}
                     </p>
                   </div>
-                </div>
+                </Reveal>
               ))}
             </div>
             <div className="hidden lg:flex items-center justify-center">
@@ -255,23 +256,25 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#03ACED]/[0.03] via-transparent to-[#E94615]/[0.02]" />
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Why MeND
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
               What Sets Us Apart
-            </h2>
+            </Reveal>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-            {whyMend.map((w) => (
-              <div
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+            {whyMend.map((w, i) => (
+              <Reveal
                 key={w.title}
-                className="text-center p-8 bg-white/[0.02] border border-white/[0.06] rounded-2xl hover:border-[#03ACED]/20 transition-colors"
+                direction="up"
+                delay={i * 90}
+                className="text-center p-6 md:p-7 bg-white/[0.02] border border-[#03ACED]/30 rounded-2xl hover:border-[#03ACED]/70 hover:-translate-y-1 hover:bg-[#03ACED]/[0.05] hover:shadow-[0_0_24px_rgba(3,172,237,0.15)] transition-all duration-300"
               >
                 <div className="text-3xl mb-4">{w.icon}</div>
                 <h4 className="text-[15px] font-semibold mb-2">{w.title}</h4>
                 <p className="text-xs text-[#bbb] leading-relaxed">{w.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -281,15 +284,15 @@ export default function HomePage() {
       <section id="contact" className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Get in Touch
-            </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">
               Have Questions?
-            </h2>
+            </Reveal>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div>
+            <Reveal direction="right" delay={0}>
               <h3 className="text-3xl font-extrabold mb-6">
                 Let&apos;s work together
               </h3>
@@ -318,30 +321,14 @@ export default function HomePage() {
                   </a>
                 </div>
               </div>
+              {/* Tactical HQ map */}
               <div className="mt-10">
-                <span className="text-xs text-[#aaa] uppercase tracking-[2px]">
-                  Follow Us
-                </span>
-                <div className="flex gap-3 mt-3">
-                  {[
-                    { label: "YT", href: "https://www.youtube.com/@mendsourcing" },
-                    { label: "X", href: "https://x.com/supertris10" },
-                    { label: "LI", href: "https://www.linkedin.com/in/tristanwthomas/" },
-                  ].map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-[#bbb] text-sm hover:text-[#03ACED] hover:bg-white/10 transition-all"
-                    >
-                      {s.label}
-                    </a>
-                  ))}
-                </div>
+                <LocationMap />
               </div>
-            </div>
-            <ContactForm />
+            </Reveal>
+            <Reveal direction="left" delay={120}>
+              <ContactForm />
+            </Reveal>
           </div>
         </div>
       </section>

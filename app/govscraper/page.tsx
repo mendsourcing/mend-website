@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Reveal from "@/components/Reveal";
+import AnimatedNumber from "@/components/AnimatedNumber";
 
 const steps = [
   {
@@ -40,12 +42,8 @@ function getContractsWon(): number {
   return Math.floor(baseCount + (daysDiff / 3) * 1.3);
 }
 
-const stats = [
-  { value: `${getContractsWon()}+`, label: "Contracts Won" },
-  { value: "$5.4M", label: "In Awards" },
-  { value: "300+", label: "SPRS Score Average" },
-  { value: "2+ hrs/day", label: "Saved Per Member — Every Single Day" },
-];
+// Stat target values — rendered as animated counters below.
+const contractsWon = getContractsWon();
 
 const pricing = [
   {
@@ -88,12 +86,13 @@ export default function GovScraperPage() {
       <section className="relative pt-[72px] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#0d1520] to-[#0a0a0a]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(3,172,237,0.08),transparent_60%)]" />
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 py-24 md:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
-                Powered by MeND Sourcing Solutions
-              </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 py-20 md:py-24">
+          {/* TOP — copy + CTAs (left-aligned, constrained width for readability) */}
+          <div className="max-w-3xl mb-12 md:mb-16">
+            <Reveal direction="up" delay={0} className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
+              Powered by MeND Sourcing Solutions
+            </Reveal>
+            <Reveal direction="up" delay={80}>
               <Image
                 src="/images/govscraper-logo.png"
                 alt="GovScraper"
@@ -101,41 +100,59 @@ export default function GovScraperPage() {
                 height={60}
                 className="h-14 w-auto brightness-0 invert mb-6"
               />
-              <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
-                Simplify RFQs and the <span className="text-[#03ACED]">Bidding Process</span>
-              </h1>
-              <p className="text-lg text-[#bbb] leading-relaxed mb-8 max-w-xl">
-                We download and organize over 2,000 DLA solicitations daily. GovScraper automates your RFQ pipeline so you can focus on sourcing and winning — not sorting through PDFs.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <a
-                  href="https://www.govscraper.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors"
-                >
-                  Try Free for 7 Days →
-                </a>
-                <a
-                  href="#demo"
-                  className="bg-white/[0.06] text-white px-8 py-4 rounded-lg font-semibold text-[15px] border border-white/[0.12] hover:bg-white/10 transition-colors"
-                >
-                  Request a Demo
-                </a>
-              </div>
-            </div>
-            <div className="hidden lg:block">
-              <div className="bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-2xl p-3 shadow-2xl">
-                <Image
-                  src="/images/govscraper-dashboard.png"
-                  alt="GovScraper Dashboard"
-                  width={800}
-                  height={632}
-                  className="rounded-xl w-full"
+            </Reveal>
+            <Reveal direction="up" delay={180} as="h1" className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-6">
+              Simplify RFQs and the <span className="text-[#03ACED]">Bidding Process</span>
+            </Reveal>
+            <Reveal direction="up" delay={260} as="p" className="text-lg text-[#bbb] leading-relaxed mb-8 max-w-xl">
+              We download and organize over 2,000 DLA solicitations daily. GovScraper automates your RFQ pipeline so you can focus on sourcing and winning — not sorting through PDFs.
+            </Reveal>
+            <Reveal direction="up" delay={340} className="flex flex-wrap gap-4">
+              <a
+                href="https://www.govscraper.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
+              >
+                Try Free for 7 Days <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+              </a>
+              <a
+                href="#demo"
+                className="bg-white/[0.06] text-white px-8 py-4 rounded-lg font-semibold text-[15px] border border-white/[0.12] hover:bg-white/10 transition-colors"
+              >
+                Request a Demo
+              </a>
+            </Reveal>
+          </div>
+
+          {/* BOTTOM — full-width product demo video */}
+          <Reveal direction="up" delay={420}>
+            <div className="relative group">
+              {/* Ambient cyan glow behind the video */}
+              <div className="absolute -inset-4 bg-[radial-gradient(ellipse_at_center,rgba(3,172,237,0.15),transparent_70%)] blur-2xl pointer-events-none" />
+              <div className="relative bg-white/[0.04] backdrop-blur border border-white/[0.08] rounded-2xl p-3 md:p-4 shadow-2xl shadow-[#03ACED]/10">
+                <video
+                  src="/images/govscraper-demo.mp4"
+                  poster="/images/govscraper-dashboard.png"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  aria-label="GovScraper product tour — dashboard, RFQs, NSN search, FSC lookup, and awarded contracts"
+                  className="rounded-xl w-full aspect-[16/10] object-cover"
                 />
               </div>
+              {/* Caption below video */}
+              <div className="mt-4 flex items-center justify-center gap-2 text-[11px] uppercase tracking-[2px] text-white/50 font-semibold">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#03ACED] opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#03ACED]" />
+                </span>
+                Live product tour · RFQs · NSN · FSC · Awarded contracts
+              </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -152,12 +169,30 @@ export default function GovScraperPage() {
             </span>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <div className="text-4xl md:text-5xl font-black text-[#03ACED]">{s.value}</div>
-                <div className="text-xs uppercase tracking-[2px] text-[#999] mt-2 whitespace-nowrap">{s.label}</div>
+            <Reveal direction="up" delay={0} className="text-center">
+              <div className="text-4xl md:text-5xl font-black text-[#03ACED] tabular-nums">
+                <AnimatedNumber to={contractsWon} suffix="+" />
               </div>
-            ))}
+              <div className="text-xs uppercase tracking-[2px] text-[#999] mt-2 whitespace-nowrap">Contracts Won</div>
+            </Reveal>
+            <Reveal direction="up" delay={120} className="text-center">
+              <div className="text-4xl md:text-5xl font-black text-[#03ACED] tabular-nums">
+                <AnimatedNumber to={5_400_000} prefix="$" format="dollar" decimals={1} />
+              </div>
+              <div className="text-xs uppercase tracking-[2px] text-[#999] mt-2 whitespace-nowrap">In Awards</div>
+            </Reveal>
+            <Reveal direction="up" delay={240} className="text-center">
+              <div className="text-4xl md:text-5xl font-black text-[#03ACED] tabular-nums">
+                <AnimatedNumber to={300} suffix="+" />
+              </div>
+              <div className="text-xs uppercase tracking-[2px] text-[#999] mt-2 whitespace-nowrap">SPRS Score Average</div>
+            </Reveal>
+            <Reveal direction="up" delay={360} className="text-center">
+              <div className="text-4xl md:text-5xl font-black text-[#03ACED] tabular-nums">
+                <AnimatedNumber to={2} suffix="+ hrs/day" />
+              </div>
+              <div className="text-xs uppercase tracking-[2px] text-[#999] mt-2 whitespace-nowrap">Saved Per Member — Every Single Day</div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -165,25 +200,27 @@ export default function GovScraperPage() {
       {/* HOW IT WORKS */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             How It Works
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             Ditch the PDF. Forever.
-          </h2>
-          <p className="text-lg text-[#bbb] max-w-2xl mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={160} as="p" className="text-lg text-[#bbb] max-w-2xl mb-16">
             GovScraper transforms giant stacks of RFQs into actionable insights, helping you decide to bid in seconds.
-          </p>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {steps.map((step) => (
-              <div
+            {steps.map((step, i) => (
+              <Reveal
                 key={step.num}
+                direction="left"
+                delay={i * 120}
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 hover:border-[#03ACED]/30 transition-colors"
               >
                 <div className="text-[#03ACED] text-5xl font-black opacity-20 mb-4">{step.num}</div>
                 <h3 className="text-xl font-bold mb-3">{step.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{step.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -192,21 +229,23 @@ export default function GovScraperPage() {
       {/* FEATURES */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Features
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Everything You Need to Win
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div
+            {features.map((f, i) => (
+              <Reveal
                 key={f.title}
+                direction="up"
+                delay={i * 90}
                 className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors"
               >
                 <h3 className="text-lg font-bold mb-2">{f.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{f.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -215,7 +254,7 @@ export default function GovScraperPage() {
       {/* SEARCH TOOLS - HIGHLIGHTED */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-10 md:p-16">
+          <Reveal direction="up" className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-10 md:p-16">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#03ACED]/20 rounded-full text-[10px] font-bold text-[#03ACED] uppercase tracking-wider mb-4">
@@ -282,7 +321,7 @@ export default function GovScraperPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -290,17 +329,19 @@ export default function GovScraperPage() {
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Pricing
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Join Contractors Who&apos;ve Won 250+ Contracts
-            </h2>
+            </Reveal>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {pricing.map((plan) => (
-              <div
+            {pricing.map((plan, i) => (
+              <Reveal
                 key={plan.name}
+                direction="up"
+                delay={i * 120}
                 className={`rounded-2xl p-10 ${
                   plan.popular
                     ? "bg-gradient-to-br from-[#03ACED]/15 to-transparent border-2 border-[#03ACED]/40"
@@ -337,7 +378,7 @@ export default function GovScraperPage() {
                 >
                   {plan.cta}
                 </a>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -347,15 +388,15 @@ export default function GovScraperPage() {
       <section id="demo" className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               See It In Action
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Request a GovScraper Demo
-            </h2>
-            <p className="text-[#bbb]">
+            </Reveal>
+            <Reveal direction="up" delay={160} as="p" className="text-[#bbb]">
               Our team will walk you through the platform and show you exactly how GovScraper can save you time and help you win more contracts.
-            </p>
+            </Reveal>
           </div>
           <DemoForm />
         </div>

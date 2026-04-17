@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Reveal from "@/components/Reveal";
 
 const weeks = [
   { week: "Week 1", title: "FSCs & Finding the Right Vendor", desc: "Choose the correct FSC codes and source reliable vendors so your quotes stay competitive and compliant." },
@@ -34,34 +35,36 @@ export default function JumpstartPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/50" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 py-24 md:py-32">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
+            <Reveal direction="up" delay={0} className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
               Virtual Training Program
-            </div>
-            <Image
-              src="/images/govtraining-logo.png"
-              alt="GovTraining"
-              width={200}
-              height={40}
-              className="h-10 w-auto brightness-0 invert mb-4"
-            />
-            <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight mb-6">
+            </Reveal>
+            <Reveal direction="up" delay={80}>
+              <Image
+                src="/images/govtraining-logo.png"
+                alt="GovTraining"
+                width={200}
+                height={40}
+                className="h-10 w-auto brightness-0 invert mb-4"
+              />
+            </Reveal>
+            <Reveal direction="up" delay={180} as="h1" className="text-4xl md:text-6xl font-black tracking-tight leading-tight mb-6">
               <span className="text-[#03ACED]">Jumpstart!</span>
-            </h1>
-            <p className="text-lg text-[#ccc] leading-relaxed mb-4 max-w-xl">
+            </Reveal>
+            <Reveal direction="up" delay={260} as="p" className="text-lg text-[#ccc] leading-relaxed mb-4 max-w-xl">
               A focused, four-week virtual program that gives you the fundamentals of government contracting. Learn to read RFQs, find vendors, price bids, and avoid the costly mistakes that trip up new contractors.
-            </p>
-            <p className="text-sm text-[#03ACED] font-semibold mb-8">
+            </Reveal>
+            <Reveal direction="up" delay={320} as="p" className="text-sm text-[#03ACED] font-semibold mb-8">
               4 weeks. 1 hour per week. Everything you need to submit your first bid with confidence.
-            </p>
-            <div className="flex flex-wrap gap-4 mb-8">
-              <a href="#enroll" className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors">
-                Enroll Now — $500 →
+            </Reveal>
+            <Reveal direction="up" delay={380} className="flex flex-wrap gap-4 mb-8">
+              <a href="#enroll" className="group bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2">
+                Enroll Now — $500 <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
               </a>
               <Link href="/govtraining#programs" className="bg-white/[0.06] text-white px-8 py-4 rounded-lg font-semibold text-[15px] border border-white/[0.12] hover:bg-white/10 transition-colors">
                 Compare Programs
               </Link>
-            </div>
-            <div className="flex items-center gap-6">
+            </Reveal>
+            <Reveal direction="up" delay={460} className="flex items-center gap-6">
               <div>
                 <div className="text-3xl font-black text-[#03ACED]">$500</div>
                 <div className="text-xs text-[#999]">Per person</div>
@@ -76,7 +79,7 @@ export default function JumpstartPage() {
                 <div className="text-3xl font-black text-white">Max 5</div>
                 <div className="text-xs text-[#999]">Per cohort</div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -84,19 +87,19 @@ export default function JumpstartPage() {
       {/* WHAT'S INCLUDED */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             What&apos;s Included
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Built for Busy People
-          </h2>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {includes.map((item) => (
-              <div key={item.title} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors">
+            {includes.map((item, i) => (
+              <Reveal key={item.title} direction="up" delay={i * 90} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors">
                 <div className="text-3xl mb-4">{item.icon}</div>
                 <h3 className="text-lg font-bold mb-2">{item.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{item.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -105,18 +108,18 @@ export default function JumpstartPage() {
       {/* WEEK BY WEEK */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             4-Week Curriculum
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             From Zero to First Bid
-          </h2>
-          <p className="text-[#bbb] mb-16 max-w-2xl">
+          </Reveal>
+          <Reveal direction="up" delay={160} as="p" className="text-[#bbb] mb-16 max-w-2xl">
             Each week builds on the last. By the end, you&apos;ll have everything you need to confidently enter the government contracting space.
-          </p>
+          </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {weeks.map((w, i) => (
-              <div key={w.week} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors relative">
+              <Reveal key={w.week} direction="left" delay={i * 120} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 hover:border-[#03ACED]/30 transition-colors relative">
                 <div className="absolute top-4 right-4">
                   <span className="bg-[#03ACED]/10 text-[#03ACED] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full">
                     {w.week}
@@ -125,7 +128,7 @@ export default function JumpstartPage() {
                 <div className="text-[#03ACED] text-3xl sm:text-4xl font-black opacity-20 mb-4">{String(i + 1).padStart(2, "0")}</div>
                 <h3 className="text-lg font-bold mb-3">{w.title}</h3>
                 <p className="text-sm text-[#bbb] leading-relaxed">{w.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -134,7 +137,7 @@ export default function JumpstartPage() {
       {/* PRICING CTA */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-12 md:p-16">
+          <Reveal direction="up" className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/30 rounded-3xl p-12 md:p-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl font-black mb-4">Ready to Get Started?</h2>
@@ -151,8 +154,8 @@ export default function JumpstartPage() {
                 </ul>
               </div>
               <div className="text-center">
-                <a href="#enroll" className="bg-[#03ACED] text-black px-10 py-4 rounded-lg font-bold text-base hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2">
-                  Enroll Now →
+                <a href="#enroll" className="group bg-[#03ACED] text-black px-10 py-4 rounded-lg font-bold text-base hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2">
+                  Enroll Now <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </a>
                 <p className="text-xs text-[#999] mt-4">Next cohort starts soon — limited to 5 spots.</p>
                 <div className="mt-6">
@@ -162,7 +165,7 @@ export default function JumpstartPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -170,15 +173,15 @@ export default function JumpstartPage() {
       <section id="enroll" className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Enroll Now
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
               Join the Next Jumpstart! Cohort
-            </h2>
-            <p className="text-[#bbb]">
+            </Reveal>
+            <Reveal direction="up" delay={160} as="p" className="text-[#bbb]">
               Fill out the form below and pay $500 to secure your spot. We&apos;ll reach out to coordinate your cohort dates.
-            </p>
+            </Reveal>
           </div>
           <EnrollForm />
         </div>

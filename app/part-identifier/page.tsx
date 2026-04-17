@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import CompetitiveAdvantage from "@/components/CompetitiveAdvantage";
+import Reveal from "@/components/Reveal";
 
 export const metadata = { title: "Part Identifier & Stock List | MeND Sourcing Solutions" };
 
@@ -24,14 +25,19 @@ export default function PartIdentifierPage() {
       {/* Intro */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-8">
+          <Reveal direction="up" as="p" className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-8">
             The industry has been plagued with archaic processes — hidden in-house inventory, abstract lead times, and outdated quoting methods. We believe it&apos;s time for a change. We offer current inventory &amp; lead times, inventory on demand, accessible parts with P/N &amp; associated NSN, and transparent request-for-quote processes.
-          </p>
+          </Reveal>
           <div className="flex flex-wrap gap-4">
-            {["Current Inventory & Lead Time", "Inventory on Demand", "Parts with P/N & NSN", "Request for Quote"].map((item) => (
-              <span key={item} className="px-4 py-2 bg-[#03ACED]/10 border border-[#03ACED]/30 rounded-lg text-[#03ACED] text-sm font-semibold">
+            {["Current Inventory & Lead Time", "Inventory on Demand", "Parts with P/N & NSN", "Request for Quote"].map((item, i) => (
+              <Reveal
+                key={item}
+                direction="up"
+                delay={i * 90}
+                className="px-4 py-2 bg-[#03ACED]/10 border border-[#03ACED]/30 rounded-lg text-[#03ACED] text-sm font-semibold"
+              >
                 {item}
-              </span>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -40,16 +46,16 @@ export default function PartIdentifierPage() {
       {/* Inventory Table */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Inventory List
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             Sample Stock Items
-          </h2>
-          <p className="text-sm text-[#bbb] mb-10">
+          </Reveal>
+          <Reveal direction="up" delay={160} as="p" className="text-sm text-[#bbb] mb-10">
             Contact us for the full inventory list. Use CTRL+F to search.
-          </p>
-          <div className="overflow-x-auto">
+          </Reveal>
+          <Reveal direction="up" delay={240} className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-white/10">
@@ -74,15 +80,15 @@ export default function PartIdentifierPage() {
                 ))}
               </tbody>
             </table>
-          </div>
-          <div className="mt-10 text-center">
+          </Reveal>
+          <Reveal direction="up" delay={320} className="mt-10 text-center">
             <Link
               href="/#contact"
-              className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
+              className="group bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
             >
-              Request Full Inventory / Quote →
+              Request Full Inventory / Quote <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 

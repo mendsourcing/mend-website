@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
+import Reveal from "@/components/Reveal";
 
 function useGovPackingStats() {
   const [stats, setStats] = useState({ dlaContracts: 325, dollarAmount: 8000000, ordersCompleted: 634, inProgress: 29 });
@@ -77,17 +78,20 @@ export default function DefenseContractingPage() {
       {/* Intro */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-8">
+          <Reveal direction="up" as="p" className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-8">
             MeND is a certified SDVOSB (Service-Disabled Veteran-Owned Small Business) recognized by the Small Business Association. We conduct rigorous analysis of RFQs from platforms like DIBBS, SAM.gov, and NECO, using our proprietary algorithm to optimize bids resulting in competitive proposals with reduced lead times and strong pricing.
-          </p>
+          </Reveal>
           <div className="flex flex-wrap gap-3">
-            {platforms.map((p) => (
-              <span
+            {platforms.map((p, i) => (
+              <Reveal
                 key={p}
+                direction="up"
+                delay={i * 90}
+                as="span"
                 className="px-4 py-2 bg-[#03ACED]/10 border border-[#03ACED]/30 rounded-lg text-[#03ACED] text-sm font-semibold"
               >
                 {p}
-              </span>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -96,22 +100,24 @@ export default function DefenseContractingPage() {
       {/* Stats */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             By The Numbers
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             Our Achievements
-          </h2>
-          <div className="flex items-center gap-2 mb-12">
+          </Reveal>
+          <Reveal direction="up" delay={160} className="flex items-center gap-2 mb-12">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             <span className="text-sm text-green-400/90 font-medium">
               Live numbers — updated daily as of {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
             </span>
-          </div>
+          </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {stats.map((s) => (
-              <div
+            {stats.map((s, i) => (
+              <Reveal
                 key={s.label}
+                direction="up"
+                delay={i * 90}
                 className="text-center bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6 relative"
               >
                 {s.live && (
@@ -119,7 +125,7 @@ export default function DefenseContractingPage() {
                 )}
                 <div className="text-3xl font-black text-[#03ACED] mb-2">{s.num}</div>
                 <div className="text-xs text-[#bbb] leading-tight">{s.label}</div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -128,23 +134,25 @@ export default function DefenseContractingPage() {
       {/* Process */}
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-7xl mx-auto">
-          <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
             Our Process
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
+          </Reveal>
+          <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-16">
             Our Contracting Process
-          </h2>
+          </Reveal>
           <div className="space-y-4">
             {steps.map((step, i) => (
-              <div
+              <Reveal
                 key={i}
+                direction="left"
+                delay={i * 120}
                 className="flex gap-6 items-center bg-white/[0.03] border border-white/[0.06] rounded-xl p-6 hover:border-[#03ACED]/30 transition-colors"
               >
                 <div className="text-3xl font-black text-[#03ACED]/30 min-w-[48px]">
                   0{i + 1}
                 </div>
                 <span className="text-[#ccc]">{step}</span>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -154,59 +162,65 @@ export default function DefenseContractingPage() {
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
-            <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+            <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
               Get Started
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Looking to Win Government Contracts?</h2>
-            <p className="text-[#bbb]">
+            </Reveal>
+            <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">Looking to Win Government Contracts?</Reveal>
+            <Reveal direction="up" delay={160} as="p" className="text-[#bbb]">
               Our team can get you up to speed and ready to win. Tell us about yourself and we&apos;ll be in touch within 24 hours.
-            </p>
+            </Reveal>
           </div>
           {formStatus === "sent" ? (
-            <div className="bg-white/[0.03] border border-[#03ACED]/30 rounded-2xl p-12 text-center">
+            <Reveal direction="up" className="bg-white/[0.03] border border-[#03ACED]/30 rounded-2xl p-12 text-center">
               <div className="text-4xl mb-4">✅</div>
               <h3 className="text-2xl font-bold mb-2">Thank You!</h3>
               <p className="text-[#bbb]">We&apos;ll be in touch within 24 hours to get you started.</p>
-            </div>
+            </Reveal>
           ) : (
-            <form onSubmit={handleSubmit} className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 md:p-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-xs font-medium text-[#bbb] mb-2">First Name *</label>
-                  <input name="firstName" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="John" />
+            <Reveal direction="up" delay={240}>
+              <form onSubmit={handleSubmit} className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 md:p-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-xs font-medium text-[#bbb] mb-2">First Name *</label>
+                    <input name="firstName" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="John" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-[#bbb] mb-2">Last Name</label>
+                    <input name="lastName" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Doe" />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-xs font-medium text-[#bbb] mb-2">Last Name</label>
-                  <input name="lastName" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Doe" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <label className="block text-xs font-medium text-[#bbb] mb-2">Email *</label>
+                    <input name="email" type="email" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="john@company.com" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-[#bbb] mb-2">Phone</label>
+                    <input
+                      name="phone" type="tel" maxLength={14}
+                      className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
+                      placeholder="(555) 000-0000"
+                      onInput={(e) => { const input = e.currentTarget; let v = input.value.replace(/\D/g, "").slice(0, 10); if (v.length >= 7) v = `(${v.slice(0,3)}) ${v.slice(3,6)}-${v.slice(6)}`; else if (v.length >= 4) v = `(${v.slice(0,3)}) ${v.slice(3)}`; else if (v.length >= 1) v = `(${v}`; input.value = v; }}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-xs font-medium text-[#bbb] mb-2">Email *</label>
-                  <input name="email" type="email" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="john@company.com" />
+                <div className="mb-4">
+                  <label className="block text-xs font-medium text-[#bbb] mb-2">Company *</label>
+                  <input name="company" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Company Name" />
                 </div>
-                <div>
-                  <label className="block text-xs font-medium text-[#bbb] mb-2">Phone</label>
-                  <input
-                    name="phone" type="tel" maxLength={14}
-                    className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
-                    placeholder="(555) 000-0000"
-                    onInput={(e) => { const input = e.currentTarget; let v = input.value.replace(/\D/g, "").slice(0, 10); if (v.length >= 7) v = `(${v.slice(0,3)}) ${v.slice(3,6)}-${v.slice(6)}`; else if (v.length >= 4) v = `(${v.slice(0,3)}) ${v.slice(3)}`; else if (v.length >= 1) v = `(${v}`; input.value = v; }}
-                  />
+                <div className="mb-6">
+                  <label className="block text-xs font-medium text-[#bbb] mb-2">Tell us about your goals</label>
+                  <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="What are you looking to accomplish with government contracting?" />
                 </div>
-              </div>
-              <div className="mb-4">
-                <label className="block text-xs font-medium text-[#bbb] mb-2">Company *</label>
-                <input name="company" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Company Name" />
-              </div>
-              <div className="mb-6">
-                <label className="block text-xs font-medium text-[#bbb] mb-2">Tell us about your goals</label>
-                <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="What are you looking to accomplish with government contracting?" />
-              </div>
-              <button type="submit" disabled={formStatus === "sending"} className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
-                {formStatus === "sending" ? "Sending..." : "Start Winning Contracts Now! →"}
-              </button>
-            </form>
+                <button type="submit" disabled={formStatus === "sending"} className="group w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
+                  {formStatus === "sending" ? "Sending..." : (
+                    <>
+                      Start Winning Contracts Now! <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                    </>
+                  )}
+                </button>
+              </form>
+            </Reveal>
           )}
         </div>
       </section>

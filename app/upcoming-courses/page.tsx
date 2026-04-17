@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Reveal from "@/components/Reveal";
 
 interface Cohort {
   id: number;
@@ -69,25 +70,27 @@ export default function UpcomingCoursesPage() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/60" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 py-20 md:py-28">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
+            <Reveal direction="up" className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED] uppercase tracking-wider mb-6">
               GovTraining Schedule
-            </div>
-            <Image
-              src="/images/govtraining-logo.png"
-              alt="GovTraining"
-              width={200}
-              height={40}
-              className="h-10 w-auto brightness-0 invert mb-4"
-            />
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
+            </Reveal>
+            <Reveal direction="up" delay={80}>
+              <Image
+                src="/images/govtraining-logo.png"
+                alt="GovTraining"
+                width={200}
+                height={40}
+                className="h-10 w-auto brightness-0 invert mb-4"
+              />
+            </Reveal>
+            <Reveal direction="up" delay={180} as="h1" className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
               Upcoming <span className="text-[#03ACED]">Courses</span>
-            </h1>
-            <p className="text-lg text-[#ccc] leading-relaxed mb-4">
+            </Reveal>
+            <Reveal direction="up" delay={260} as="p" className="text-lg text-[#ccc] leading-relaxed mb-4">
               Browse our upcoming GovTraining cohorts and find a session that fits your schedule. We keep our groups small and our training practical — so every seat matters.
-            </p>
-            <p className="text-sm text-[#bbb] leading-relaxed">
+            </Reveal>
+            <Reveal direction="up" delay={340} as="p" className="text-sm text-[#bbb] leading-relaxed">
               Don&apos;t see a date that works? <Link href="/govtraining#consult" className="text-[#03ACED] font-semibold hover:underline">Reach out</Link> — we try to be flexible and can work with you to find a time that fits.
-            </p>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -130,23 +133,25 @@ export default function UpcomingCoursesPage() {
               {jumpstartCohorts.length > 0 && (
                 <div className="mb-20">
                   <div className="mb-12">
-                    <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+                    <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
                       GovTraining Jumpstart! — Virtual (Zoom)
-                    </div>
-                    <h2 className="text-3xl font-extrabold tracking-tight mb-4">
+                    </Reveal>
+                    <Reveal direction="up" delay={80} as="h2" className="text-3xl font-extrabold tracking-tight mb-4">
                       Available Jumpstart! Cohorts
-                    </h2>
-                    <p className="text-[#bbb] max-w-2xl">
+                    </Reveal>
+                    <Reveal direction="up" delay={160} as="p" className="text-[#bbb] max-w-2xl">
                       Each Jumpstart! cohort runs for 4 consecutive weeks — one hour per session via Zoom. Groups are capped at 5 people so you get real interaction, real answers, and real attention. Pick a cohort below and secure your spot.
-                    </p>
+                    </Reveal>
                   </div>
                   <div className="space-y-4">
-                    {jumpstartCohorts.map((c) => {
+                    {jumpstartCohorts.map((c, idx) => {
                       const spotsLeft = c.max_seats - c.seats_taken;
                       const isFull = spotsLeft <= 0;
                       return (
-                        <div
+                        <Reveal
                           key={c.id}
+                          direction="up"
+                          delay={idx * 120}
                           className={`bg-white/[0.03] border rounded-2xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 transition-colors ${isFull ? "border-white/[0.04] opacity-60" : "border-white/[0.06] hover:border-[#03ACED]/30"}`}
                         >
                           <div className="flex-1">
@@ -186,7 +191,7 @@ export default function UpcomingCoursesPage() {
                               </Link>
                             )}
                           </div>
-                        </div>
+                        </Reveal>
                       );
                     })}
                   </div>
@@ -197,20 +202,22 @@ export default function UpcomingCoursesPage() {
               {masterclassCohorts.length > 0 && (
                 <div className="mb-20">
                   <div className="mb-12">
-                    <div className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+                    <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
                       GovTraining MasterClass — In-Person
-                    </div>
-                    <h2 className="text-3xl font-extrabold tracking-tight mb-4">
+                    </Reveal>
+                    <Reveal direction="up" delay={80} as="h2" className="text-3xl font-extrabold tracking-tight mb-4">
                       Available MasterClass Sessions
-                    </h2>
-                    <p className="text-[#bbb] max-w-2xl">
+                    </Reveal>
+                    <Reveal direction="up" delay={160} as="p" className="text-[#bbb] max-w-2xl">
                       MasterClass is a private, 2-day in-person training. We come to your city or host you in Los Angeles. Each session below has been scheduled and is ready for enrollment.
-                    </p>
+                    </Reveal>
                   </div>
                   <div className="space-y-4">
-                    {masterclassCohorts.map((c) => (
-                      <div
+                    {masterclassCohorts.map((c, idx) => (
+                      <Reveal
                         key={c.id}
+                        direction="up"
+                        delay={idx * 120}
                         className="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 hover:border-[#03ACED]/30 transition-colors"
                       >
                         <div className="flex-1">
@@ -237,25 +244,25 @@ export default function UpcomingCoursesPage() {
                             Enroll Now →
                           </Link>
                         </div>
-                      </div>
+                      </Reveal>
                     ))}
                   </div>
                 </div>
               )}
 
               {/* FLEXIBILITY NOTE */}
-              <div className="bg-gradient-to-br from-[#03ACED]/10 via-[#03ACED]/5 to-transparent border border-[#03ACED]/20 rounded-2xl p-10 text-center">
+              <Reveal direction="up" className="bg-gradient-to-br from-[#03ACED]/10 via-[#03ACED]/5 to-transparent border border-[#03ACED]/20 rounded-2xl p-10 text-center">
                 <h3 className="text-xl font-bold mb-3">Don&apos;t See a Date That Works?</h3>
                 <p className="text-[#bbb] max-w-xl mx-auto mb-6">
                   We try to be as flexible as possible with our scheduling. If none of the dates above work for you, reach out and we&apos;ll do our best to find a time that fits your schedule — or add you to the next cohort we open.
                 </p>
                 <Link
                   href="/govtraining#consult"
-                  className="bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
+                  className="group bg-[#03ACED] text-black px-8 py-4 rounded-lg font-bold text-[15px] hover:bg-[#02a0db] transition-colors inline-flex items-center gap-2"
                 >
-                  Talk to Us About Scheduling →
+                  Talk to Us About Scheduling <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </Link>
-              </div>
+              </Reveal>
             </>
           )}
         </div>
