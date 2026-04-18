@@ -317,26 +317,8 @@ export default function GovTrainingPage() {
               Which One Is Right For You?
             </Reveal>
           </div>
-          <Reveal direction="up" delay={160} className="bg-white/[0.03] border border-white/[0.06] rounded-2xl overflow-hidden">
-            {/* Header row */}
-            <div className="grid grid-cols-3 border-b border-white/[0.06]">
-              <div className="p-6"></div>
-              <div className="p-6 text-center bg-[#03ACED]/[0.06] border-x border-white/[0.06] relative">
-                <div className="absolute -top-0 left-1/2 -translate-x-1/2">
-                  <span className="bg-[#03ACED] text-black text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-b-lg">Recommended</span>
-                </div>
-                <h3 className="text-xl font-black mt-3">MasterClass</h3>
-                <div className="text-3xl font-black text-[#03ACED] mt-1">$4,000</div>
-                <p className="text-[10px] text-[#999] mt-1">+ $1,000 travel outside LA</p>
-              </div>
-              <div className="p-6 text-center">
-                <h3 className="text-xl font-black mt-3">Jumpstart!</h3>
-                <div className="text-3xl font-black text-[#03ACED] mt-1">$500</div>
-                <p className="text-[10px] text-[#999] mt-1">4 weeks via Zoom</p>
-              </div>
-            </div>
-            {/* Feature rows */}
-            {[
+          {(() => {
+            const features: Array<[string, string, string]> = [
               ["Format", "2-day in-person", "Virtual (Zoom)"],
               ["Group Size", "Private — just you", "Max 5 people"],
               ["Duration", "2 consecutive days", "1 hr/week × 4 weeks"],
@@ -345,28 +327,104 @@ export default function GovTrainingPage() {
               ["Materials", "Hands-on with real parts", "Virtual demos"],
               ["Location", "We come to your city", "Your laptop"],
               ["Best For", "Ready to master it all", "Getting started fast"],
-            ].map(([label, mc, js], i) => (
-              <div key={i} className="grid grid-cols-3 border-b border-white/[0.04] last:border-b-0 hover:bg-white/[0.02] transition-colors">
-                <div className="px-6 py-4 flex items-center text-sm text-[#999] font-medium">{label}</div>
-                <div className="px-6 py-4 flex items-center justify-center text-sm text-white font-medium bg-[#03ACED]/[0.03] border-x border-white/[0.04]">{mc}</div>
-                <div className={`px-6 py-4 flex items-center justify-center text-sm ${js === "—" ? "text-[#444]" : "text-[#ccc]"}`}>{js}</div>
-              </div>
-            ))}
-            {/* CTA row */}
-            <div className="grid grid-cols-3 border-t border-white/[0.06]">
-              <div className="p-6"></div>
-              <div className="p-6 bg-[#03ACED]/[0.06] border-x border-white/[0.06]">
-                <Link href="/masterclass" className="block text-center bg-[#03ACED] text-black py-3 rounded-lg font-semibold text-sm hover:bg-[#02a0db] transition-colors">
-                  Learn More →
-                </Link>
-              </div>
-              <div className="p-6">
-                <Link href="/jumpstart" className="group block text-center bg-white/10 text-white py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/15 transition-colors">
-                  Learn More <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </Link>
-              </div>
-            </div>
-          </Reveal>
+            ];
+            return (
+              <>
+                {/* ============ MOBILE — stacked cards ============ */}
+                <Reveal direction="up" delay={160} className="md:hidden space-y-4">
+                  {/* MasterClass card — recommended */}
+                  <div className="relative bg-[#03ACED]/[0.06] border border-[#03ACED]/30 rounded-2xl overflow-hidden">
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10">
+                      <span className="bg-[#03ACED] text-black text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-b-lg">Recommended</span>
+                    </div>
+                    <div className="px-5 pt-8 pb-5 text-center border-b border-white/[0.08]">
+                      <h3 className="text-2xl font-black">MasterClass</h3>
+                      <div className="text-4xl font-black text-[#03ACED] mt-2">$4,000</div>
+                      <p className="text-[11px] text-[#999] mt-1">+ $1,000 travel outside LA</p>
+                    </div>
+                    <dl className="divide-y divide-white/[0.06]">
+                      {features.map(([label, mc]) => (
+                        <div key={label} className="flex items-center justify-between px-5 py-3 gap-4">
+                          <dt className="text-xs text-[#999] font-medium">{label}</dt>
+                          <dd className="text-sm text-white font-medium text-right">{mc}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <div className="p-5">
+                      <Link href="/masterclass" className="group block text-center bg-[#03ACED] text-black py-3 rounded-lg font-bold text-sm hover:bg-[#02a0db] transition-colors">
+                        Learn More <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* Jumpstart! card */}
+                  <div className="bg-white/[0.03] border border-white/[0.06] rounded-2xl overflow-hidden">
+                    <div className="px-5 pt-6 pb-5 text-center border-b border-white/[0.06]">
+                      <h3 className="text-2xl font-black">Jumpstart!</h3>
+                      <div className="text-4xl font-black text-[#03ACED] mt-2">$500</div>
+                      <p className="text-[11px] text-[#999] mt-1">4 weeks via Zoom</p>
+                    </div>
+                    <dl className="divide-y divide-white/[0.04]">
+                      {features.map(([label, , js]) => (
+                        <div key={label} className="flex items-center justify-between px-5 py-3 gap-4">
+                          <dt className="text-xs text-[#999] font-medium">{label}</dt>
+                          <dd className={`text-sm font-medium text-right ${js === "—" ? "text-[#444]" : "text-[#ccc]"}`}>{js}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <div className="p-5">
+                      <Link href="/jumpstart" className="group block text-center bg-white/10 text-white py-3 rounded-lg font-bold text-sm border border-white/[0.12] hover:bg-white/15 transition-colors">
+                        Learn More <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                      </Link>
+                    </div>
+                  </div>
+                </Reveal>
+
+                {/* ============ DESKTOP — comparison table ============ */}
+                <Reveal direction="up" delay={160} className="hidden md:block bg-white/[0.03] border border-white/[0.06] rounded-2xl overflow-hidden">
+                  {/* Header row */}
+                  <div className="grid grid-cols-3 border-b border-white/[0.06]">
+                    <div className="p-6"></div>
+                    <div className="p-6 text-center bg-[#03ACED]/[0.06] border-x border-white/[0.06] relative">
+                      <div className="absolute -top-0 left-1/2 -translate-x-1/2">
+                        <span className="bg-[#03ACED] text-black text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-b-lg">Recommended</span>
+                      </div>
+                      <h3 className="text-xl font-black mt-3">MasterClass</h3>
+                      <div className="text-3xl font-black text-[#03ACED] mt-1">$4,000</div>
+                      <p className="text-[10px] text-[#999] mt-1">+ $1,000 travel outside LA</p>
+                    </div>
+                    <div className="p-6 text-center">
+                      <h3 className="text-xl font-black mt-3">Jumpstart!</h3>
+                      <div className="text-3xl font-black text-[#03ACED] mt-1">$500</div>
+                      <p className="text-[10px] text-[#999] mt-1">4 weeks via Zoom</p>
+                    </div>
+                  </div>
+                  {/* Feature rows */}
+                  {features.map(([label, mc, js], i) => (
+                    <div key={i} className="grid grid-cols-3 border-b border-white/[0.04] last:border-b-0 hover:bg-white/[0.02] transition-colors">
+                      <div className="px-6 py-4 flex items-center text-sm text-[#999] font-medium">{label}</div>
+                      <div className="px-6 py-4 flex items-center justify-center text-sm text-white font-medium bg-[#03ACED]/[0.03] border-x border-white/[0.04]">{mc}</div>
+                      <div className={`px-6 py-4 flex items-center justify-center text-sm ${js === "—" ? "text-[#444]" : "text-[#ccc]"}`}>{js}</div>
+                    </div>
+                  ))}
+                  {/* CTA row */}
+                  <div className="grid grid-cols-3 border-t border-white/[0.06]">
+                    <div className="p-6"></div>
+                    <div className="p-6 bg-[#03ACED]/[0.06] border-x border-white/[0.06]">
+                      <Link href="/masterclass" className="block text-center bg-[#03ACED] text-black py-3 rounded-lg font-semibold text-sm hover:bg-[#02a0db] transition-colors">
+                        Learn More →
+                      </Link>
+                    </div>
+                    <div className="p-6">
+                      <Link href="/jumpstart" className="group block text-center bg-white/10 text-white py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/15 transition-colors">
+                        Learn More <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                      </Link>
+                    </div>
+                  </div>
+                </Reveal>
+              </>
+            );
+          })()}
         </div>
       </section>
 
