@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
+import TurnstileWidget from "@/components/TurnstileWidget";
 
 function useGovPackingStats() {
   const [stats, setStats] = useState({ dlaContracts: 325, dollarAmount: 8000000, ordersCompleted: 634, inProgress: 29 });
@@ -29,7 +30,9 @@ function formatDollar(amount: number): string {
 }
 
 export default function DefenseContractingPage() {
-  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(0);
   const gp = useGovPackingStats();
 
   const stats = [
@@ -43,11 +46,12 @@ export default function DefenseContractingPage() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!turnstileToken) { setFormStatus("error"); return; }
     setFormStatus("sending");
     const form = e.currentTarget;
     const data = new FormData(form);
     try {
-      await fetch("/api/contact", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -59,12 +63,21 @@ export default function DefenseContractingPage() {
           topic: "Gov't & Defense Contracting - Lead",
           message: data.get("message") || "Lead from Gov't & Defense Contracting page",
           source: "Gov't & Defense Contracting Form",
+          turnstileToken,
         }),
       });
-      setFormStatus("sent");
-      form.reset();
+      if (res.ok) {
+        setFormStatus("sent");
+        form.reset();
+      } else {
+        setFormStatus("error");
+        setTurnstileToken("");
+        setTurnstileKey((k) => k + 1);
+      }
     } catch {
-      setFormStatus("idle");
+      setFormStatus("error");
+      setTurnstileToken("");
+      setTurnstileKey((k) => k + 1);
     }
   }
 
@@ -212,13 +225,21 @@ export default function DefenseContractingPage() {
                   <label className="block text-xs font-medium text-[#bbb] mb-2">Tell us about your goals</label>
                   <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="What are you looking to accomplish with government contracting?" />
                 </div>
-                <button type="submit" disabled={formStatus === "sending"} className="group w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
+                <TurnstileWidget
+                  key={turnstileKey}
+                  onVerify={setTurnstileToken}
+                  className="mb-4 flex justify-center"
+                />
+                <button type="submit" disabled={formStatus === "sending" || !turnstileToken} className="group w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
                   {formStatus === "sending" ? "Sending..." : (
                     <>
                       Start Winning Contracts Now! <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                     </>
                   )}
                 </button>
+                {formStatus === "error" && (
+                  <p className="text-red-400 text-sm mt-3 text-center">Something went wrong. Email us at sales@mendsourcing.com</p>
+                )}
               </form>
             </Reveal>
           )}

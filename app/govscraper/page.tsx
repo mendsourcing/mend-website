@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import AnimatedNumber from "@/components/AnimatedNumber";
+import TurnstileWidget from "@/components/TurnstileWidget";
 
 const steps = [
   {
@@ -414,9 +415,12 @@ export default function GovScraperPage() {
 
 function DemoForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(0);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!turnstileToken) { setStatus("error"); return; }
     setStatus("sending");
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -434,6 +438,7 @@ function DemoForm() {
           topic: "GovScraper - Demo Request",
           message: `Demo request from GovScraper page.\nCurrent contracting experience: ${data.get("experience") || "Not specified"}\nMessage: ${data.get("message") || "None"}`,
           source: "GovScraper Demo Form",
+          turnstileToken,
         }),
       });
       if (res.ok) {
@@ -441,9 +446,13 @@ function DemoForm() {
         form.reset();
       } else {
         setStatus("error");
+        setTurnstileToken("");
+        setTurnstileKey((k) => k + 1);
       }
     } catch {
       setStatus("error");
+      setTurnstileToken("");
+      setTurnstileKey((k) => k + 1);
     }
   }
 
@@ -520,9 +529,14 @@ function DemoForm() {
         <label className="block text-xs font-medium text-[#bbb] mb-2">Anything specific you&apos;d like to see?</label>
         <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="Tell us what you're looking for..." />
       </div>
+      <TurnstileWidget
+        key={turnstileKey}
+        onVerify={setTurnstileToken}
+        className="mb-4 flex justify-center"
+      />
       <button
         type="submit"
-        disabled={status === "sending"}
+        disabled={status === "sending" || !turnstileToken}
         className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50"
       >
         {status === "sending" ? "Sending..." : "Request My Demo →"}

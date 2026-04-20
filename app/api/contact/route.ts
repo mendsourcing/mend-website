@@ -1,11 +1,62 @@
 import { NextResponse } from "next/server";
 
 const CRM_URL = process.env.CRM_URL || "https://services.mendsourcing.com";
+const TURNSTILE_VERIFY_URL =
+  "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+
+async function verifyTurnstile(
+  token: string | undefined,
+  ip: string | null
+): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) {
+    console.warn("TURNSTILE_SECRET_KEY not set — skipping verification");
+    return true;
+  }
+  if (!token) return false;
+
+  try {
+    const body = new URLSearchParams();
+    body.append("secret", secret);
+    body.append("response", token);
+    if (ip) body.append("remoteip", ip);
+
+    const res = await fetch(TURNSTILE_VERIFY_URL, { method: "POST", body });
+    const data = (await res.json()) as { success?: boolean };
+    return data.success === true;
+  } catch (err) {
+    console.error("Turnstile verify error:", err);
+    return false;
+  }
+}
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { firstName, lastName, email, phone, company, topic, message, source } = body;
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    company,
+    topic,
+    message,
+    source,
+    turnstileToken,
+  } = body;
   const formSource = source || "MeND Website Contact Form";
+
+  const ip =
+    request.headers.get("cf-connecting-ip") ||
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    null;
+
+  const turnstileOk = await verifyTurnstile(turnstileToken, ip);
+  if (!turnstileOk) {
+    return NextResponse.json(
+      { success: false, error: "Verification failed. Please try again." },
+      { status: 400 }
+    );
+  }
 
   // 1. Send email via Resend with BCC
   if (process.env.RESEND_API_KEY) {

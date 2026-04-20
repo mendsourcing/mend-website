@@ -6,6 +6,7 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import AnimatedNumber from "@/components/AnimatedNumber";
 import CompetenceCurve from "@/components/CompetenceCurve";
+import TurnstileWidget from "@/components/TurnstileWidget";
 
 const day1Topics = [
   "FSC Codes, NSNs & How to Find Opportunities",
@@ -460,9 +461,12 @@ export default function GovTrainingPage() {
 
 function ConsultForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(0);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!turnstileToken) { setStatus("error"); return; }
     setStatus("sending");
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -480,10 +484,22 @@ function ConsultForm() {
           topic: "GovTraining - Consultation Request",
           message: `Training consultation request.\nInterested in: ${data.get("program") || "Not specified"}\nExperience: ${data.get("experience") || "Not specified"}\nMessage: ${data.get("message") || "None"}`,
           source: "GovTraining Consultation Form",
+          turnstileToken,
         }),
       });
-      if (res.ok) { setStatus("sent"); form.reset(); } else { setStatus("error"); }
-    } catch { setStatus("error"); }
+      if (res.ok) {
+        setStatus("sent");
+        form.reset();
+      } else {
+        setStatus("error");
+        setTurnstileToken("");
+        setTurnstileKey((k) => k + 1);
+      }
+    } catch {
+      setStatus("error");
+      setTurnstileToken("");
+      setTurnstileKey((k) => k + 1);
+    }
   }
 
   if (status === "sent") {
@@ -557,7 +573,12 @@ function ConsultForm() {
         <label className="block text-xs font-medium text-[#bbb] mb-2">Anything else we should know?</label>
         <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="Tell us about your goals..." />
       </div>
-      <button type="submit" disabled={status === "sending"} className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
+      <TurnstileWidget
+        key={turnstileKey}
+        onVerify={setTurnstileToken}
+        className="mb-4 flex justify-center"
+      />
+      <button type="submit" disabled={status === "sending" || !turnstileToken} className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
         {status === "sending" ? "Sending..." : "Book My Free Consultation →"}
       </button>
       {status === "error" && <p className="text-red-400 text-sm mt-3 text-center">Something went wrong. Email us at sales@mendsourcing.com</p>}

@@ -59,6 +59,11 @@ export default function RootLayout({
             </Script>
           </>
         )}
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          strategy="afterInteractive"
+        />
+
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import TurnstileWidget from "@/components/TurnstileWidget";
 
 const services = [
   {
@@ -345,9 +346,12 @@ export default function GovPackingPage() {
 
 function PackagingForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(0);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!turnstileToken) { setStatus("error"); return; }
     setStatus("sending");
     const form = e.currentTarget;
     const data = new FormData(form);
@@ -365,6 +369,7 @@ function PackagingForm() {
           topic: "GovPacking - Packaging Quote Request",
           message: `Packaging inquiry from GovPacking page.\nContract/NSN: ${data.get("contract") || "Not provided"}\nMessage: ${data.get("message") || "None"}`,
           source: "GovPacking Quote Form",
+          turnstileToken,
         }),
       });
       if (res.ok) {
@@ -372,9 +377,13 @@ function PackagingForm() {
         form.reset();
       } else {
         setStatus("error");
+        setTurnstileToken("");
+        setTurnstileKey((k) => k + 1);
       }
     } catch {
       setStatus("error");
+      setTurnstileToken("");
+      setTurnstileKey((k) => k + 1);
     }
   }
 
@@ -445,9 +454,14 @@ function PackagingForm() {
         <label className="block text-xs font-medium text-[#bbb] mb-2">Tell us about your packaging needs</label>
         <textarea name="message" rows={4} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="Describe what you need packaged, any specific requirements, or questions..." />
       </div>
+      <TurnstileWidget
+        key={turnstileKey}
+        onVerify={setTurnstileToken}
+        className="mb-4 flex justify-center"
+      />
       <button
         type="submit"
-        disabled={status === "sending"}
+        disabled={status === "sending" || !turnstileToken}
         className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50"
       >
         {status === "sending" ? "Sending..." : "Submit Packaging Request →"}

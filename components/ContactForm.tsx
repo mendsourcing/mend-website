@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import TurnstileWidget from "./TurnstileWidget";
 
 const topics = [
   "GovPacking - Packaging Needs",
@@ -14,9 +15,15 @@ export default function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileKey, setTurnstileKey] = useState(0);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!turnstileToken) {
+      setStatus("error");
+      return;
+    }
     setStatus("sending");
 
     const form = e.currentTarget;
@@ -34,6 +41,7 @@ export default function ContactForm() {
           company: data.get("company"),
           topic: data.get("topic"),
           message: data.get("message"),
+          turnstileToken,
         }),
       });
 
@@ -42,9 +50,13 @@ export default function ContactForm() {
         form.reset();
       } else {
         setStatus("error");
+        setTurnstileToken("");
+        setTurnstileKey((k) => k + 1);
       }
     } catch {
       setStatus("error");
+      setTurnstileToken("");
+      setTurnstileKey((k) => k + 1);
     }
   }
 
@@ -163,9 +175,14 @@ export default function ContactForm() {
           placeholder="Tell us about your needs..."
         />
       </div>
+      <TurnstileWidget
+        key={turnstileKey}
+        onVerify={setTurnstileToken}
+        className="mb-4 flex justify-center"
+      />
       <button
         type="submit"
-        disabled={status === "sending"}
+        disabled={status === "sending" || !turnstileToken}
         className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50"
       >
         {status === "sending" ? "Sending..." : "Send Message →"}
