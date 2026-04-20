@@ -14,6 +14,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mendsourcing.com"),
   title: "MeND Sourcing Solutions | Government Contracting at Peak Efficiency",
   description:
     "Simplifying government contracting. Veteran-owned, AS9100 & ISO9001 certified. GovPacking, GovScraper, GovTraining, and more.",

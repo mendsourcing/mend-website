@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
@@ -5,6 +6,10 @@ import GovPackingDashboard from "@/components/GovPackingDashboard";
 import Reveal from "@/components/Reveal";
 import LocationMap from "@/components/LocationMap";
 import CertBadges from "@/components/CertBadges";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const vendorLogos = [
   { name: "Boeing", src: "/images/vendors/boeing.png", hasBg: true },
