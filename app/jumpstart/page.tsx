@@ -206,6 +206,7 @@ interface Cohort {
   seats_taken: number;
   price: number;
   status: string;
+  session_time?: string | null;
 }
 
 function EnrollForm() {
@@ -230,6 +231,22 @@ function EnrollForm() {
     const [y, m, day] = String(dateOnly).split("-").map(Number);
     const dt = new Date(y, (m || 1) - 1, day || 1);
     return dt.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
+  }
+
+  function formatSessionTime(t?: string | null) {
+    if (!t) return "";
+    const [hStr, mStr] = t.split(":");
+    const h = Number(hStr);
+    const m = Number(mStr || 0);
+    if (Number.isNaN(h)) return "";
+    const minutes = m.toString().padStart(2, "0");
+    const fmt = (hour: number) => {
+      const period = hour >= 12 ? "PM" : "AM";
+      const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+      return `${hour12}:${minutes} ${period}`;
+    };
+    const estH = (h + 3) % 24;
+    return `${fmt(h)} PST (${fmt(estH)} EST)`;
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -308,9 +325,11 @@ function EnrollForm() {
             <option value="" className="bg-[#111]">Choose a start date...</option>
             {cohorts.map((c) => {
               const isFull = c.seats_taken >= c.max_seats;
+              const time = formatSessionTime(c.session_time);
+              const timeSuffix = time ? ` @ ${time}` : "";
               const label = isFull
-                ? `${c.title} — Starts ${formatCohortDate(c.start_date)} — Fully Booked`
-                : `${c.title} — Starts ${formatCohortDate(c.start_date)}`;
+                ? `${c.title} — Starts ${formatCohortDate(c.start_date)}${timeSuffix} — Fully Booked`
+                : `${c.title} — Starts ${formatCohortDate(c.start_date)}${timeSuffix}`;
               return (
                 <option
                   key={c.id}
