@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         destination: "/part-identifier",
         permanent: true,
       },
+      {
+        source: "/training",
+        destination: "/govtraining",
+        permanent: true,
+      },
     ];
   },
 };
