@@ -15,9 +15,12 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mendsourcing.com"),
-  title: "MeND Sourcing Solutions | Government Contracting at Peak Efficiency",
+  title: {
+    default: "MeND Sourcing Solutions | Government Contracting at Peak Efficiency",
+    template: "%s | MeND Sourcing Solutions",
+  },
   description:
-    "Simplifying government contracting. Veteran-owned, AS9100 & ISO9001 certified. GovPacking, GovScraper, GovTraining, and more.",
+    "Simplifying government contracting. Veteran-owned SDVOSB, AS9100 & ISO9001 certified, pursuing CMMC Level 2. GovPacking, GovScraper, GovTraining, and more.",
   keywords: [
     "government contracting",
     "procurement",
@@ -26,10 +29,41 @@ export const metadata: Metadata = {
     "defense",
     "veteran owned",
     "SDVOSB",
+    "CMMC",
+    "NIST 800-171",
     "GovPacking",
     "GovScraper",
     "GovTraining",
   ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://mendsourcing.com",
+    siteName: "MeND Sourcing Solutions",
+    title: "MeND Sourcing Solutions | Government Contracting at Peak Efficiency",
+    description:
+      "Simplifying government contracting. Veteran-owned SDVOSB, AS9100 & ISO9001 certified, pursuing CMMC Level 2.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MeND Sourcing Solutions | Government Contracting at Peak Efficiency",
+    description:
+      "Simplifying government contracting. Veteran-owned SDVOSB, AS9100 & ISO9001 certified, pursuing CMMC Level 2.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
   icons: {
     icon: "/favicon-mend.png",
     apple: "/favicon-mend.png",

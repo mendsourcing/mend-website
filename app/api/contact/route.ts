@@ -41,9 +41,11 @@ export async function POST(request: Request) {
     topic,
     message,
     source,
+    recipient,
     turnstileToken,
   } = body;
   const formSource = source || "MeND Website Contact Form";
+  const toAddress = recipient || "sales@mendsourcing.com";
 
   const ip =
     request.headers.get("cf-connecting-ip") ||
@@ -69,7 +71,7 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           from: "MeND Website <sales@mendsourcing.com>",
-          to: ["sales@mendsourcing.com"],
+          to: [toAddress],
           bcc: ["tristan@mendsourcing.com"],
           subject: `New Contact: ${topic || "General"} - ${firstName} ${lastName || ""} (${company})`,
           html: `
