@@ -35,9 +35,6 @@ export const metadata: Metadata = {
     "GovScraper",
     "GovTraining",
   ],
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     locale: "en_US",
