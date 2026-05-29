@@ -19,6 +19,11 @@ const nextConfig: NextConfig = {
         destination: "/govtraining",
         permanent: true,
       },
+      {
+        source: "/aerospace-distribution",
+        destination: "/government-contracting",
+        permanent: true,
+      },
     ];
   },
 };
