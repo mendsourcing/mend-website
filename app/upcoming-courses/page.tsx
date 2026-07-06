@@ -17,6 +17,7 @@ interface Cohort {
   seats_taken: number;
   price: number;
   status: string;
+  session_dates: string[] | null;
 }
 
 function formatTime(time: string): string {
@@ -169,6 +170,20 @@ export default function UpcomingCoursesPage() {
                               <span>👥 Max {c.max_seats} people</span>
                               <span>⏱ 1 hr/week × 4 weeks via Zoom</span>
                             </div>
+                            {Array.isArray(c.session_dates) && c.session_dates.length > 0 && (
+                              <div className="mt-4 bg-[#03ACED]/[0.06] border border-[#03ACED]/25 rounded-lg px-4 py-3">
+                                <div className="text-[10px] uppercase tracking-[2px] text-[#03ACED] font-semibold mb-2">Full Session Schedule</div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
+                                  {c.session_dates.map((d, i) => (
+                                    <div key={i} className="text-sm text-white">
+                                      <span className="text-[#03ACED] font-semibold">Session {i + 1}:</span>{" "}
+                                      <span className="text-white">{formatDate(d)}</span>
+                                      {c.session_time && <span className="text-[#bbb]"> @ {formatTime(c.session_time)}</span>}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                           </div>
                           <div className="flex items-center gap-4 flex-shrink-0">
                             <div className="text-right">
