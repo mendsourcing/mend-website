@@ -207,6 +207,7 @@ interface Cohort {
   price: number;
   status: string;
   session_time?: string | null;
+  session_dates?: string[] | null;
 }
 
 function EnrollForm() {
@@ -316,33 +317,59 @@ function EnrollForm() {
       <div className="mb-4">
         <label className="block text-xs font-medium text-[#bbb] mb-2">Select Your Cohort *</label>
         {cohorts.length > 0 ? (
-          <select
-            value={selectedCohort}
-            onChange={(e) => setSelectedCohort(e.target.value)}
-            required
-            className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
-          >
-            <option value="" className="bg-[#111]">Choose a start date...</option>
-            {cohorts.map((c) => {
-              const isFull = c.seats_taken >= c.max_seats;
+          <>
+            <select
+              value={selectedCohort}
+              onChange={(e) => setSelectedCohort(e.target.value)}
+              required
+              className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
+            >
+              <option value="" className="bg-[#111]">Choose a start date...</option>
+              {cohorts.map((c) => {
+                const isFull = c.seats_taken >= c.max_seats;
+                const time = formatSessionTime(c.session_time);
+                const timeSuffix = time ? ` @ ${time}` : "";
+                const label = isFull
+                  ? `${c.title} — Starts ${formatCohortDate(c.start_date)}${timeSuffix} — Fully Booked`
+                  : `${c.title} — Starts ${formatCohortDate(c.start_date)}${timeSuffix}`;
+                return (
+                  <option
+                    key={c.id}
+                    value={c.id}
+                    disabled={isFull}
+                    className="bg-[#111]"
+                    style={isFull ? { color: "#666" } : undefined}
+                  >
+                    {label}
+                  </option>
+                );
+              })}
+            </select>
+            {(() => {
+              const c = cohorts.find((x) => x.id.toString() === selectedCohort);
+              if (!c || !Array.isArray(c.session_dates) || c.session_dates.length === 0) return null;
               const time = formatSessionTime(c.session_time);
-              const timeSuffix = time ? ` @ ${time}` : "";
-              const label = isFull
-                ? `${c.title} — Starts ${formatCohortDate(c.start_date)}${timeSuffix} — Fully Booked`
-                : `${c.title} — Starts ${formatCohortDate(c.start_date)}${timeSuffix}`;
               return (
-                <option
-                  key={c.id}
-                  value={c.id}
-                  disabled={isFull}
-                  className="bg-[#111]"
-                  style={isFull ? { color: "#666" } : undefined}
-                >
-                  {label}
-                </option>
+                <div className="mt-3 bg-[#03ACED]/[0.06] border border-[#03ACED]/25 rounded-lg px-4 py-3">
+                  <div className="text-[10px] uppercase tracking-[2px] text-[#03ACED] font-semibold mb-2">Session Schedule</div>
+                  <ul className="space-y-1.5">
+                    {c.session_dates.map((d, i) => {
+                      const dateOnly = String(d).split("T")[0];
+                      const [y, m, day] = dateOnly.split("-").map(Number);
+                      const dt = new Date(y, (m || 1) - 1, day || 1);
+                      const label = dt.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+                      return (
+                        <li key={i} className="text-xs text-white flex gap-2">
+                          <span className="text-[#03ACED] font-semibold shrink-0">Session {i + 1}:</span>
+                          <span>{label}{time ? ` @ ${time}` : ""}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
               );
-            })}
-          </select>
+            })()}
+          </>
         ) : (
           <div>
             <p className="text-xs text-[#999] mb-2">No upcoming cohorts scheduled yet. Enter your preferred start date and we&apos;ll coordinate with you.</p>
