@@ -495,13 +495,29 @@ function EnrollForm() {
             </select>
             {(() => {
               const c = cohorts.find((x) => x.id.toString() === selectedCohort);
-              if (!c || !Array.isArray(c.session_dates) || c.session_dates.length === 0) return null;
+              if (!c) return null;
               const time = formatSessionTime(c.session_time);
+              // Fall back to weekly-from-start so every cohort renders
+              // its 4-session schedule, even ones whose session_dates
+              // column isn't populated.
+              const explicit = Array.isArray(c.session_dates) ? c.session_dates : [];
+              let dates: string[] = explicit.length === 4 ? explicit : [];
+              if (dates.length !== 4 && c.start_date) {
+                const dateOnly = String(c.start_date).split("T")[0];
+                const [y, m, d] = dateOnly.split("-").map(Number);
+                if (y && m && d) {
+                  dates = Array.from({ length: 4 }, (_, i) => {
+                    const dt = new Date(y, m - 1, d + i * 7);
+                    return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}-${String(dt.getDate()).padStart(2, "0")}`;
+                  });
+                }
+              }
+              if (dates.length !== 4) return null;
               return (
                 <div className="mt-3 bg-[#03ACED]/[0.06] border border-[#03ACED]/25 rounded-lg px-4 py-3">
                   <div className="text-[10px] uppercase tracking-[2px] text-[#03ACED] font-semibold mb-2">Session Schedule</div>
                   <ul className="space-y-1.5">
-                    {c.session_dates.map((d, i) => {
+                    {dates.map((d, i) => {
                       const dateOnly = String(d).split("T")[0];
                       const [y, m, day] = dateOnly.split("-").map(Number);
                       const dt = new Date(y, (m || 1) - 1, day || 1);

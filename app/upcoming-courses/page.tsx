@@ -44,6 +44,24 @@ function formatShortDate(d: string) {
   return parseCalendarDate(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
+// Default 4 weekly session dates from a start_date. Used as the display
+// fallback for cohorts whose session_dates JSONB column is empty so
+// visitors always see the full 4-session schedule on every card.
+function computeDefaultSessionDates(start: string): string[] {
+  const dateOnly = typeof start === "string" ? start.split("T")[0] : String(start || "");
+  const [y, m, d] = dateOnly.split("-").map(Number);
+  if (!y || !m || !d) return [];
+  const out: string[] = [];
+  for (let i = 0; i < 4; i++) {
+    const dt = new Date(y, m - 1, d + i * 7);
+    const yy = dt.getFullYear();
+    const mm = String(dt.getMonth() + 1).padStart(2, "0");
+    const dd = String(dt.getDate()).padStart(2, "0");
+    out.push(`${yy}-${mm}-${dd}`);
+  }
+  return out;
+}
+
 export default function UpcomingCoursesPage() {
   const [cohorts, setCohorts] = useState<Cohort[]>([]);
   const [loading, setLoading] = useState(true);
@@ -170,20 +188,29 @@ export default function UpcomingCoursesPage() {
                               <span>👥 Max {c.max_seats} people</span>
                               <span>⏱ 1 hr/week × 4 weeks via Zoom</span>
                             </div>
-                            {Array.isArray(c.session_dates) && c.session_dates.length > 0 && (
-                              <div className="mt-4 bg-[#03ACED]/[0.06] border border-[#03ACED]/25 rounded-lg px-4 py-3">
-                                <div className="text-[10px] uppercase tracking-[2px] text-[#03ACED] font-semibold mb-2">Full Session Schedule</div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
-                                  {c.session_dates.map((d, i) => (
-                                    <div key={i} className="text-sm text-white">
-                                      <span className="text-[#03ACED] font-semibold">Session {i + 1}:</span>{" "}
-                                      <span className="text-white">{formatDate(d)}</span>
-                                      {c.session_time && <span className="text-[#bbb]"> @ {formatTime(c.session_time)}</span>}
-                                    </div>
-                                  ))}
+                            {(() => {
+                              // Prefer explicit session_dates; otherwise
+                              // synthesize weekly-from-start so every card
+                              // shows all four sessions, even when the DB
+                              // column is empty (legacy cohorts).
+                              const explicit = Array.isArray(c.session_dates) ? c.session_dates : [];
+                              const dates = explicit.length === 4 ? explicit : computeDefaultSessionDates(c.start_date);
+                              if (dates.length !== 4) return null;
+                              return (
+                                <div className="mt-4 bg-[#03ACED]/[0.06] border border-[#03ACED]/25 rounded-lg px-4 py-3">
+                                  <div className="text-[10px] uppercase tracking-[2px] text-[#03ACED] font-semibold mb-2">Full Session Schedule</div>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
+                                    {dates.map((d, i) => (
+                                      <div key={i} className="text-sm text-white">
+                                        <span className="text-[#03ACED] font-semibold">Session {i + 1}:</span>{" "}
+                                        <span className="text-white">{formatDate(d)}</span>
+                                        {c.session_time && <span className="text-[#bbb]"> @ {formatTime(c.session_time)}</span>}
+                                      </div>
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              );
+                            })()}
                           </div>
                           <div className="flex items-center gap-4 flex-shrink-0">
                             <div className="text-right">
