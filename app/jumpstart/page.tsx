@@ -210,10 +210,27 @@ interface Cohort {
   session_dates?: string[] | null;
 }
 
+// Group pricing: first seat is $500, each additional seat is $250.
+// Keep these constants — the checkout API validates against the same
+// numbers, so a mismatch shows up as a rejected checkout rather than
+// silent over/undercharging.
+const PRICE_FIRST = 500;
+const PRICE_ADDITIONAL = 250;
+
+function calcTotal(count: number) {
+  if (count <= 0) return 0;
+  return PRICE_FIRST + Math.max(0, count - 1) * PRICE_ADDITIONAL;
+}
+
+interface AdditionalAttendee { firstName: string; lastName: string; email: string; }
+
 function EnrollForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [cohorts, setCohorts] = useState<Cohort[]>([]);
   const [selectedCohort, setSelectedCohort] = useState("");
+  const [attendeeCount, setAttendeeCount] = useState<number>(1);
+  const [extras, setExtras] = useState<AdditionalAttendee[]>([]);
+  const [errorMsg, setErrorMsg] = useState<string>("");
 
   useState(() => {
     // Pull all open + visible cohorts. Full ones stay in the list but render
@@ -250,13 +267,58 @@ function EnrollForm() {
     return `${fmt(h)} PST (${fmt(estH)} EST)`;
   }
 
+  function updateAttendeeCount(next: number) {
+    const n = Math.max(1, Math.min(5, Math.floor(next) || 1));
+    setAttendeeCount(n);
+    setExtras((prev) => {
+      const needed = n - 1;
+      if (prev.length === needed) return prev;
+      if (prev.length < needed) {
+        return [...prev, ...Array.from({ length: needed - prev.length }, () => ({ firstName: "", lastName: "", email: "" }))];
+      }
+      return prev.slice(0, needed);
+    });
+  }
+
+  function updateExtra(idx: number, field: keyof AdditionalAttendee, value: string) {
+    setExtras((prev) => prev.map((a, i) => (i === idx ? { ...a, [field]: value } : a)));
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("sending");
+    setErrorMsg("");
     const form = e.currentTarget;
     const data = new FormData(form);
 
+    // Validate additional attendees before hitting Stripe. Each extra
+    // needs at least a first name + a valid-looking email so we can send
+    // them the Zoom link and calendar invite.
+    for (let i = 0; i < extras.length; i++) {
+      const a = extras[i];
+      if (!a.firstName.trim() || !a.email.trim()) {
+        setErrorMsg(`Fill in the name and email for attendee ${i + 2}.`);
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(a.email.trim())) {
+        setErrorMsg(`Attendee ${i + 2}'s email doesn't look valid.`);
+        return;
+      }
+    }
+
     const cohort = cohorts.find((c) => c.id.toString() === selectedCohort);
+
+    // Safety net: don't let the visitor book more seats than the cohort
+    // has available. Stripe would still succeed, but we'd be over-booked
+    // in the CRM.
+    if (cohort) {
+      const remaining = cohort.max_seats - cohort.seats_taken;
+      if (attendeeCount > remaining) {
+        setErrorMsg(`This cohort only has ${remaining} seat${remaining === 1 ? "" : "s"} left. Reduce the number of attendees or choose a different cohort.`);
+        return;
+      }
+    }
+
+    setStatus("sending");
 
     try {
       const res = await fetch("/api/jumpstart-checkout", {
@@ -271,6 +333,12 @@ function EnrollForm() {
           preferredDates: cohort ? `${cohort.title} — Starting ${formatCohortDate(cohort.start_date)}` : (data.get("dates") || "Next available cohort"),
           cohortId: selectedCohort || null,
           message: data.get("message") || "",
+          attendeeCount,
+          additionalAttendees: extras.map((a) => ({
+            firstName: a.firstName.trim(),
+            lastName: a.lastName.trim(),
+            email: a.email.trim().toLowerCase(),
+          })),
         }),
       });
       const result = await res.json();
@@ -278,11 +346,17 @@ function EnrollForm() {
         window.location.href = result.url;
       } else {
         setStatus("error");
+        setErrorMsg(result.error || "Something went wrong. Try again or email sales@mendsourcing.com.");
       }
     } catch {
       setStatus("error");
+      setErrorMsg("Network error. Try again or email sales@mendsourcing.com.");
     }
   }
+
+  const total = calcTotal(attendeeCount);
+  const selectedCohortObj = cohorts.find((c) => c.id.toString() === selectedCohort);
+  const remainingSeats = selectedCohortObj ? selectedCohortObj.max_seats - selectedCohortObj.seats_taken : null;
 
   return (
     <form onSubmit={handleSubmit} className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 md:p-12">
@@ -312,6 +386,80 @@ function EnrollForm() {
         <label className="block text-xs font-medium text-[#bbb] mb-2">Company *</label>
         <input name="company" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Company Name" />
       </div>
+
+      {/* Number of attendees — payer is always attendee #1 */}
+      <div className="mb-4">
+        <label className="block text-xs font-medium text-[#bbb] mb-2">Number of Attendees *</label>
+        <div className="flex flex-wrap items-center gap-2">
+          {[1, 2, 3, 4, 5].map((n) => {
+            const disabled = remainingSeats !== null && n > remainingSeats;
+            const active = attendeeCount === n;
+            return (
+              <button
+                type="button"
+                key={n}
+                disabled={disabled}
+                onClick={() => updateAttendeeCount(n)}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold border transition-colors ${
+                  active
+                    ? "bg-[#03ACED] text-black border-[#03ACED]"
+                    : disabled
+                      ? "bg-white/[0.02] text-[#555] border-white/[0.05] cursor-not-allowed"
+                      : "bg-white/[0.04] text-white border-white/10 hover:border-[#03ACED]"
+                }`}
+              >
+                {n} {n === 1 ? "person" : "people"}
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-[10px] text-[#999] mt-2">
+          $500 for the first person · $250 for each additional person.
+          {remainingSeats !== null && ` This cohort has ${remainingSeats} seat${remainingSeats === 1 ? "" : "s"} left.`}
+        </p>
+      </div>
+
+      {/* Additional attendees — one name + email per extra seat so each
+          person receives their own Zoom link + calendar invite. */}
+      {attendeeCount > 1 && (
+        <div className="mb-4 bg-[#03ACED]/[0.05] border border-[#03ACED]/25 rounded-xl p-4 space-y-3">
+          <div className="text-[11px] uppercase tracking-[2px] text-[#03ACED] font-semibold">Additional Attendees</div>
+          {extras.map((a, i) => (
+            <div key={i} className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div>
+                <label className="block text-[10px] font-medium text-[#bbb] mb-1">Attendee {i + 2} First Name *</label>
+                <input
+                  value={a.firstName}
+                  onChange={(e) => updateExtra(i, "firstName", e.target.value)}
+                  required
+                  className="w-full px-3 py-2 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
+                  placeholder="Jane"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-medium text-[#bbb] mb-1">Last Name</label>
+                <input
+                  value={a.lastName}
+                  onChange={(e) => updateExtra(i, "lastName", e.target.value)}
+                  className="w-full px-3 py-2 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
+                  placeholder="Smith"
+                />
+              </div>
+              <div>
+                <label className="block text-[10px] font-medium text-[#bbb] mb-1">Email * (Zoom link goes here)</label>
+                <input
+                  type="email"
+                  value={a.email}
+                  onChange={(e) => updateExtra(i, "email", e.target.value)}
+                  required
+                  className="w-full px-3 py-2 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
+                  placeholder="jane@company.com"
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Cohort Selection */}
       <div className="mb-4">
@@ -384,18 +532,30 @@ function EnrollForm() {
       </div>
 
       {/* Payment Summary */}
-      <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-5 mb-6">
+      <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-5 mb-6 space-y-2">
         <div className="flex justify-between items-center">
-          <span className="text-sm text-[#bbb]">GovTraining Jumpstart! — Per Person</span>
-          <span className="text-lg text-[#03ACED] font-bold">$500</span>
+          <span className="text-sm text-[#bbb]">First attendee</span>
+          <span className="text-sm text-white font-mono">${PRICE_FIRST}.00</span>
         </div>
-        <p className="text-[10px] text-[#999] mt-2">4 weekly sessions via Zoom. Groups of 5 max. Includes 2 weeks free GovScraper access.</p>
+        {attendeeCount > 1 && (
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-[#bbb]">
+              Additional attendees ({attendeeCount - 1} × ${PRICE_ADDITIONAL})
+            </span>
+            <span className="text-sm text-white font-mono">${(attendeeCount - 1) * PRICE_ADDITIONAL}.00</span>
+          </div>
+        )}
+        <div className="flex justify-between items-center pt-2 border-t border-white/[0.08]">
+          <span className="text-sm font-semibold text-white">Total</span>
+          <span className="text-xl text-[#03ACED] font-bold">${total}.00</span>
+        </div>
+        <p className="text-[10px] text-[#999] pt-1">4 weekly sessions via Zoom. Includes 2 weeks free GovScraper access. Every attendee receives their own Zoom link + calendar invite.</p>
       </div>
 
       <button type="submit" disabled={status === "sending"} className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
-        {status === "sending" ? "Redirecting to payment..." : "Pay $500 & Enroll →"}
+        {status === "sending" ? "Redirecting to payment..." : `Pay $${total} & Enroll →`}
       </button>
-      {status === "error" && <p className="text-red-400 text-sm mt-3 text-center">Something went wrong. Email us at sales@mendsourcing.com</p>}
+      {errorMsg && <p className="text-red-400 text-sm mt-3 text-center">{errorMsg}</p>}
     </form>
   );
 }
