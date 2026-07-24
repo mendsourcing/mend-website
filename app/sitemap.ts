@@ -12,7 +12,6 @@ const routes = [
   "/upcoming-courses",
   "/government-contracting",
   "/government-defense-contracting",
-  "/federal",
   "/part-identifier",
   "/about-us",
   "/quality",

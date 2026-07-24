@@ -24,6 +24,21 @@ const nextConfig: NextConfig = {
         destination: "/government-contracting",
         permanent: true,
       },
+      {
+        source: "/federal",
+        has: [{ type: "host", value: "mendsourcing.com" }],
+        destination: "https://security.mendsourcing.com",
+        permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/",
+        has: [{ type: "host", value: "security.mendsourcing.com" }],
+        destination: "/federal",
+      },
     ];
   },
 };

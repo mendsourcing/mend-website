@@ -25,13 +25,13 @@ export const metadata: Metadata = {
     "MeND Sourcing Solutions",
   ],
   alternates: {
-    canonical: "https://mendsourcing.com/federal",
+    canonical: "https://security.mendsourcing.com",
   },
   openGraph: {
     title: "Federal & Cybersecurity — CMMC Level 2 Compliance | MeND Sourcing Solutions",
     description:
       "Securing the defense supply chain through CMMC compliance. MeND is actively pursuing CMMC Level 2 certification under NIST SP 800-171 Rev. 2.",
-    url: "https://mendsourcing.com/federal",
+    url: "https://security.mendsourcing.com",
     siteName: "MeND Sourcing Solutions",
     type: "website",
     locale: "en_US",

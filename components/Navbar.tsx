@@ -25,7 +25,7 @@ const navItems = [
         href: "/government-defense-contracting",
       },
       { label: "Part Identifier / Stock List", href: "/part-identifier" },
-      { label: "Federal / CMMC", href: "/federal" },
+      { label: "Federal / CMMC", href: "https://security.mendsourcing.com" },
     ],
   },
   { label: "Blog", href: "/blog" },

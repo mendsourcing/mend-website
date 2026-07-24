@@ -113,7 +113,7 @@ export default function FederalPage() {
           topic: "Federal / CMMC - Inquiry",
           message: data.get("message") || "Inquiry from Federal / CMMC page",
           source: "Federal / CMMC Form",
-          recipient: "tristan@federal.mendsourcing.com",
+          recipient: "tristan@security.mendsourcing.com",
           turnstileToken,
         }),
       });
