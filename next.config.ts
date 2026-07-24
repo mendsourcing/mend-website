@@ -32,15 +32,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  async rewrites() {
-    return [
-      {
-        source: "/",
-        has: [{ type: "host", value: "security.mendsourcing.com" }],
-        destination: "/federal",
-      },
-    ];
-  },
 };
 
 export default nextConfig;
