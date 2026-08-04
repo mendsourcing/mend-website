@@ -34,6 +34,7 @@ export async function POST(request: Request) {
     message,
     attendeeCount: rawCount,
     additionalAttendees: rawExtras,
+    promotionCode,
   } = body;
 
   // Clamp attendee count to 1-5 and normalize the additional-attendees
@@ -105,11 +106,34 @@ export async function POST(request: Request) {
     // to 4 extras with name + email — well under the limit as JSON.
     const attendeesJson = JSON.stringify(extras);
 
+    // Resolve promotion code (customer-facing string) into a promotion_code id.
+    // Bad codes are silently skipped so the checkout still succeeds — the UI
+    // has already validated it, so this catches race conditions (deactivated
+    // between apply and enroll) rather than user error.
+    let discounts: Array<{ promotion_code: string }> | undefined;
+    let resolvedPromoCode = "";
+    if (promotionCode && typeof promotionCode === "string" && promotionCode.trim()) {
+      try {
+        const list = await stripe.promotionCodes.list({
+          code: promotionCode.trim().toUpperCase(),
+          active: true,
+          limit: 1,
+        });
+        if (list.data.length > 0) {
+          discounts = [{ promotion_code: list.data[0].id }];
+          resolvedPromoCode = list.data[0].code;
+        }
+      } catch (err) {
+        console.error("Promotion code lookup failed:", err);
+      }
+    }
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       customer_email: email,
       line_items,
+      ...(discounts ? { discounts } : {}),
       metadata: {
         firstName,
         lastName: lastName || "",
@@ -124,6 +148,7 @@ export async function POST(request: Request) {
         cohortId: cohortId || "",
         program: "Jumpstart",
         source: "Jumpstart Enrollment",
+        promotionCode: resolvedPromoCode,
       },
       success_url: `${SITE_URL}/jumpstart/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/jumpstart#enroll`,

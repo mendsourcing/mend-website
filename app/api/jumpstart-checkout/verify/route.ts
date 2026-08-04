@@ -21,13 +21,24 @@ export async function POST(request: Request) {
 
   try {
     const stripe = getStripe();
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ["total_details", "discounts.promotion_code"],
+    });
 
     if (session.payment_status !== "paid") {
       return NextResponse.json({ success: false, error: "Payment not completed" }, { status: 400 });
     }
 
     const meta = session.metadata || {};
+    const discountCents = session.total_details?.amount_discount || 0;
+    const promoCodeUsed = (() => {
+      if (Array.isArray(session.discounts) && session.discounts.length > 0) {
+        const first = session.discounts[0];
+        const pc = first.promotion_code;
+        if (pc && typeof pc === "object" && "code" in pc) return pc.code;
+      }
+      return meta.promotionCode || "";
+    })();
     const firstName = meta.firstName || "";
     const lastName = meta.lastName || "";
     const email = meta.email || session.customer_email || "";
@@ -165,6 +176,8 @@ export async function POST(request: Request) {
             : message,
           totalCost: totalAmountCents / 100,
           depositPaid: totalAmountCents / 100,
+          couponCode: promoCodeUsed || null,
+          discountAmount: discountCents / 100,
           stripeSessionId: sessionId,
           source: attendeeCount > 1 ? `Jumpstart Enrollment (Group of ${attendeeCount})` : "Jumpstart Enrollment",
         }),
@@ -278,6 +291,7 @@ export async function POST(request: Request) {
               <p><strong>Attendees (${attendeeCount}):</strong></p>
               <ul>${attendeeListHtml}</ul>
               <p><strong>Paid:</strong> $${(totalAmountCents / 100).toFixed(2)} via Stripe</p>
+              ${promoCodeUsed ? `<p><strong>Coupon:</strong> <code>${promoCodeUsed}</code> (−$${(discountCents / 100).toFixed(2)})</p>` : ""}
               <p><strong>Message:</strong> ${message || "None"}</p>
               ${enrollNoteHtml}
               <hr/>

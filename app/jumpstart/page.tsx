@@ -231,6 +231,10 @@ function EnrollForm() {
   const [attendeeCount, setAttendeeCount] = useState<number>(1);
   const [extras, setExtras] = useState<AdditionalAttendee[]>([]);
   const [errorMsg, setErrorMsg] = useState<string>("");
+  const [couponInput, setCouponInput] = useState("");
+  const [couponStatus, setCouponStatus] = useState<"idle" | "checking">("idle");
+  const [couponError, setCouponError] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountCents: number; label: string } | null>(null);
 
   useState(() => {
     // Pull all open + visible cohorts. Full ones stay in the list but render
@@ -278,6 +282,49 @@ function EnrollForm() {
       }
       return prev.slice(0, needed);
     });
+    // Attendee count affects the discount amount for percentage coupons and
+    // the eligibility for minimum-amount coupons — clear the applied one so
+    // the visitor re-applies with the new subtotal.
+    if (appliedCoupon) {
+      setAppliedCoupon(null);
+      setCouponError("Attendee count changed — please re-apply your coupon.");
+    }
+  }
+
+  async function applyCoupon() {
+    const code = couponInput.trim();
+    if (!code) {
+      setCouponError("Enter a coupon code.");
+      return;
+    }
+    setCouponStatus("checking");
+    setCouponError("");
+    try {
+      const res = await fetch("/api/jumpstart-checkout/validate-coupon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, attendeeCount }),
+      });
+      const result = await res.json();
+      if (result.valid) {
+        setAppliedCoupon({ code: result.code, discountCents: result.discountCents, label: result.label });
+        setCouponError("");
+      } else {
+        setAppliedCoupon(null);
+        setCouponError(result.error || "Invalid coupon.");
+      }
+    } catch {
+      setAppliedCoupon(null);
+      setCouponError("Could not validate coupon. Try again.");
+    } finally {
+      setCouponStatus("idle");
+    }
+  }
+
+  function removeCoupon() {
+    setAppliedCoupon(null);
+    setCouponInput("");
+    setCouponError("");
   }
 
   function updateExtra(idx: number, field: keyof AdditionalAttendee, value: string) {
@@ -339,6 +386,7 @@ function EnrollForm() {
             lastName: a.lastName.trim(),
             email: a.email.trim().toLowerCase(),
           })),
+          promotionCode: appliedCoupon?.code || undefined,
         }),
       });
       const result = await res.json();
@@ -547,6 +595,45 @@ function EnrollForm() {
         <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="Tell us about your experience level or goals..." />
       </div>
 
+      {/* Coupon */}
+      <div className="mb-4">
+        <label className="block text-xs font-medium text-[#bbb] mb-2">Have a coupon?</label>
+        {appliedCoupon ? (
+          <div className="flex items-center justify-between gap-3 px-4 py-3 bg-[#03ACED]/[0.08] border border-[#03ACED]/40 rounded-lg">
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-[#03ACED] font-semibold">✓ {appliedCoupon.code}</span>
+              <span className="text-[#bbb]">— {appliedCoupon.label}</span>
+            </div>
+            <button
+              type="button"
+              onClick={removeCoupon}
+              className="text-xs text-[#999] hover:text-white transition-colors"
+            >
+              Remove
+            </button>
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <input
+              value={couponInput}
+              onChange={(e) => { setCouponInput(e.target.value.toUpperCase()); setCouponError(""); }}
+              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); applyCoupon(); } }}
+              className="flex-1 px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors uppercase tracking-wider"
+              placeholder="ENTER CODE"
+            />
+            <button
+              type="button"
+              onClick={applyCoupon}
+              disabled={couponStatus === "checking" || !couponInput.trim()}
+              className="px-5 py-3 bg-white/[0.06] border border-white/10 rounded-lg text-white text-sm font-semibold hover:border-[#03ACED] hover:text-[#03ACED] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {couponStatus === "checking" ? "Checking..." : "Apply"}
+            </button>
+          </div>
+        )}
+        {couponError && <p className="text-xs text-red-400 mt-2">{couponError}</p>}
+      </div>
+
       {/* Payment Summary */}
       <div className="bg-white/[0.04] border border-white/[0.08] rounded-xl p-5 mb-6 space-y-2">
         <div className="flex justify-between items-center">
@@ -561,15 +648,23 @@ function EnrollForm() {
             <span className="text-sm text-white font-mono">${(attendeeCount - 1) * PRICE_ADDITIONAL}.00</span>
           </div>
         )}
+        {appliedCoupon && (
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-[#03ACED]">Coupon {appliedCoupon.code} ({appliedCoupon.label})</span>
+            <span className="text-sm text-[#03ACED] font-mono">−${(appliedCoupon.discountCents / 100).toFixed(2)}</span>
+          </div>
+        )}
         <div className="flex justify-between items-center pt-2 border-t border-white/[0.08]">
           <span className="text-sm font-semibold text-white">Total</span>
-          <span className="text-xl text-[#03ACED] font-bold">${total}.00</span>
+          <span className="text-xl text-[#03ACED] font-bold">
+            ${((total * 100 - (appliedCoupon?.discountCents || 0)) / 100).toFixed(2)}
+          </span>
         </div>
         <p className="text-[10px] text-[#999] pt-1">4 weekly sessions via Zoom. Includes 2 weeks free GovScraper access. Every attendee receives their own Zoom link + calendar invite.</p>
       </div>
 
       <button type="submit" disabled={status === "sending"} className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
-        {status === "sending" ? "Redirecting to payment..." : `Pay $${total} & Enroll →`}
+        {status === "sending" ? "Redirecting to payment..." : `Pay $${((total * 100 - (appliedCoupon?.discountCents || 0)) / 100).toFixed(2)} & Enroll →`}
       </button>
       {errorMsg && <p className="text-red-400 text-sm mt-3 text-center">{errorMsg}</p>}
     </form>
