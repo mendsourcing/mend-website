@@ -6,7 +6,7 @@ import Reveal from "@/components/Reveal";
 import TurnstileWidget from "@/components/TurnstileWidget";
 
 function useGovPackingStats() {
-  const [stats, setStats] = useState({ dlaContracts: 325, dollarAmount: 8000000, ordersCompleted: 634, inProgress: 29 });
+  const [stats, setStats] = useState({ dlaContracts: 349, dollarAmount: 10374804, ordersCompleted: 139, inProgress: 38 });
   useEffect(() => {
     fetch("/api/stats").then(r => r.json()).then(d => { if (d.govpacking) setStats(d.govpacking); }).catch(() => {});
   }, []);
@@ -40,7 +40,7 @@ export default function DefenseContractingPage() {
     { num: formatDollar(gp.dollarAmount), label: "Contract Value", live: true },
     { num: gp.ordersCompleted.toLocaleString(), label: "GovPacking Orders Completed", live: true },
     { num: gp.inProgress.toString(), label: "GovPacking Orders In Progress", live: true },
-    { num: "16+", label: "Years Experience", live: true },
+    { num: `${new Date().getFullYear() - 2010}+`, label: "Years Experience", live: true },
     { num: "314", label: "SPRS Score", live: true },
   ];
 

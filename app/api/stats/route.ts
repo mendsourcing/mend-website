@@ -2,28 +2,38 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
+// Live source of truth: GovPacking site stats API. Returns all five metrics.
+// Numeric fields may arrive as strings — coerce before use.
+const STATS_URL = "https://govpacking.com/api/site/stats";
+
+// Fallbacks only used if the upstream fetch fails (last known values, 2026-08-13)
+const FALLBACK = {
+  dlaContracts: 349,
+  dollarAmount: 10374804,
+  quotesReceived: 1632,
+  ordersCompleted: 139,
+  inProgress: 38,
+};
+
+function num(v: unknown, fallback: number): number {
+  const n = typeof v === "string" ? parseFloat(v) : typeof v === "number" ? v : NaN;
+  return Number.isFinite(n) ? n : fallback;
+}
+
 export async function GET() {
-  // Fetch live stats from MeND Services CRM
-  let govpackingStats = {
-    dlaContracts: 325,
-    dollarAmount: 8000000,
-    quotesReceived: 1019,
-    ordersCompleted: 634,
-    inProgress: 29,
-    lastSynced: new Date().toISOString(),
-  };
+  let govpackingStats = { ...FALLBACK, lastSynced: new Date().toISOString() };
 
   try {
-    const res = await fetch("https://services.mendsourcing.com/api/govpacking-stats", {
-      cache: "no-store",
-    });
+    const res = await fetch(STATS_URL, { cache: "no-store" });
     if (res.ok) {
       const data = await res.json();
       govpackingStats = {
-        ...govpackingStats,
-        quotesReceived: data.quotesReceived ?? govpackingStats.quotesReceived,
-        ordersCompleted: data.ordersCompleted ?? govpackingStats.ordersCompleted,
-        lastSynced: new Date().toISOString(),
+        dlaContracts: num(data.dlaContracts, FALLBACK.dlaContracts),
+        dollarAmount: num(data.dollarAmount, FALLBACK.dollarAmount),
+        quotesReceived: num(data.quotesReceived, FALLBACK.quotesReceived),
+        ordersCompleted: num(data.ordersCompleted, FALLBACK.ordersCompleted),
+        inProgress: num(data.inProgress, FALLBACK.inProgress),
+        lastSynced: typeof data.lastSynced === "string" ? data.lastSynced : new Date().toISOString(),
       };
     }
   } catch {
@@ -36,9 +46,9 @@ export async function GET() {
     company: {
       totalContracts: govpackingStats.dlaContracts,
       manufacturingPartners: 62,
-      yearsExperience: 16,
+      yearsExperience: new Date().getFullYear() - 2010,
     },
-    lastSynced: new Date().toISOString(),
+    lastSynced: govpackingStats.lastSynced,
   });
 
   resp.headers.set("Access-Control-Allow-Origin", "*");

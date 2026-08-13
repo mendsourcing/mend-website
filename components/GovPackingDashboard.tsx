@@ -137,7 +137,7 @@ export default function GovPackingDashboard() {
     { label: "GovPacking Orders Completed", animated: true, value: stats.ordersCompleted, format: "comma" },
     { label: "GovPacking Orders In Progress", animated: true, value: stats.inProgress, format: "comma" },
     { label: "Manufacturing Partners", animated: true, value: 62, format: "comma" },
-    { label: "Years Experience", animated: true, value: 16, format: "suffix", suffix: "+" },
+    { label: "Years Experience", animated: true, value: new Date().getFullYear() - 2010, format: "suffix", suffix: "+" },
   ];
 
   const renderValue = (c: Card, delayMs: number) =>

@@ -71,7 +71,7 @@ const b2gServices = [
 ];
 
 const whyMend = [
-  { icon: "⏱", title: "16+ Years", desc: "Deep experience in procurement and government contracting" },
+  { icon: "⏱", title: `${new Date().getFullYear() - 2010}+ Years`, desc: "Deep experience in procurement and government contracting" },
   { icon: "✅", title: "AS9100 & ISO9001", desc: "Certified quality standards for aerospace and defense" },
   { icon: "🎖", title: "Veteran Owned", desc: "Proudly owned and operated by military veterans" },
   { icon: "👂", title: "Listen First", desc: "Understand the mission before executing the solution" },
