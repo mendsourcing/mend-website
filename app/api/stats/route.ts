@@ -6,13 +6,13 @@ export const dynamic = "force-dynamic";
 // Numeric fields may arrive as strings — coerce before use.
 const STATS_URL = "https://govpacking.com/api/site/stats";
 
-// Fallbacks only used if the upstream fetch fails (last known values, 2026-08-13)
+// Fallbacks only used if the upstream fetch fails (last known values, 2026-08-28)
 const FALLBACK = {
-  dlaContracts: 349,
-  dollarAmount: 10374804,
-  quotesReceived: 1632,
-  ordersCompleted: 139,
-  inProgress: 38,
+  dlaContracts: 351,
+  dollarAmount: 10442460,
+  quotesReceived: 1705,
+  ordersCompleted: 142,
+  inProgress: 27,
 };
 
 function num(v: unknown, fallback: number): number {

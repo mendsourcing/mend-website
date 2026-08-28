@@ -6,7 +6,7 @@ import Reveal from "@/components/Reveal";
 import TurnstileWidget from "@/components/TurnstileWidget";
 
 function useGovPackingStats() {
-  const [stats, setStats] = useState({ dlaContracts: 349, dollarAmount: 10374804, ordersCompleted: 139, inProgress: 38 });
+  const [stats, setStats] = useState({ dlaContracts: 351, dollarAmount: 10442460, ordersCompleted: 142, inProgress: 27 });
   useEffect(() => {
     fetch("/api/stats").then(r => r.json()).then(d => { if (d.govpacking) setStats(d.govpacking); }).catch(() => {});
   }, []);
