@@ -72,10 +72,10 @@ export default function QualityCertCards() {
       <CertificateModal
         open={open}
         onClose={() => setOpen(false)}
-        src="/certifications/mend-as9100-iso9001-2025.pdf"
-        downloadAs="MeND-AS9100D-ISO9001-2025.pdf"
+        src="/certifications/mend-as9100-iso9001-2026.pdf"
+        downloadAs="MeND-AS9100D-ISO9001-2026.pdf"
         title="Quality Certifications"
-        subtitle="AS9100 Rev. D · ISO 9001:2015 · 2025"
+        subtitle="AS9100 Rev. D · ISO 9001:2015 · 2026"
       />
     </>
   );
