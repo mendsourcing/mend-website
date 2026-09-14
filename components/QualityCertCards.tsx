@@ -36,6 +36,9 @@ export default function QualityCertCards() {
             <p className="text-sm text-[#bbb] leading-relaxed">
               The aerospace quality management standard that ensures we meet the stringent requirements of the aerospace industry for safety, reliability, and quality.
             </p>
+            <p className="mt-4 text-xs font-semibold tracking-wide text-white/70">
+              Certificate No. 1104861 · Issued Sep 2026 · Valid through Nov 2029
+            </p>
             <div className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[2px] font-bold text-[#03ACED] opacity-0 group-hover:opacity-100 transition-opacity">
               View Certificate
               <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -60,6 +63,9 @@ export default function QualityCertCards() {
             <h3 className="text-2xl font-bold mb-4">ISO 9001:2015 Certified</h3>
             <p className="text-sm text-[#bbb] leading-relaxed">
               The international standard for quality management systems, demonstrating our ability to consistently provide products and services that meet customer and regulatory requirements.
+            </p>
+            <p className="mt-4 text-xs font-semibold tracking-wide text-white/70">
+              Certificate No. 1104861 · Issued Sep 2026 · Valid through Nov 2029
             </p>
             <div className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[2px] font-bold text-[#03ACED] opacity-0 group-hover:opacity-100 transition-opacity">
               View Certificate
