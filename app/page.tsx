@@ -326,6 +326,24 @@ export default function HomePage() {
                   </a>
                 </div>
               </div>
+              {/* Book time directly — Calendly event types */}
+              <div className="mt-8">
+                <p className="text-[11px] uppercase tracking-[0.15em] text-[#03ACED] font-bold mb-3">Or book time directly</p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <a href="https://calendly.com/mendsourcing/govscraper" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-5 py-3 bg-[#03ACED] text-white rounded-lg font-semibold text-sm hover:bg-[#0290c8] transition-colors">
+                    Book a GovScraper Demo
+                  </a>
+                  <a href="https://calendly.com/mendsourcing/govpacking" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-5 py-3 border border-[#03ACED]/40 text-[#03ACED] rounded-lg font-semibold text-sm hover:bg-[#03ACED]/10 transition-colors">
+                    Packaging Call
+                  </a>
+                  <a href="https://calendly.com/mendsourcing/govtraining" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-5 py-3 border border-[#03ACED]/40 text-[#03ACED] rounded-lg font-semibold text-sm hover:bg-[#03ACED]/10 transition-colors">
+                    Training Call
+                  </a>
+                </div>
+              </div>
               {/* Tactical HQ map */}
               <div className="mt-10">
                 <LocationMap />
