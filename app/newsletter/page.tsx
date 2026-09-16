@@ -22,7 +22,7 @@ export default function NewsletterPage() {
               <li>• Upcoming GovTraining cohorts and what we&apos;re teaching</li>
               <li>• What we&apos;re seeing in government contracting right now</li>
             </ul>
-            <p className="text-[#888] text-sm mt-6">Written by the team actually doing the work. Fridays. One-click unsubscribe.</p>
+            <p className="text-[#888] text-sm mt-6">Written by the team actually doing the day to day work. Sent out Friday nights. One-click unsubscribe.</p>
           </Reveal>
           <Reveal direction="left" delay={120}>
             <LeadCaptureForm tag="MeND Weekly" source="newsletter" cta="Join The MeND Weekly" successNote="You're in — first issue lands Friday." />
