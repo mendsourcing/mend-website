@@ -17,7 +17,7 @@ export default function NewsletterPage() {
             <h2 className="text-2xl font-bold text-white mb-4">What you&apos;ll get every week</h2>
             <ul className="space-y-3 text-[#bbb] text-[15px] leading-relaxed">
               <li>• The real numbers — packaging quotes sent and orders shipped that week</li>
-              <li>• New videos and posts from the team</li>
+              <li>• Every video and post we created that week, pulled from our socials — so you never miss what we put out</li>
               <li>• GovScraper updates and what the daily opportunity feed is surfacing</li>
               <li>• Upcoming GovTraining cohorts and what we&apos;re teaching</li>
               <li>• What we&apos;re seeing in government contracting right now</li>
