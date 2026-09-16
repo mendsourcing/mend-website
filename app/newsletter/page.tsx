@@ -10,7 +10,7 @@ export const metadata = {
 export default function NewsletterPage() {
   return (
     <>
-      <Hero title="The MeND Weekly" subtitle="One email a week: what we shipped, built, and won at MeND Sourcing." />
+      <Hero title="The MeND Weekly" subtitle="One Email a Week: What We Shipped, Built, and Won at MeND Sourcing." />
       <section className="py-16 md:py-24 px-6 md:px-15">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <Reveal direction="up">
