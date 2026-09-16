@@ -44,7 +44,7 @@ export default function LeadCaptureForm({ tag, source, potential, cta = "Send Me
 
   if (status === "sent") {
     return (
-      <div className="bg-white/[0.04] border border-[#03ACED]/30 rounded-2xl p-8 text-center">
+      <div className="bg-[#0c0f13] border border-[#03ACED]/30 rounded-2xl p-8 text-center">
         <p className="text-xl font-bold text-white mb-2">You&apos;re all set!</p>
         <p className="text-[#bbb] text-sm mb-5">{successNote}</p>
         {download && (
@@ -58,21 +58,21 @@ export default function LeadCaptureForm({ tag, source, potential, cta = "Send Me
   }
 
   return (
-    <form onSubmit={submit} className="bg-white/[0.04] border border-white/10 rounded-2xl p-8 space-y-4">
+    <form onSubmit={submit} className="bg-[#0c0f13] border border-white/10 rounded-2xl p-8 space-y-4">
       <div>
         <label className="block text-xs font-semibold text-[#999] uppercase tracking-wider mb-1.5">Name</label>
         <input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your name"
-          className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-[#03ACED]/60" />
+          className="w-full bg-white/[0.08] border border-white/15 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-[#03ACED]/60" />
       </div>
       <div>
         <label className="block text-xs font-semibold text-[#999] uppercase tracking-wider mb-1.5">Work Email</label>
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@company.com"
-          className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-[#03ACED]/60" />
+          className="w-full bg-white/[0.08] border border-white/15 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-[#03ACED]/60" />
       </div>
       <div>
         <label className="block text-xs font-semibold text-[#999] uppercase tracking-wider mb-1.5">Company <span className="normal-case text-white/30">(optional)</span></label>
         <input value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company name"
-          className="w-full bg-white/[0.06] border border-white/10 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-[#03ACED]/60" />
+          className="w-full bg-white/[0.08] border border-white/15 rounded-lg px-4 py-3 text-white placeholder:text-white/25 focus:outline-none focus:border-[#03ACED]/60" />
       </div>
       {status === "error" && <p className="text-sm text-red-400">Something went wrong — please try again.</p>}
       <button type="submit" disabled={status === "sending"}
