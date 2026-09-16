@@ -28,7 +28,14 @@ const navItems = [
       { label: "Federal / CMMC", href: "https://security.mendsourcing.com" },
     ],
   },
-  { label: "Blog", href: "/blog" },
+  {
+    label: "Stay Connected",
+    href: "/newsletter",
+    children: [
+      { label: "The MeND Weekly Newsletter", href: "/newsletter" },
+      { label: "GovCon Vertical Guide", href: "/guide" },
+    ],
+  },
   {
     label: "About Us",
     href: "/about-us",
