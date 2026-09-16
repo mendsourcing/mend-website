@@ -22,6 +22,7 @@ export default function LeadCaptureForm({ tag, source, potential, cta = "Send Me
   const [company, setCompany] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [download, setDownload] = useState<string | null>(null);
+  const [websiteUrl, setWebsiteUrl] = useState(""); // honeypot — humans never see or fill this
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,7 +32,7 @@ export default function LeadCaptureForm({ tag, source, potential, cta = "Send Me
       const res = await fetch(LEAD_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, company, tag, source, potential }),
+        body: JSON.stringify({ email, name, company, tag, source, potential, website_url: websiteUrl }),
       });
       const j = await res.json();
       if (!res.ok) throw new Error(j.error || "failed");
@@ -59,6 +60,16 @@ export default function LeadCaptureForm({ tag, source, potential, cta = "Send Me
 
   return (
     <form onSubmit={submit} className="bg-[#0c0f13] border border-white/10 rounded-2xl p-8 space-y-4">
+      <input
+        type="text"
+        name="website_url"
+        value={websiteUrl}
+        onChange={(e) => setWebsiteUrl(e.target.value)}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden"
+      />
       <div>
         <label className="block text-xs font-semibold text-[#999] uppercase tracking-wider mb-1.5">Name</label>
         <input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your name"
