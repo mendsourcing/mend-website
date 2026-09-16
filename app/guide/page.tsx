@@ -24,7 +24,7 @@ export default function GuidePage() {
             <p className="text-[#888] text-sm mt-6">Enter your details and we&apos;ll email you the guide instantly — plus a direct download link.</p>
           </Reveal>
           <Reveal direction="left" delay={120}>
-            <LeadCaptureForm tag="PDF Vertical Guide" source="verticalguide" cta="Send Me the Guide" successNote="The guide is in your inbox — or grab it right here:" />
+            <LeadCaptureForm tag="PDF Vertical Guide" source="verticalguide" potential="govscraper" cta="Send Me the Guide" successNote="The guide is in your inbox — or grab it right here:" />
           </Reveal>
         </div>
       </section>

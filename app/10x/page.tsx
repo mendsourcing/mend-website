@@ -20,10 +20,10 @@ export default function TenXPage() {
               <li>• Bid on a cadence, not on inspiration</li>
               <li>• Never lose an awarded contract to packaging or compliance mistakes</li>
             </ul>
-            <p className="text-[#888] text-sm mt-6">Want the full walkthrough? Leave your details and we&apos;ll send it over — or <a href="https://calendly.com/mendsourcing/govscraper" className="text-[#03ACED] hover:underline" target="_blank" rel="noopener noreferrer">book a 15-minute demo</a>.</p>
+            <p className="text-[#888] text-sm mt-6">Want the full playbook? Leave your details and we&apos;ll send you the 14-page Vertical Guide — the exact DLA bidding process behind the growth — or <a href="https://calendly.com/mendsourcing/govscraper" className="text-[#03ACED] hover:underline" target="_blank" rel="noopener noreferrer">book a 15-minute demo</a>.</p>
           </Reveal>
           <Reveal direction="left" delay={120}>
-            <LeadCaptureForm tag="10x Business" source="10x_your_business" potential="govscraper" cta="Send Me the Breakdown" successNote="On its way — we'll follow up with the full breakdown." />
+            <LeadCaptureForm tag="10x Business" source="10x_your_business" potential="govscraper" cta="Send Me the Playbook" successNote="The guide is in your inbox — or grab it right here:" />
           </Reveal>
         </div>
       </section>
