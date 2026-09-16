@@ -11,7 +11,9 @@ const footerLinks = [
   { label: "GovPacking", href: "/packaging-logistics" },
   { label: "GovTraining", href: "/govtraining" },
   { label: "Quality", href: "/quality" },
-  { label: "Terms & Conditions", href: "/po-terms-conditions" },
+  { label: "PO Terms & Conditions", href: "/po-terms-conditions" },
+  { label: "Terms of Service", href: "/terms" },
+  { label: "Privacy Policy", href: "/privacy" },
 ];
 
 const socialLinks = [
