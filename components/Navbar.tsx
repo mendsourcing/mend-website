@@ -32,7 +32,7 @@ const navItems = [
     label: "Stay Connected",
     href: "/newsletter",
     children: [
-      { label: "The MeND Weekly Newsletter", href: "/newsletter" },
+      { label: "The Weekly MeND Newsletter", href: "/newsletter" },
       { label: "GovCon Vertical Guide", href: "/guide" },
     ],
   },

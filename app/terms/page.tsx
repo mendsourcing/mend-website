@@ -15,7 +15,7 @@ export default function TermsPage() {
           <h2 className="text-white text-lg font-bold pt-2">3. Content</h2>
           <p>Content on our sites — guides, videos, posts, and tools — is provided for informational purposes. It is not legal, financial, or contracting advice, and results described are not guarantees of your outcomes.</p>
           <h2 className="text-white text-lg font-bold pt-2">4. Communications</h2>
-          <p>If you sign up for our emails (such as guides or The MeND Weekly), you can unsubscribe at any time using the one-click link in every message.</p>
+          <p>If you sign up for our emails (such as guides or The Weekly MeND), you can unsubscribe at any time using the one-click link in every message.</p>
           <h2 className="text-white text-lg font-bold pt-2">5. Limitation of Liability</h2>
           <p>To the maximum extent permitted by law, MeND is not liable for indirect, incidental, or consequential damages arising from use of our websites or content.</p>
           <h2 className="text-white text-lg font-bold pt-2">6. Changes</h2>

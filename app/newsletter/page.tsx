@@ -2,7 +2,7 @@ import Reveal from "@/components/Reveal";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 
 export const metadata = {
-  title: "The MeND Weekly | MeND Sourcing Solutions",
+  title: "The Weekly MeND | MeND Sourcing Solutions",
   description: "One email a week on what we're doing at MeND Sourcing — packaging shipped, contracts won, new videos, GovScraper and training updates.",
 };
 
@@ -30,7 +30,7 @@ export default function NewsletterPage() {
                 Stay Connected
               </div>
               <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
-                The <span className="text-[#03ACED]">MeND Weekly</span>
+                The <span className="text-[#03ACED]">Weekly MeND</span>
               </h1>
               <p className="text-lg text-[#ccc] leading-relaxed mb-4">
                 One Email a Week: What We Shipped, Built, and Won at MeND Sourcing.
@@ -41,7 +41,7 @@ export default function NewsletterPage() {
             </div>
             <Reveal direction="left" delay={120}>
               <div className="rounded-2xl border border-[#03ACED]/30 shadow-[0_0_40px_rgba(3,172,237,0.15)] overflow-hidden">
-                <LeadCaptureForm tag="MeND Weekly" source="newsletter" cta="Join The MeND Weekly" successNote="You're in — first issue lands Friday night." />
+                <LeadCaptureForm tag="MeND Weekly" source="newsletter" cta="Join The Weekly MeND" successNote="You're in — first issue lands Friday night." />
               </div>
             </Reveal>
           </div>
