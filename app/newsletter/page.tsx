@@ -40,7 +40,7 @@ export default async function NewsletterPage() {
       <section className="relative pt-[72px] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=1920&q=80&fit=crop')" }}
+          style={{ backgroundImage: "url('/images/weekly-mend-hero.jpg')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/60" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 py-24 md:py-32">
