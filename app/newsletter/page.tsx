@@ -13,7 +13,25 @@ const weeklyItems = [
   { title: "Training & GovCon Insights", desc: "Upcoming GovTraining cohorts and what we're seeing in government contracting right now." },
 ];
 
-export default function NewsletterPage() {
+type NewsletterStatus = {
+  lastIssue: { label: string; sentAtText: string } | null;
+  nextIssue: { label: string; dateText: string };
+} | null;
+
+// Live issue tracker from the CRM: which issue went out last, which lands
+// next. Refreshes every 5 minutes; page still renders if the CRM is down.
+async function getNewsletterStatus(): Promise<NewsletterStatus> {
+  try {
+    const r = await fetch("https://services.mendsourcing.com/api/newsletter/status", { next: { revalidate: 300 } });
+    if (!r.ok) return null;
+    return await r.json();
+  } catch {
+    return null;
+  }
+}
+
+export default async function NewsletterPage() {
+  const status = await getNewsletterStatus();
   return (
     <>
       {/* HERO */}
@@ -35,9 +53,27 @@ export default function NewsletterPage() {
               <p className="text-lg text-[#ccc] leading-relaxed mb-4">
                 One Email a Week: What We Shipped, Built, and Won at MeND Sourcing.
               </p>
-              <p className="text-sm text-[#03ACED] font-semibold mb-8">
+              <p className="text-sm text-[#03ACED] font-semibold mb-6">
                 Written by the team actually doing the day to day work. Sent out Friday nights. One-click unsubscribe.
               </p>
+              {status && (
+                <div className="flex flex-wrap gap-3 mb-8">
+                  {status.lastIssue ? (
+                    <>
+                      <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-full text-xs font-semibold text-white">
+                        Last issue: #{status.lastIssue.label} · {status.lastIssue.sentAtText}
+                      </span>
+                      <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED]">
+                        Next up: #{status.nextIssue.label} · {status.nextIssue.dateText}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED]">
+                      First issue: #{status.nextIssue.label} lands {status.nextIssue.dateText}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
             <Reveal direction="left" delay={120}>
               <div className="rounded-2xl border border-[#03ACED]/30 shadow-[0_0_40px_rgba(3,172,237,0.15)] overflow-hidden">
