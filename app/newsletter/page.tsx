@@ -2,15 +2,17 @@ import Reveal from "@/components/Reveal";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 
 export const metadata = {
-  title: "The Weekly MeND | MeND Sourcing Solutions",
-  description: "One email a week on what we're doing at MeND Sourcing — packaging shipped, contracts won, new videos, GovScraper and training updates.",
+  title: "The Weekly MeND Newsletter | MeND Sourcing Solutions",
+  description: "One email a week built to help you win government contracts: our real numbers, insights into the DLA, and tools you can use.",
 };
 
 const weeklyItems = [
-  { title: "The Real Numbers", desc: "Packaging quotes sent and orders shipped that week — straight from our floor, no fluff." },
-  { title: "Everything We Created", desc: "Every video and post we made that week, pulled from our socials — so you never miss what we put out." },
-  { title: "GovScraper Updates", desc: "What the daily opportunity feed is surfacing and what's new in the platform." },
-  { title: "Training & GovCon Insights", desc: "Upcoming GovTraining cohorts and what we're seeing in government contracting right now." },
+  { title: "By the Numbers for MeND", desc: "Packaging quotes sent, packing jobs on the board, active GovScraper members, and DLA bids submitted that week. Real numbers you can benchmark your own business against." },
+  { title: "Insights into the DLA", desc: "One tip each week that makes your next bid sharper: rule changes, deadlines, and lessons from the bids we run every day." },
+  { title: "MeND at Scale", desc: "Contracts won under our CAGE 8HHU7, the dollars behind them, and how many are in active work. The honest scoreboard, including the weeks we win nothing." },
+  { title: "New Videos This Week", desc: "Every video we published that week, with one-click links to watch on YouTube." },
+  { title: "GovScraper Feature", desc: "One feature or workflow highlight each week that surfaces the opportunities worth your time." },
+  { title: "Training Dates & a Note from Tristan", desc: "Upcoming GovCon Jumpstart! and MasterClass dates before they fill, plus a short note on what Tristan is seeing in GovCon right now." },
 ];
 
 type NewsletterStatus = {
@@ -38,7 +40,7 @@ export default async function NewsletterPage() {
       <section className="relative pt-[72px] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&q=80&fit=crop')" }}
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1515187029135-18ee286d815b?w=1920&q=80&fit=crop')" }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/80 to-black/60" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-15 py-24 md:py-32">
@@ -48,10 +50,10 @@ export default async function NewsletterPage() {
                 Stay Connected
               </div>
               <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
-                The <span className="text-[#03ACED]">Weekly MeND</span>
+                The <span className="text-[#03ACED]">Weekly MeND</span> Newsletter
               </h1>
               <p className="text-lg text-[#ccc] leading-relaxed mb-4">
-                One Email a Week: What We Shipped, Built, and Won at MeND Sourcing.
+                One email a week built to help you win government contracts: the real numbers from our business, insights into the DLA, and tools that take the busy work off your plate.
               </p>
               <p className="text-sm text-[#03ACED] font-semibold mb-6">
                 Written by the team actually doing the day to day work. Sent out Friday nights. One-click unsubscribe.
@@ -68,8 +70,8 @@ export default async function NewsletterPage() {
                       </span>
                     </>
                   ) : (
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#03ACED]/15 border border-[#03ACED]/40 rounded-full text-xs font-semibold text-[#03ACED]">
-                      First issue: #{status.nextIssue.label} lands {status.nextIssue.dateText}
+                    <span className="inline-flex items-center gap-3 px-6 py-4 bg-[#03ACED] rounded-2xl text-base md:text-lg font-black text-white shadow-[0_0_40px_rgba(3,172,237,0.4)]">
+                      First issue lands {status.nextIssue.dateText}
                     </span>
                   )}
                 </div>
@@ -92,7 +94,7 @@ export default async function NewsletterPage() {
               What You&apos;ll Get <span className="text-[#03ACED]">Every Week</span>
             </h2>
             <p className="text-[#bbb] text-base max-w-2xl mb-12">
-              An honest look inside a working government contracting operation — across GovScraper, GovPacking, GovTraining, and our own contracts.
+              An honest look inside a working government contracting operation, built to help you win your own: DLA contracting, GovScraper, GovPacking, and GovTraining.
             </p>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
