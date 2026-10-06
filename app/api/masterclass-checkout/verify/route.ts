@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { readChunked } from "@/lib/stripeMeta";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
     const company = meta.company || "";
     const location = meta.location || "TBD";
     const preferredDates = meta.preferredDates || "TBD";
-    const message = meta.message || "";
+    const message = readChunked(meta, "message");
     const totalCost = parseInt(meta.totalCost || "4000");
 
     // 2a. Push to CRM /masterclass-deposit (new canonical endpoint) so the

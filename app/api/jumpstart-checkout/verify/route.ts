@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { generateICS, pstToEst, formatTimePST } from "@/lib/calendar";
+import { readChunked } from "@/lib/stripeMeta";
 
 export const dynamic = "force-dynamic";
 
@@ -46,11 +47,11 @@ export async function POST(request: Request) {
     const company = meta.company || "";
     const preferredDates = meta.preferredDates || "Next available";
     const cohortId = meta.cohortId || "";
-    const message = meta.message || "";
+    const message = readChunked(meta, "message");
     const attendeeCount = Math.max(1, parseInt(meta.attendeeCount || "1", 10) || 1);
     let additionalAttendees: AdditionalAttendee[] = [];
     try {
-      const parsed = JSON.parse(meta.additionalAttendees || "[]");
+      const parsed = JSON.parse(readChunked(meta, "additionalAttendees") || "[]");
       if (Array.isArray(parsed)) additionalAttendees = parsed;
     } catch { /* ignore */ }
 

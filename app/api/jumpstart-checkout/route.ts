@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { clampMeta, putChunked, type StripeMeta } from "@/lib/stripeMeta";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,10 @@ function isValidEmail(s: unknown): s is string {
   return typeof s === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 }
 
+function isNonEmptyString(s: unknown): s is string {
+  return typeof s === "string" && s.trim().length > 0;
+}
+
 export async function POST(request: Request) {
   const body = await request.json();
   const {
@@ -36,6 +41,16 @@ export async function POST(request: Request) {
     additionalAttendees: rawExtras,
     promotionCode,
   } = body;
+
+  if (!isNonEmptyString(firstName)) {
+    return NextResponse.json({ error: "First name is required." }, { status: 400 });
+  }
+  if (!isValidEmail(email)) {
+    return NextResponse.json({ error: "Enter a valid email address." }, { status: 400 });
+  }
+  if (!isNonEmptyString(company)) {
+    return NextResponse.json({ error: "Company is required." }, { status: 400 });
+  }
 
   // Clamp attendee count to 1-5 and normalize the additional-attendees
   // array so the two always line up (attendeeCount 3 -> 2 extras).
@@ -102,10 +117,6 @@ export async function POST(request: Request) {
       });
     }
 
-    // Stripe metadata caps each value at 500 chars. Attendees can grow
-    // to 4 extras with name + email — well under the limit as JSON.
-    const attendeesJson = JSON.stringify(extras);
-
     // Resolve promotion code (customer-facing string) into a promotion_code id.
     // Bad codes are silently skipped so the checkout still succeeds — the UI
     // has already validated it, so this catches race conditions (deactivated
@@ -128,28 +139,33 @@ export async function POST(request: Request) {
       }
     }
 
+    // Every value must stay under Stripe's 500-char metadata cap. The
+    // free-text message and the attendee JSON are the two that can grow,
+    // so they're chunked across numbered keys and reassembled in /verify.
+    const metadata: StripeMeta = {
+      firstName: clampMeta(firstName.trim()),
+      lastName: clampMeta(lastName || ""),
+      email: clampMeta(email),
+      phone: clampMeta(phone || ""),
+      company: clampMeta(company.trim()),
+      preferredDates: clampMeta(preferredDates || "Next available"),
+      totalCost: String(totalCents / 100),
+      attendeeCount: String(attendeeCount),
+      cohortId: clampMeta(cohortId || ""),
+      program: "Jumpstart",
+      source: "Jumpstart Enrollment",
+      promotionCode: resolvedPromoCode,
+    };
+    putChunked(metadata, "message", message || "");
+    putChunked(metadata, "additionalAttendees", JSON.stringify(extras));
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       customer_email: email,
       line_items,
       ...(discounts ? { discounts } : {}),
-      metadata: {
-        firstName,
-        lastName: lastName || "",
-        email,
-        phone: phone || "",
-        company,
-        preferredDates: preferredDates || "Next available",
-        message: message || "",
-        totalCost: String(totalCents / 100),
-        attendeeCount: String(attendeeCount),
-        additionalAttendees: attendeesJson,
-        cohortId: cohortId || "",
-        program: "Jumpstart",
-        source: "Jumpstart Enrollment",
-        promotionCode: resolvedPromoCode,
-      },
+      metadata,
       success_url: `${SITE_URL}/jumpstart/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE_URL}/jumpstart#enroll`,
     });

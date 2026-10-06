@@ -256,15 +256,23 @@ export default function MasterClassPage() {
   );
 }
 
+// Hard cap on the free-text box. The checkout API chunks the message
+// across Stripe metadata keys (500-char limit each); 2,000 keeps us
+// well inside what it can carry.
+const MESSAGE_MAX = 2000;
+
 function EnrollForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [locationChoice, setLocationChoice] = useState<"la" | "come_to_me">("la");
+  const [messageLength, setMessageLength] = useState(0);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const totalCost = locationChoice === "come_to_me" ? 5000 : 4000;
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
+    setErrorMsg("");
     const form = e.currentTarget;
     const data = new FormData(form);
 
@@ -288,9 +296,11 @@ function EnrollForm() {
         window.location.href = result.url; // Redirect to Stripe Checkout
       } else {
         setStatus("error");
+        setErrorMsg(result.error || "");
       }
     } catch {
       setStatus("error");
+      setErrorMsg("Network error.");
     }
   }
 
@@ -367,7 +377,15 @@ function EnrollForm() {
       </div>
       <div className="mb-6">
         <label className="block text-xs font-medium text-[#bbb] mb-2">Anything else?</label>
-        <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="Tell us about your experience level or any specific topics you want to focus on..." />
+        <textarea
+          name="message"
+          rows={3}
+          maxLength={MESSAGE_MAX}
+          onChange={(e) => setMessageLength(e.target.value.length)}
+          className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none"
+          placeholder="Tell us about your experience level or any specific topics you want to focus on..."
+        />
+        <p className="text-[10px] text-[#999] mt-1 text-right">{messageLength.toLocaleString()} / {MESSAGE_MAX.toLocaleString()} characters</p>
       </div>
 
       {/* Deposit Summary */}
@@ -390,7 +408,7 @@ function EnrollForm() {
       <button type="submit" disabled={status === "sending"} className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
         {status === "sending" ? "Redirecting to payment..." : `Pay $500 Deposit & Enroll →`}
       </button>
-      {status === "error" && <p className="text-red-400 text-sm mt-3 text-center">Something went wrong. Email us at sales@mendsourcing.com</p>}
+      {status === "error" && <p className="text-red-400 text-sm mt-3 text-center">{errorMsg || "Something went wrong."} Email us at sales@mendsourcing.com</p>}
     </form>
   );
 }

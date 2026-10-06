@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
@@ -217,6 +217,11 @@ interface Cohort {
 const PRICE_FIRST = 500;
 const PRICE_ADDITIONAL = 250;
 
+// Hard cap on the free-text box. The checkout API chunks the message
+// across Stripe metadata keys (500-char limit each); 2,000 keeps us
+// well inside what it can carry.
+const MESSAGE_MAX = 2000;
+
 function calcTotal(count: number) {
   if (count <= 0) return 0;
   return PRICE_FIRST + Math.max(0, count - 1) * PRICE_ADDITIONAL;
@@ -235,8 +240,9 @@ function EnrollForm() {
   const [couponStatus, setCouponStatus] = useState<"idle" | "checking">("idle");
   const [couponError, setCouponError] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountCents: number; label: string } | null>(null);
+  const [messageLength, setMessageLength] = useState(0);
 
-  useState(() => {
+  useEffect(() => {
     // Pull all open + visible cohorts. Full ones stay in the list but render
     // as a disabled "Fully Booked" option (instead of being hidden), so
     // visitors can see upcoming dates that will open up later.
@@ -244,7 +250,7 @@ function EnrollForm() {
       .then((r) => r.json())
       .then((data) => setCohorts(Array.isArray(data) ? data : []))
       .catch(() => {});
-  });
+  }, []);
 
   function formatCohortDate(d: string) {
     // Parse as local calendar date — not UTC midnight — so PST viewers don't
@@ -592,7 +598,15 @@ function EnrollForm() {
 
       <div className="mb-6">
         <label className="block text-xs font-medium text-[#bbb] mb-2">Anything else?</label>
-        <textarea name="message" rows={3} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none" placeholder="Tell us about your experience level or goals..." />
+        <textarea
+          name="message"
+          rows={3}
+          maxLength={MESSAGE_MAX}
+          onChange={(e) => setMessageLength(e.target.value.length)}
+          className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors resize-none"
+          placeholder="Tell us about your experience level or goals..."
+        />
+        <p className="text-[10px] text-[#999] mt-1 text-right">{messageLength.toLocaleString()} / {MESSAGE_MAX.toLocaleString()} characters</p>
       </div>
 
       {/* Coupon */}
