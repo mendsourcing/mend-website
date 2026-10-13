@@ -3,13 +3,13 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Federal & Cybersecurity — CMMC Level 2 Compliance",
   description:
-    "MeND is a DoD contractor and SDVOSB pursuing CMMC Level 2 certification. NIST SP 800-171 Rev. 2 controls implemented across 14 security domains. CMMC enforcement begins November 2026, full implementation by 2028.",
+    "MeND is a DoW contractor and SDVOSB pursuing CMMC Level 2 certification. NIST SP 800-171 Rev. 2 controls implemented across 14 security domains. CMMC enforcement begins November 2026, full implementation by 2028.",
   keywords: [
     "CMMC",
     "CMMC Level 2",
     "Cybersecurity Maturity Model Certification",
     "NIST SP 800-171",
-    "DoD contractor",
+    "DoW contractor",
     "SDVOSB",
     "DLA cybersecurity",
     "Defense Industrial Base",

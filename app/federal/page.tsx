@@ -149,7 +149,7 @@ export default function FederalPage() {
         url: "https://mendsourcing.com/federal",
         name: "Federal & Cybersecurity | CMMC Level 2 Compliance",
         description:
-          "MeND is a DoD contractor and SDVOSB pursuing CMMC Level 2 certification under NIST SP 800-171 Rev. 2. CMMC enforcement begins November 2026, full implementation by 2028.",
+          "MeND is a DoW contractor and SDVOSB pursuing CMMC Level 2 certification under NIST SP 800-171 Rev. 2. CMMC enforcement begins November 2026, full implementation by 2028.",
         isPartOf: { "@id": "https://mendsourcing.com/#organization" },
         about: {
           "@type": "Thing",
@@ -161,7 +161,7 @@ export default function FederalPage() {
         name: "CMMC Level 2 Compliant Federal Contracting",
         provider: { "@id": "https://mendsourcing.com/#organization" },
         areaServed: "United States",
-        serviceType: "DoD Defense Contracting",
+        serviceType: "DoW Defense Contracting",
         description:
           "Federal contracting services aligned to NIST SP 800-171 Rev. 2 across 14 security domains, in active pursuit of CMMC Level 2 certification.",
       },
@@ -189,7 +189,7 @@ export default function FederalPage() {
             Why CMMC Matters
           </Reveal>
           <Reveal direction="up" delay={160} as="p" className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-6">
-            The Cybersecurity Maturity Model Certification (CMMC) is the Department of Defense&apos;s framework for protecting Federal Contract Information (FCI) and Controlled Unclassified Information (CUI) across the Defense Industrial Base. As a DoD contractor and SDVOSB, MeND treats cybersecurity as a core operational requirement — not a checkbox.
+            The Cybersecurity Maturity Model Certification (CMMC) is the Department of War&apos;s framework for protecting Federal Contract Information (FCI) and Controlled Unclassified Information (CUI) across the Defense Industrial Base. As a DoW contractor and SDVOSB, MeND treats cybersecurity as a core operational requirement — not a checkbox.
           </Reveal>
           <Reveal direction="up" delay={240} as="p" className="text-[#bbb] text-base leading-relaxed max-w-3xl">
             Our federal cybersecurity program is built around NIST SP 800-171 Rev. 2, with controls implemented across 14 security domains and continuously monitored.
@@ -212,10 +212,10 @@ export default function FederalPage() {
               CMMC Level 2 Certification &mdash; Underway
             </h2>
             <p className="text-[#bbb] text-base leading-relaxed max-w-3xl mb-4">
-              MeND is actively pursuing <span className="text-white font-semibold">CMMC Level 2</span> certification, the standard required for any DoD contractor handling Controlled Unclassified Information. Implementation of all 110 NIST SP 800-171 controls is in progress, with formal third-party assessment scheduled upon completion.
+              MeND is actively pursuing <span className="text-white font-semibold">CMMC Level 2</span> certification, the standard required for any DoW contractor handling Controlled Unclassified Information. Implementation of all 110 NIST SP 800-171 controls is in progress, with formal third-party assessment scheduled upon completion.
             </p>
             <p className="text-[#bbb] text-base leading-relaxed max-w-3xl">
-              This investment ensures our customers, partners, and subcontractors can confidently share sensitive program data with us &mdash; today and as the DoD enforces CMMC across all new contracts.
+              This investment ensures our customers, partners, and subcontractors can confidently share sensitive program data with us &mdash; today and as the DoW enforces CMMC across all new contracts.
             </p>
           </Reveal>
         </div>
@@ -377,7 +377,7 @@ export default function FederalPage() {
               rel="noopener noreferrer"
               className="block bg-white/[0.03] border border-white/[0.06] rounded-2xl p-6 hover:border-[#03ACED]/30 transition-colors"
             >
-              <div className="text-xs uppercase tracking-wider text-[#03ACED] font-bold mb-1">DoD CIO</div>
+              <div className="text-xs uppercase tracking-wider text-[#03ACED] font-bold mb-1">DoW CIO</div>
               <div className="text-white font-semibold mb-1">CMMC Level 1 Assessment Guide (PDF)</div>
               <div className="text-[#999] text-xs">Official Level 1 self-assessment guide</div>
             </a>
@@ -389,7 +389,7 @@ export default function FederalPage() {
             >
               <div className="text-xs uppercase tracking-wider text-[#03ACED] font-bold mb-1">Project Spectrum</div>
               <div className="text-white font-semibold mb-1">Cyber Readiness Check</div>
-              <div className="text-[#999] text-xs">DoD-sponsored Level 1 &amp; 2 self-assessment platform</div>
+              <div className="text-[#999] text-xs">DoW-sponsored Level 1 &amp; 2 self-assessment platform</div>
             </a>
             <a
               href="https://cyberab.org/Catalog#!/c/s/Results/Format/list/Page/1/Size/9/Sort/NameAscending"

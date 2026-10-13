@@ -101,7 +101,7 @@ const whoFor = [
 const whyMend = [
   {
     title: "We've Done It 350+ Times, For Ourselves",
-    desc: "MeND is a DLA supplier first. Every receiving report, invoice and post-award request we file for you is one we've filed on our own awards.",
+    desc: "MeND is an SDVOSB and a DLA supplier first. Every receiving report, invoice and post-award request we file for you is one we've filed on our own awards.",
   },
   {
     title: "AS9100D & ISO 9001:2015 Certified",
@@ -164,7 +164,7 @@ export default function GovAdminPage() {
                 You Won the Award. <span className="text-[#03ACED]">We Handle Everything After.</span>
               </Reveal>
               <Reveal direction="up" delay={260} as="p" className="text-lg text-[#bbb] leading-relaxed mb-4 max-w-2xl">
-                Receiving reports, government invoices, post-award requests for modifications, SAM.gov registrations, DIBBS registrations, JCP certification renewals, SBA certification renewals, SPRS upkeep, and award tracking. All run by the team that has administered 350+ DLA awards of its own.
+                Receiving reports, government invoices, post-award requests for modifications, SAM.gov registrations, DIBBS registrations, JCP certification renewals, SBA certification renewals, SPRS upkeep, and award tracking. All run by the SDVOSB team that has administered 350+ DLA awards of its own.
               </Reveal>
               <Reveal direction="up" delay={340} as="ul" className="space-y-2 mb-8">
                 {["WAWF receiving reports & invoices filed right the first time", "Registrations that never lapse: SAM, CAGE, DIBBS, JCP, SBA, SPRS", "We don't bid for you. You win it; we run it."].map((item) => (
@@ -217,7 +217,7 @@ export default function GovAdminPage() {
             Everything Between &ldquo;Award&rdquo; and &ldquo;Paid&rdquo;
           </Reveal>
           <Reveal direction="up" delay={160} as="p" className="text-[#bbb] mb-16 max-w-2xl">
-            Six things every DLA and DoD supplier has to get right on every award. We do all six, on every award you win.
+            Six things every DLA and DoW supplier has to get right on every award. We do all six, on every award you win.
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {handled.map((item, i) => (
@@ -456,15 +456,15 @@ function ProofPanel() {
         </div>
         <div>
           <div className="text-4xl font-black text-white tabular-nums">{years}+</div>
-          <div className="text-[11px] uppercase tracking-wider text-white/60 mt-1">Years in DoD Supply</div>
+          <div className="text-[11px] uppercase tracking-wider text-white/60 mt-1">Years in DoW Supply</div>
         </div>
         <div>
           <div className="text-2xl font-black text-white">AS9100D</div>
           <div className="text-[11px] uppercase tracking-wider text-white/60 mt-1">&amp; ISO 9001:2015</div>
         </div>
         <div>
-          <div className="text-2xl font-black text-white">Veteran</div>
-          <div className="text-[11px] uppercase tracking-wider text-white/60 mt-1">Owned &amp; Operated</div>
+          <div className="text-2xl font-black text-white">SDVOSB</div>
+          <div className="text-[11px] uppercase tracking-wider text-white/60 mt-1">Service-Disabled Veteran-Owned</div>
         </div>
       </div>
       <div className="mt-6 pt-6 border-t border-white/[0.06] space-y-2">
