@@ -18,7 +18,13 @@ async function verifyTurnstile(
 ): Promise<boolean> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret) {
-    console.warn("TURNSTILE_SECRET_KEY not set — skipping verification");
+    // Fail CLOSED in production — a dropped env var must not turn this
+    // endpoint into an open email sender. Dev keeps the skip.
+    if (process.env.NODE_ENV === "production") {
+      console.error("TURNSTILE_SECRET_KEY missing in production — rejecting submissions");
+      return false;
+    }
+    console.warn("TURNSTILE_SECRET_KEY not set — skipping verification (dev)");
     return true;
   }
   if (!token) return false;
@@ -39,7 +45,11 @@ async function verifyTurnstile(
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let body: any;
+  try { body = await request.json(); } catch {
+    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+  }
   const {
     firstName,
     lastName,
@@ -57,7 +67,10 @@ export async function POST(request: Request) {
   // Structured extras a product form wants the CRM to keep as fields, not
   // prose (GovAdmin sends cage, awardsLast12Months, registrations, wawfOwner).
   const formMeta = meta && typeof meta === "object" && !Array.isArray(meta) ? meta : undefined;
-  const toAddress = recipient || "sales@mendsourcing.com";
+  // Allowlist only — `recipient` from the body must never make this an
+  // open relay. (The federal page legitimately routes to security@.)
+  const RECIPIENT_ALLOW = new Set(["sales@mendsourcing.com", "tristan@mendsourcing.com", "tristan@security.mendsourcing.com"]);
+  const toAddress = RECIPIENT_ALLOW.has(String(recipient || "").toLowerCase()) ? String(recipient).toLowerCase() : "sales@mendsourcing.com";
 
   const ip =
     request.headers.get("cf-connecting-ip") ||
@@ -84,7 +97,15 @@ export async function POST(request: Request) {
     meta: formMeta as Record<string, unknown> | undefined,
   };
 
-  // 1. Send email via Resend with BCC
+  // Server-side required fields — browser `required` attributes are not
+  // a guarantee for direct POSTs.
+  if (!payload.firstName || !payload.company || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(payload.email)) {
+    return NextResponse.json({ error: "Name, company, and a valid email are required." }, { status: 400 });
+  }
+
+  // 1. Send email via Resend with BCC — track success so the response
+  //    can be honest when every delivery leg fails.
+  let emailOk = false;
   if (process.env.RESEND_API_KEY) {
     try {
       const res = await fetch("https://api.resend.com/emails", {
@@ -93,6 +114,7 @@ export async function POST(request: Request) {
           Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
           "Content-Type": "application/json",
         },
+        signal: AbortSignal.timeout(10000),
         body: JSON.stringify({
           from: "MeND Website <sales@mendsourcing.com>",
           to: [toAddress],
@@ -102,26 +124,30 @@ export async function POST(request: Request) {
           html: internalHtml(payload),
         }),
       });
-
+      emailOk = res.ok;
       if (!res.ok) {
         const error = await res.text();
         console.error("Resend error:", error);
       }
 
-      // Send confirmation email to the submitter
-      await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: "MeND Sourcing Solutions <sales@mendsourcing.com>",
-          to: [payload.email],
-          subject: confirmationSubject(payload),
-          html: confirmationHtml(payload),
-        }),
-      }).catch(() => {});
+      // Confirmation to the submitter — only after the internal alert
+      // succeeded (never promise a one-day reply nobody will see).
+      if (emailOk) {
+        await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          signal: AbortSignal.timeout(10000),
+          body: JSON.stringify({
+            from: "MeND Sourcing Solutions <sales@mendsourcing.com>",
+            to: [payload.email],
+            subject: confirmationSubject(payload),
+            html: confirmationHtml(payload),
+          }),
+        }).catch(() => {});
+      }
     } catch (err) {
       console.error("Email send error:", err);
     }
@@ -133,10 +159,12 @@ export async function POST(request: Request) {
   // The structured fields ride along as `meta`; until the CRM stores them
   // as columns, a one-line summary is appended to the note so nothing is lost.
   const summary = metaSummary(payload.meta);
+  let crmOk = false;
   try {
-    await fetch(`${CRM_URL}/api/website-contact`, {
+    const crmRes = await fetch(`${CRM_URL}/api/website-contact`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(5000),
       body: JSON.stringify({
         firstName: payload.firstName,
         lastName: payload.lastName || "",
@@ -149,10 +177,19 @@ export async function POST(request: Request) {
         ...(formMeta ? { meta: formMeta } : {}),
       }),
     });
+    crmOk = crmRes.ok;
+    if (!crmRes.ok) {
+      console.error("CRM push rejected:", crmRes.status, await crmRes.text().catch(() => ""));
+    }
   } catch (err) {
     console.error("CRM push error:", err);
     // Don't fail the response if CRM is down - email was still sent
   }
 
+  // Honest success: if BOTH legs failed, the lead landed nowhere — say so
+  // (the form's error state points them at sales@mendsourcing.com).
+  if (!emailOk && !crmOk) {
+    return NextResponse.json({ error: "We could not record your request just now. Please email sales@mendsourcing.com directly." }, { status: 502 });
+  }
   return NextResponse.json({ success: true });
 }

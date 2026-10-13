@@ -594,6 +594,7 @@ const registrationOptions = ["SAM.gov", "DIBBS", "PIEE / WAWF", "JCP (DD 2345)",
 
 function ReviewForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [errMsg, setErrMsg] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [turnstileKey, setTurnstileKey] = useState(0);
 
@@ -632,6 +633,8 @@ function ReviewForm() {
         setStatus("sent");
         form.reset();
       } else {
+        const serverMsg = (await res.json().catch(() => null))?.error;
+        setErrMsg(serverMsg || null);
         setStatus("error");
         setTurnstileToken("");
         setTurnstileKey((k) => k + 1);
@@ -756,7 +759,7 @@ function ReviewForm() {
         {status === "sending" ? "Sending..." : "Request My Post-Award Review →"}
       </button>
       {status === "error" && (
-        <p className="text-red-400 text-sm mt-3 text-center">Something went wrong. Email us at sales@mendsourcing.com</p>
+        <p className="text-red-400 text-sm mt-3 text-center">{errMsg || "Something went wrong. Email us at sales@mendsourcing.com"}</p>
       )}
     </form>
   );
