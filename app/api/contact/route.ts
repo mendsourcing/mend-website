@@ -43,8 +43,12 @@ export async function POST(request: Request) {
     source,
     recipient,
     turnstileToken,
+    meta,
   } = body;
   const formSource = source || "MeND Website Contact Form";
+  // Structured extras a product form wants the CRM to keep as fields, not
+  // prose (GovAdmin sends cage, awardsLast12Months, registrations, wawfOwner).
+  const formMeta = meta && typeof meta === "object" && !Array.isArray(meta) ? meta : undefined;
   const toAddress = recipient || "sales@mendsourcing.com";
 
   const ip =
@@ -141,6 +145,7 @@ export async function POST(request: Request) {
         topic: topic || "General",
         message: message || "",
         source: formSource,
+        ...(formMeta ? { meta: formMeta } : {}),
       }),
     });
   } catch (err) {

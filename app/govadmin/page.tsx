@@ -625,6 +625,13 @@ function ReviewForm() {
             `Message: ${data.get("message") || "None"}`,
           ].join("\n"),
           source: "GovAdmin Post-Award Review Form",
+          meta: {
+            product: "govadmin",
+            cage: String(data.get("cage") || "").trim().toUpperCase(),
+            awardsLast12Months: String(data.get("awards") || ""),
+            registrations,
+            wawfOwner: String(data.get("wawf") || ""),
+          },
           turnstileToken,
         }),
       });
