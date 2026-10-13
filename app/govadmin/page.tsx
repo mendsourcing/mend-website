@@ -23,7 +23,7 @@ const handled = [
   {
     icon: "📋",
     title: "Contract Review & Pressing Issues",
-    desc: "Every award is read the day it lands: packaging and marking, QAP, first article or production lot testing, IUID, certifications, shelf life. You get a plain-English list of what's due and when.",
+    desc: "Every award is read the day we receive it: packaging and marking, QAPs, first article or production lot testing, IUID, certifications, shelf life. You get a full report of the issued contract and a plain-English list of what's due and when.",
   },
   {
     icon: "🪪",
@@ -214,7 +214,7 @@ export default function GovAdminPage() {
             What We Handle
           </Reveal>
           <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
-            Everything Between &ldquo;Award&rdquo; and &ldquo;Paid&rdquo;
+            Everything Between &ldquo;Award Issued&rdquo; and &ldquo;Paid&rdquo;
           </Reveal>
           <Reveal direction="up" delay={160} as="p" className="text-[#bbb] mb-16 max-w-2xl">
             Six things every DLA and DoW supplier has to get right on every award. We do all six, on every award you win.
