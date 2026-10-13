@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { MESSAGE_MAX } from "@/lib/stripeMeta";
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
@@ -256,11 +257,6 @@ export default function MasterClassPage() {
   );
 }
 
-// Hard cap on the free-text box. The checkout API chunks the message
-// across Stripe metadata keys (500-char limit each); 2,000 keeps us
-// well inside what it can carry.
-const MESSAGE_MAX = 2000;
-
 function EnrollForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [locationChoice, setLocationChoice] = useState<"la" | "come_to_me">("la");
@@ -287,6 +283,7 @@ function EnrollForm() {
           phone: data.get("phone"),
           company: data.get("company"),
           location: locationChoice,
+          city: locationChoice === "come_to_me" ? (data.get("city") || "") : "",
           preferredDates: data.get("dates") || "TBD",
           message: data.get("message") || "",
         }),
@@ -340,17 +337,17 @@ function EnrollForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">First Name *</label>
-          <input name="firstName" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="John" />
+          <input name="firstName" required maxLength={100} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="John" />
         </div>
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">Last Name</label>
-          <input name="lastName" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Doe" />
+          <input name="lastName" maxLength={100} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Doe" />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">Email *</label>
-          <input name="email" type="email" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="john@company.com" />
+          <input name="email" type="email" required maxLength={254} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="john@company.com" />
         </div>
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">Phone</label>
@@ -361,7 +358,7 @@ function EnrollForm() {
       </div>
       <div className="mb-4">
         <label className="block text-xs font-medium text-[#bbb] mb-2">Company *</label>
-        <input name="company" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Company Name" />
+        <input name="company" required maxLength={100} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Company Name" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import { MESSAGE_MAX } from "@/lib/stripeMeta";
 
 const weeks = [
   { week: "Week 1", title: "FSCs & Finding the Right Vendor", desc: "Choose the correct FSC codes and source reliable vendors so your quotes stay competitive and compliant." },
@@ -217,11 +218,6 @@ interface Cohort {
 const PRICE_FIRST = 500;
 const PRICE_ADDITIONAL = 250;
 
-// Hard cap on the free-text box. The checkout API chunks the message
-// across Stripe metadata keys (500-char limit each); 2,000 keeps us
-// well inside what it can carry.
-const MESSAGE_MAX = 2000;
-
 function calcTotal(count: number) {
   if (count <= 0) return 0;
   return PRICE_FIRST + Math.max(0, count - 1) * PRICE_ADDITIONAL;
@@ -241,6 +237,9 @@ function EnrollForm() {
   const [couponError, setCouponError] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountCents: number; label: string } | null>(null);
   const [messageLength, setMessageLength] = useState(0);
+  // Submit stays disabled until the cohort list has answered, so a fast
+  // visitor can't pay before a cohort is attached to the order.
+  const [cohortsLoaded, setCohortsLoaded] = useState(false);
 
   useEffect(() => {
     // Pull all open + visible cohorts. Full ones stay in the list but render
@@ -248,8 +247,16 @@ function EnrollForm() {
     // visitors can see upcoming dates that will open up later.
     fetch(`${process.env.NEXT_PUBLIC_CRM_URL || "https://services.mendsourcing.com"}/api/training-cohorts?status=open&program=jumpstart`)
       .then((r) => r.json())
-      .then((data) => setCohorts(Array.isArray(data) ? data : []))
-      .catch(() => {});
+      .then((data) => {
+        const list: Cohort[] = Array.isArray(data) ? data : [];
+        setCohorts(list);
+        // /upcoming-courses links here with ?cohort=<id> — preselect it.
+        const wanted = new URLSearchParams(window.location.search).get("cohort");
+        const match = wanted ? list.find((c) => c.id.toString() === wanted) : undefined;
+        if (match && match.seats_taken < match.max_seats) setSelectedCohort(wanted!);
+      })
+      .catch(() => {})
+      .finally(() => setCohortsLoaded(true));
   }, []);
 
   function formatCohortDate(d: string) {
@@ -417,17 +424,17 @@ function EnrollForm() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">First Name *</label>
-          <input name="firstName" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="John" />
+          <input name="firstName" required maxLength={100} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="John" />
         </div>
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">Last Name</label>
-          <input name="lastName" className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Doe" />
+          <input name="lastName" maxLength={100} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Doe" />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">Email *</label>
-          <input name="email" type="email" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="john@company.com" />
+          <input name="email" type="email" required maxLength={254} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="john@company.com" />
         </div>
         <div>
           <label className="block text-xs font-medium text-[#bbb] mb-2">Phone</label>
@@ -438,7 +445,7 @@ function EnrollForm() {
       </div>
       <div className="mb-4">
         <label className="block text-xs font-medium text-[#bbb] mb-2">Company *</label>
-        <input name="company" required className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Company Name" />
+        <input name="company" required maxLength={100} className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors" placeholder="Company Name" />
       </div>
 
       {/* Number of attendees — payer is always attendee #1 */}
@@ -486,6 +493,7 @@ function EnrollForm() {
                   value={a.firstName}
                   onChange={(e) => updateExtra(i, "firstName", e.target.value)}
                   required
+                  maxLength={100}
                   className="w-full px-3 py-2 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
                   placeholder="Jane"
                 />
@@ -495,6 +503,7 @@ function EnrollForm() {
                 <input
                   value={a.lastName}
                   onChange={(e) => updateExtra(i, "lastName", e.target.value)}
+                  maxLength={100}
                   className="w-full px-3 py-2 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
                   placeholder="Smith"
                 />
@@ -506,6 +515,7 @@ function EnrollForm() {
                   value={a.email}
                   onChange={(e) => updateExtra(i, "email", e.target.value)}
                   required
+                  maxLength={254}
                   className="w-full px-3 py-2 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
                   placeholder="jane@company.com"
                 />
@@ -518,11 +528,26 @@ function EnrollForm() {
       {/* Cohort Selection */}
       <div className="mb-4">
         <label className="block text-xs font-medium text-[#bbb] mb-2">Select Your Cohort *</label>
-        {cohorts.length > 0 ? (
+        {!cohortsLoaded ? (
+          <div className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-[#999] text-sm animate-pulse">
+            Loading upcoming cohorts…
+          </div>
+        ) : cohorts.length > 0 ? (
           <>
             <select
               value={selectedCohort}
-              onChange={(e) => setSelectedCohort(e.target.value)}
+              onChange={(e) => {
+                const id = e.target.value;
+                setSelectedCohort(id);
+                // Picking a cohort with fewer open seats than the current
+                // attendee count would leave a disabled-but-active button
+                // and a total the safety-net rejects; pull the count down.
+                const c = cohorts.find((x) => x.id.toString() === id);
+                if (c) {
+                  const remaining = c.max_seats - c.seats_taken;
+                  if (attendeeCount > remaining) updateAttendeeCount(Math.max(1, remaining));
+                }
+              }}
               required
               className="w-full px-4 py-3 bg-white/[0.04] border border-white/10 rounded-lg text-white text-sm outline-none focus:border-[#03ACED] transition-colors"
             >
@@ -677,8 +702,8 @@ function EnrollForm() {
         <p className="text-[10px] text-[#999] pt-1">4 weekly sessions via Zoom. Includes 2 weeks free GovScraper access. Every attendee receives their own Zoom link + calendar invite.</p>
       </div>
 
-      <button type="submit" disabled={status === "sending"} className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
-        {status === "sending" ? "Redirecting to payment..." : `Pay $${((total * 100 - (appliedCoupon?.discountCents || 0)) / 100).toFixed(2)} & Enroll →`}
+      <button type="submit" disabled={status === "sending" || !cohortsLoaded} className="w-full py-4 bg-[#03ACED] text-black font-bold text-sm rounded-lg hover:bg-[#02a0db] transition-colors disabled:opacity-50">
+        {status === "sending" ? "Redirecting to payment..." : !cohortsLoaded ? "Loading cohorts…" : `Pay $${((total * 100 - (appliedCoupon?.discountCents || 0)) / 100).toFixed(2)} & Enroll →`}
       </button>
       {errorMsg && <p className="text-red-400 text-sm mt-3 text-center">{errorMsg}</p>}
     </form>

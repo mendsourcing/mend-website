@@ -67,9 +67,9 @@ export default function UpcomingCoursesPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://services.mendsourcing.com/api/training-cohorts?status=open")
+    fetch(`${process.env.NEXT_PUBLIC_CRM_URL || "https://services.mendsourcing.com"}/api/training-cohorts?status=open`)
       .then((r) => r.json())
-      .then((data) => { setCohorts(data); setLoading(false); })
+      .then((data) => { setCohorts(Array.isArray(data) ? data : []); setLoading(false); })
       .catch(() => setLoading(false));
   }, []);
 
@@ -219,7 +219,7 @@ export default function UpcomingCoursesPage() {
                             </div>
                             {!isFull ? (
                               <Link
-                                href="/jumpstart#enroll"
+                                href={`/jumpstart?cohort=${c.id}#enroll`}
                                 className="bg-[#03ACED] text-black px-6 py-3 rounded-lg font-semibold text-sm hover:bg-[#02a0db] transition-colors whitespace-nowrap"
                               >
                                 Enroll Now →

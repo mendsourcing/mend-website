@@ -11,18 +11,16 @@ export default function MasterClassSuccess() {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
 
-    if (!sessionId) {
-      setStatus("error");
-      return;
-    }
-
     // Verify payment and trigger CRM creation
-    fetch("/api/masterclass-checkout/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId }),
-    })
-      .then((r) => r.json())
+    const verify = sessionId
+      ? fetch("/api/masterclass-checkout/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId }),
+        }).then((r) => r.json())
+      : Promise.resolve({ success: false });
+
+    verify
       .then((data) => {
         if (data.success) {
           setDetails(data.details);

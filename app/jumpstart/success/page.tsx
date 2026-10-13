@@ -5,19 +5,21 @@ import Link from "next/link";
 
 export default function JumpstartSuccess() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
-  const [details, setDetails] = useState<{ name: string; email: string } | null>(null);
+  const [details, setDetails] = useState<{ name: string; email: string; attendeeCount?: number; amountTotal?: number; cohortTitle?: string } | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sessionId = params.get("session_id");
-    if (!sessionId) { setStatus("error"); return; }
 
-    fetch("/api/jumpstart-checkout/verify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ sessionId }),
-    })
-      .then((r) => r.json())
+    const verify = sessionId
+      ? fetch("/api/jumpstart-checkout/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId }),
+        }).then((r) => r.json())
+      : Promise.resolve({ success: false });
+
+    verify
       .then((data) => {
         if (data.success) { setDetails(data.details); setStatus("success"); }
         else { setStatus("error"); }
@@ -50,6 +52,10 @@ export default function JumpstartSuccess() {
     );
   }
 
+  const attendees = details?.attendeeCount || 1;
+  const amount = typeof details?.amountTotal === "number" ? details.amountTotal : 500;
+  const cohortTitle = details?.cohortTitle || "";
+
   return (
     <div className="min-h-screen flex items-center justify-center pt-[72px] px-6">
       <div className="text-center max-w-lg">
@@ -59,7 +65,12 @@ export default function JumpstartSuccess() {
           Welcome to GovTraining Jumpstart!, {details?.name || ""}!
         </p>
         <p className="text-[#bbb] mb-8">
-          Your $500 payment has been received. We&apos;ll reach out within 24 hours to confirm your cohort dates.
+          Your ${amount.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 })} payment
+          {attendees > 1 ? ` for ${attendees} attendees` : ""} has been received
+          {cohortTitle ? <> for the <span className="text-white font-semibold">{cohortTitle}</span></> : ""}.
+          {cohortTitle
+            ? " Check your inbox — your Zoom link and calendar invite are on the way."
+            : " We'll reach out within 24 hours to confirm your cohort dates."}
         </p>
 
         <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 mb-8 text-left">
@@ -67,11 +78,19 @@ export default function JumpstartSuccess() {
           <div className="space-y-4">
             <div className="flex gap-3">
               <span className="text-[#03ACED] font-bold">1.</span>
-              <p className="text-sm text-[#ccc]">We&apos;ll contact you within 24 hours to assign you to a cohort and confirm your start date.</p>
+              <p className="text-sm text-[#ccc]">
+                {cohortTitle
+                  ? `Every attendee has been emailed the Zoom link and a calendar invite for the ${cohortTitle} — add it to your calendar.`
+                  : "We'll contact you within 24 hours to assign you to a cohort and confirm your start date."}
+              </p>
             </div>
             <div className="flex gap-3">
               <span className="text-[#03ACED] font-bold">2.</span>
-              <p className="text-sm text-[#ccc]">You&apos;ll receive a Zoom link before your first session.</p>
+              <p className="text-sm text-[#ccc]">
+                {cohortTitle
+                  ? "You'll also get a Google Calendar invite from Tristan — accept it to lock in all four sessions."
+                  : "You'll receive a Zoom link before your first session."}
+              </p>
             </div>
             <div className="flex gap-3">
               <span className="text-[#03ACED] font-bold">3.</span>

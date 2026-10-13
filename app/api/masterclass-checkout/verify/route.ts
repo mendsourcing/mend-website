@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { readChunked } from "@/lib/stripeMeta";
+import { readChunked, escapeHtml as h } from "@/lib/stripeMeta";
 
 export const dynamic = "force-dynamic";
 
@@ -10,10 +10,27 @@ function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2026-03-25.dahlia" });
 }
 
-export async function POST(request: Request) {
-  const { sessionId } = await request.json();
+// Stamp the session once processing is done so a success-page refresh
+// (or a second tab) short-circuits instead of re-sending every email.
+async function markVerified(stripe: Stripe, sessionId: string) {
+  try {
+    await stripe.checkout.sessions.update(sessionId, {
+      metadata: { verified_at: new Date().toISOString() },
+    });
+  } catch (err) {
+    console.error("Could not stamp verified_at on session:", err);
+  }
+}
 
-  if (!sessionId) {
+export async function POST(request: Request) {
+  let sessionId: unknown;
+  try {
+    ({ sessionId } = await request.json());
+  } catch {
+    return NextResponse.json({ success: false, error: "Invalid request body" }, { status: 400 });
+  }
+
+  if (!sessionId || typeof sessionId !== "string") {
     return NextResponse.json({ success: false, error: "No session ID" }, { status: 400 });
   }
 
@@ -27,6 +44,10 @@ export async function POST(request: Request) {
     }
 
     const meta = session.metadata || {};
+    if (meta.source !== "MasterClass Enrollment") {
+      return NextResponse.json({ success: false, error: "Not a MasterClass checkout session" }, { status: 400 });
+    }
+
     const firstName = meta.firstName || "";
     const lastName = meta.lastName || "";
     const email = meta.email || session.customer_email || "";
@@ -37,10 +58,23 @@ export async function POST(request: Request) {
     const message = readChunked(meta, "message");
     const totalCost = parseInt(meta.totalCost || "4000");
 
+    const details = {
+      name: `${firstName} ${lastName}`.trim(),
+      email,
+      cost: totalCost.toString(),
+    };
+
+    // Already fully processed on an earlier visit — nothing left to do.
+    if (meta.verified_at) {
+      return NextResponse.json({ success: true, alreadyVerified: true, details });
+    }
+
     // 2a. Push to CRM /masterclass-deposit (new canonical endpoint) so the
     //     deposit shows up on /govtraining under "MasterClass Deposits" with
     //     the payer, company, location, preferred dates, and total cost.
-    //     Idempotent on stripe_session_id.
+    //     Idempotent on stripe_session_id — answers alreadyRecorded:true on
+    //     a repeat, which is how we detect a refresh that beat the stamp.
+    let alreadyRecorded = false;
     try {
       const depositRes = await fetch(`${CRM_URL}/api/training-cohorts/masterclass-deposit`, {
         method: "POST",
@@ -60,8 +94,15 @@ export async function POST(request: Request) {
         }),
       });
       if (!depositRes.ok) throw new Error(`MasterClass deposit returned HTTP ${depositRes.status}`);
+      const depositJson = await depositRes.json().catch(() => ({}));
+      alreadyRecorded = Boolean(depositJson?.alreadyRecorded);
     } catch (err) {
       console.error("CRM masterclass-deposit error:", err);
+    }
+
+    if (alreadyRecorded) {
+      await markVerified(stripe, sessionId);
+      return NextResponse.json({ success: true, alreadyVerified: true, details });
     }
 
     // 2b. Legacy: also push to /training-session so the old Pending list still
@@ -107,17 +148,17 @@ export async function POST(request: Request) {
             html: `
               <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
                 <h2 style="color:#03ACED;">Welcome to the GovTraining MasterClass!</h2>
-                <p>Hi ${firstName},</p>
+                <p>Hi ${h(firstName)},</p>
                 <p>Your <strong>$500 non-refundable deposit</strong> has been received. You're officially enrolled in the GovTraining MasterClass.</p>
 
                 <h3 style="margin-top:24px;">Your Enrollment Details:</h3>
                 <table style="width:100%;border-collapse:collapse;">
-                  <tr><td style="padding:8px 0;color:#666;">Company:</td><td style="padding:8px 0;font-weight:bold;">${company}</td></tr>
+                  <tr><td style="padding:8px 0;color:#666;">Company:</td><td style="padding:8px 0;font-weight:bold;">${h(company)}</td></tr>
                   <tr><td style="padding:8px 0;color:#666;">Total Cost:</td><td style="padding:8px 0;font-weight:bold;">$${totalCost.toLocaleString()}</td></tr>
                   <tr><td style="padding:8px 0;color:#666;">Deposit Paid:</td><td style="padding:8px 0;font-weight:bold;">$500</td></tr>
                   <tr><td style="padding:8px 0;color:#666;">Remaining Balance:</td><td style="padding:8px 0;font-weight:bold;">$${(totalCost - 500).toLocaleString()}</td></tr>
-                  <tr><td style="padding:8px 0;color:#666;">Location:</td><td style="padding:8px 0;font-weight:bold;">${location}</td></tr>
-                  <tr><td style="padding:8px 0;color:#666;">Preferred Dates:</td><td style="padding:8px 0;font-weight:bold;">${preferredDates}</td></tr>
+                  <tr><td style="padding:8px 0;color:#666;">Location:</td><td style="padding:8px 0;font-weight:bold;">${h(location)}</td></tr>
+                  <tr><td style="padding:8px 0;color:#666;">Preferred Dates:</td><td style="padding:8px 0;font-weight:bold;">${h(preferredDates)}</td></tr>
                 </table>
 
                 <h3 style="margin-top:24px;">What Happens Next:</h3>
@@ -158,19 +199,19 @@ export async function POST(request: Request) {
             subject: `🎉 NEW MasterClass Enrollment — ${firstName} ${lastName} (${company})`,
             html: `
               <h2>New MasterClass Enrollment!</h2>
-              <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-              <p><strong>Company:</strong> ${company}</p>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-              <p><strong>Location:</strong> ${location}</p>
-              <p><strong>Preferred Dates:</strong> ${preferredDates}</p>
+              <p><strong>Name:</strong> ${h(firstName)} ${h(lastName)}</p>
+              <p><strong>Company:</strong> ${h(company)}</p>
+              <p><strong>Email:</strong> ${h(email)}</p>
+              <p><strong>Phone:</strong> ${h(phone) || "Not provided"}</p>
+              <p><strong>Location:</strong> ${h(location)}</p>
+              <p><strong>Preferred Dates:</strong> ${h(preferredDates)}</p>
               <p><strong>Total Cost:</strong> $${totalCost.toLocaleString()}</p>
               <p><strong>Deposit Paid:</strong> $500 via Stripe</p>
               <p><strong>Remaining:</strong> $${(totalCost - 500).toLocaleString()}</p>
-              <p><strong>Message:</strong> ${message || "None"}</p>
+              <p><strong>Message:</strong> ${message ? h(message).replace(/\n/g, "<br/>") : "None"}</p>
               <hr/>
-              <p style="color:#888;font-size:12px;">Stripe Session: ${sessionId}</p>
-              <p style="color:#888;font-size:12px;">Action needed: Contact ${firstName} to finalize dates. Training session created in CRM with TBD dates.</p>
+              <p style="color:#888;font-size:12px;">Stripe Session: ${h(sessionId)}</p>
+              <p style="color:#888;font-size:12px;">Action needed: Contact ${h(firstName)} to finalize dates. Training session created in CRM with TBD dates.</p>
             `,
           }),
         });
@@ -179,14 +220,9 @@ export async function POST(request: Request) {
       }
     }
 
-    return NextResponse.json({
-      success: true,
-      details: {
-        name: `${firstName} ${lastName}`.trim(),
-        email,
-        cost: totalCost.toString(),
-      },
-    });
+    await markVerified(stripe, sessionId);
+
+    return NextResponse.json({ success: true, details });
   } catch (err) {
     console.error("Verify error:", err);
     return NextResponse.json({ success: false, error: "Verification failed" }, { status: 500 });

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { clampMeta, putChunked, type StripeMeta } from "@/lib/stripeMeta";
+import { MESSAGE_MAX, clampMeta, putChunked, type StripeMeta } from "@/lib/stripeMeta";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +12,9 @@ const SITE_URL = process.env.SITE_URL || "https://mendsourcing.com";
 const PRICE_FIRST_CENTS = 50_000;
 const PRICE_ADDITIONAL_CENTS = 25_000;
 
+const NAME_MAX = 100;
+const EMAIL_MAX = 254;
+
 interface AdditionalAttendee { firstName: string; lastName?: string; email: string; }
 
 function getStripe() {
@@ -19,7 +22,7 @@ function getStripe() {
 }
 
 function isValidEmail(s: unknown): s is string {
-  return typeof s === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+  return typeof s === "string" && s.length <= EMAIL_MAX && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 }
 
 function isNonEmptyString(s: unknown): s is string {
@@ -27,7 +30,12 @@ function isNonEmptyString(s: unknown): s is string {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+  }
   const {
     firstName,
     lastName,
@@ -51,6 +59,9 @@ export async function POST(request: Request) {
   if (!isNonEmptyString(company)) {
     return NextResponse.json({ error: "Company is required." }, { status: 400 });
   }
+  if (typeof message === "string" && Array.from(message).length > MESSAGE_MAX) {
+    return NextResponse.json({ error: `Message is too long (max ${MESSAGE_MAX.toLocaleString()} characters).` }, { status: 400 });
+  }
 
   // Clamp attendee count to 1-5 and normalize the additional-attendees
   // array so the two always line up (attendeeCount 3 -> 2 extras).
@@ -72,6 +83,9 @@ export async function POST(request: Request) {
   for (const [i, a] of extras.entries()) {
     if (!a.firstName || !isValidEmail(a.email)) {
       return NextResponse.json({ error: `Attendee ${i + 2} is missing a name or a valid email.` }, { status: 400 });
+    }
+    if (a.firstName.length > NAME_MAX || (a.lastName || "").length > NAME_MAX) {
+      return NextResponse.json({ error: `Attendee ${i + 2}'s name is too long (max ${NAME_MAX} characters).` }, { status: 400 });
     }
   }
 
@@ -142,6 +156,7 @@ export async function POST(request: Request) {
     // Every value must stay under Stripe's 500-char metadata cap. The
     // free-text message and the attendee JSON are the two that can grow,
     // so they're chunked across numbered keys and reassembled in /verify.
+    // Key budget: 12 fixed + 20 message + 8 attendees = 40 of Stripe's 50.
     const metadata: StripeMeta = {
       firstName: clampMeta(firstName.trim()),
       lastName: clampMeta(lastName || ""),
@@ -156,8 +171,8 @@ export async function POST(request: Request) {
       source: "Jumpstart Enrollment",
       promotionCode: resolvedPromoCode,
     };
-    putChunked(metadata, "message", message || "");
-    putChunked(metadata, "additionalAttendees", JSON.stringify(extras));
+    putChunked(metadata, "message", message || "", 20);
+    putChunked(metadata, "additionalAttendees", JSON.stringify(extras), 8);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],

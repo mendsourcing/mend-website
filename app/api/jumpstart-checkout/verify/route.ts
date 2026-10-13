@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { generateICS, pstToEst, formatTimePST } from "@/lib/calendar";
-import { readChunked } from "@/lib/stripeMeta";
+import { readChunked, escapeHtml as h } from "@/lib/stripeMeta";
 
 export const dynamic = "force-dynamic";
 
@@ -13,10 +13,27 @@ function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: "2026-03-25.dahlia" });
 }
 
-export async function POST(request: Request) {
-  const { sessionId } = await request.json();
+// Stamp the session once processing is done so a success-page refresh
+// (or a second tab) short-circuits instead of re-sending every email.
+async function markVerified(stripe: Stripe, sessionId: string, cohortTitle: string) {
+  try {
+    await stripe.checkout.sessions.update(sessionId, {
+      metadata: { verified_at: new Date().toISOString(), cohortTitle: cohortTitle.slice(0, 200) },
+    });
+  } catch (err) {
+    console.error("Could not stamp verified_at on session:", err);
+  }
+}
 
-  if (!sessionId) {
+export async function POST(request: Request) {
+  let sessionId: unknown;
+  try {
+    ({ sessionId } = await request.json());
+  } catch {
+    return NextResponse.json({ success: false, error: "Invalid request body" }, { status: 400 });
+  }
+
+  if (!sessionId || typeof sessionId !== "string") {
     return NextResponse.json({ success: false, error: "No session ID" }, { status: 400 });
   }
 
@@ -31,6 +48,10 @@ export async function POST(request: Request) {
     }
 
     const meta = session.metadata || {};
+    if (meta.source !== "Jumpstart Enrollment") {
+      return NextResponse.json({ success: false, error: "Not a Jumpstart checkout session" }, { status: 400 });
+    }
+
     const discountCents = session.total_details?.amount_discount || 0;
     const promoCodeUsed = (() => {
       if (Array.isArray(session.discounts) && session.discounts.length > 0) {
@@ -55,12 +76,25 @@ export async function POST(request: Request) {
       if (Array.isArray(parsed)) additionalAttendees = parsed;
     } catch { /* ignore */ }
 
+    const totalAmountCents = session.amount_total || 0;
+    const details = {
+      name: `${firstName} ${lastName}`.trim(),
+      email,
+      attendeeCount,
+      amountTotal: totalAmountCents / 100,
+      cohortTitle: meta.cohortTitle || "",
+    };
+
+    // Already fully processed on an earlier visit — nothing left to do.
+    if (meta.verified_at) {
+      return NextResponse.json({ success: true, alreadyVerified: true, details });
+    }
+
     // Payer is attendee #1; extras follow.
     const allAttendees: AdditionalAttendee[] = [
       { firstName, lastName, email },
       ...additionalAttendees,
     ];
-    const totalAmountCents = session.amount_total || 0;
     // Split the paid amount across attendees for the CRM audit trail:
     // first seat gets $500-worth, extras get $250-worth each.
     const perAttendeeCents = (i: number) => (i === 0 ? 50000 : 25000);
@@ -68,8 +102,9 @@ export async function POST(request: Request) {
     // Enroll every attendee against the cohort. We suffix stripe_session_id
     // with the attendee index so the CRM's dedupe (which is keyed on
     // stripe_session_id UNIQUE) doesn't collapse the whole group into a
-    // single seat.
-    const enrollResults: Array<{ email: string; ok: boolean; error?: string }> = [];
+    // single seat. The CRM answers alreadyEnrolled:true on a repeat, which
+    // is how we detect a success-page refresh that beat the verified_at stamp.
+    const enrollResults: Array<{ email: string; ok: boolean; alreadyEnrolled: boolean; error?: string }> = [];
     if (cohortId) {
       for (let i = 0; i < allAttendees.length; i++) {
         const a = allAttendees[i];
@@ -91,24 +126,17 @@ export async function POST(request: Request) {
             body: JSON.stringify(enrollBody),
           });
           if (!enrollRes.ok) throw new Error(`HTTP ${enrollRes.status}`);
-          enrollResults.push({ email: a.email, ok: true });
+          const enrollJson = await enrollRes.json().catch(() => ({}));
+          enrollResults.push({ email: a.email, ok: true, alreadyEnrolled: Boolean(enrollJson?.alreadyEnrolled) });
         } catch (err) {
-          enrollResults.push({ email: a.email, ok: false, error: err instanceof Error ? err.message : String(err) });
-          // Best-effort fallback for the seat counter on the first
-          // failing attendee only — a real fix means retrying enroll
-          // manually from the CRM.
-          if (i === 0) {
-            try {
-              await fetch(`${CRM_URL}/api/training-cohorts/increment`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id: parseInt(cohortId) }),
-              });
-            } catch { /* ignore */ }
-          }
+          // No seat-counter fallback here: blindly incrementing seats_taken
+          // double-counts once the customer refreshes and enroll succeeds.
+          // The internal email below flags the failure for a manual fix.
+          enrollResults.push({ email: a.email, ok: false, alreadyEnrolled: false, error: err instanceof Error ? err.message : String(err) });
         }
       }
     }
+    const alreadyProcessed = enrollResults.length > 0 && enrollResults.every((r) => r.ok && r.alreadyEnrolled);
 
     // Fetch cohort details for Zoom link and time
     let cohortData: { session_time?: string; zoom_link?: string; start_date?: string; title?: string; session_dates?: string[] | null } = {};
@@ -116,8 +144,16 @@ export async function POST(request: Request) {
       try {
         const cohortRes = await fetch(`${CRM_URL}/api/training-cohorts?status=open`);
         const allCohorts = await cohortRes.json();
-        cohortData = allCohorts.find((c: { id: number }) => c.id === parseInt(cohortId)) || {};
+        if (Array.isArray(allCohorts)) {
+          cohortData = allCohorts.find((c: { id: number }) => c.id === parseInt(cohortId)) || {};
+        }
       } catch { /* ignore */ }
+    }
+    details.cohortTitle = cohortData.title || "";
+
+    if (alreadyProcessed) {
+      await markVerified(stripe, sessionId, details.cohortTitle);
+      return NextResponse.json({ success: true, alreadyVerified: true, details });
     }
 
     // Generate .ics calendar invite if we have cohort details
@@ -187,6 +223,10 @@ export async function POST(request: Request) {
       console.error("CRM training session error:", err);
     }
 
+    const zoomLinkHtml = cohortData.zoom_link
+      ? `<a href="${h(cohortData.zoom_link)}" style="color:#03ACED;">${h(cohortData.zoom_link)}</a>`
+      : "";
+
     // Send a personalized confirmation email to every attendee — payer
     // and extras alike — so each one has the Zoom link and calendar
     // invite in their own inbox.
@@ -195,7 +235,7 @@ export async function POST(request: Request) {
       const displayName = a.firstName || a.email;
       const payerLine = isPayer
         ? `<p>Your <strong>$${(totalAmountCents / 100).toFixed(0)} payment</strong> has been received${attendeeCount > 1 ? ` for ${attendeeCount} attendees` : ""}. You're officially enrolled in GovTraining Jumpstart!.</p>`
-        : `<p>You've been enrolled in GovTraining Jumpstart! by <strong>${firstName} ${lastName}</strong> at <strong>${company}</strong>. Everything you need is below.</p>`;
+        : `<p>You've been enrolled in GovTraining Jumpstart! by <strong>${h(firstName)} ${h(lastName)}</strong> at <strong>${h(company)}</strong>. Everything you need is below.</p>`;
       try {
         await fetch("https://api.resend.com/emails", {
           method: "POST",
@@ -211,15 +251,15 @@ export async function POST(request: Request) {
             html: `
               <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
                 <h2 style="color:#03ACED;">Welcome to GovTraining Jumpstart!</h2>
-                <p>Hi ${displayName},</p>
+                <p>Hi ${h(displayName)},</p>
                 ${payerLine}
 
                 <h3 style="margin-top:24px;">Your Enrollment Details:</h3>
                 <table style="width:100%;border-collapse:collapse;">
-                  <tr><td style="padding:8px 0;color:#666;">Company:</td><td style="padding:8px 0;font-weight:bold;">${company}</td></tr>
+                  <tr><td style="padding:8px 0;color:#666;">Company:</td><td style="padding:8px 0;font-weight:bold;">${h(company)}</td></tr>
                   <tr><td style="padding:8px 0;color:#666;">Program:</td><td style="padding:8px 0;font-weight:bold;">Jumpstart! — 4 weeks via Zoom</td></tr>
-                  <tr><td style="padding:8px 0;color:#666;">Session Time:</td><td style="padding:8px 0;font-weight:bold;">${timeDisplay}</td></tr>
-                  ${cohortData.zoom_link ? `<tr><td style="padding:8px 0;color:#666;">Zoom Link:</td><td style="padding:8px 0;font-weight:bold;"><a href="${cohortData.zoom_link}" style="color:#03ACED;">${cohortData.zoom_link}</a></td></tr>` : ""}
+                  <tr><td style="padding:8px 0;color:#666;">Session Time:</td><td style="padding:8px 0;font-weight:bold;">${h(timeDisplay)}</td></tr>
+                  ${zoomLinkHtml ? `<tr><td style="padding:8px 0;color:#666;">Zoom Link:</td><td style="padding:8px 0;font-weight:bold;">${zoomLinkHtml}</td></tr>` : ""}
                 </table>
 
                 ${scheduleRowsHtml ? `
@@ -265,11 +305,11 @@ export async function POST(request: Request) {
     if (process.env.RESEND_API_KEY) {
       try {
         const attendeeListHtml = allAttendees.map((a, i) =>
-          `<li>${i + 1}. ${a.firstName} ${a.lastName || ""} — <a href="mailto:${a.email}">${a.email}</a>${i === 0 ? " <em>(payer)</em>" : ""}</li>`
+          `<li>${i + 1}. ${h(a.firstName)} ${h(a.lastName || "")} — <a href="mailto:${h(a.email)}">${h(a.email)}</a>${i === 0 ? " <em>(payer)</em>" : ""}</li>`
         ).join("");
         const enrollFailedList = enrollResults.filter(r => !r.ok);
         const enrollNoteHtml = enrollFailedList.length
-          ? `<p style="color:#c00;"><strong>⚠ Enroll failed for:</strong> ${enrollFailedList.map(f => `${f.email} (${f.error})`).join("; ")}. Add manually from the CRM.</p>`
+          ? `<p style="color:#c00;"><strong>⚠ Enroll failed for:</strong> ${enrollFailedList.map(f => `${h(f.email)} (${h(f.error)})`).join("; ")}. Add manually from the CRM.</p>`
           : "";
         await fetch("https://api.resend.com/emails", {
           method: "POST",
@@ -284,19 +324,19 @@ export async function POST(request: Request) {
             subject: `🎉 NEW Jumpstart! Enrollment — ${firstName} ${lastName} (${company})${attendeeCount > 1 ? ` — group of ${attendeeCount}` : ""}`,
             html: `
               <h2>New Jumpstart! Enrollment</h2>
-              <p><strong>Payer:</strong> ${firstName} ${lastName}</p>
-              <p><strong>Company:</strong> ${company}</p>
-              <p><strong>Email:</strong> ${email}</p>
-              <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-              <p><strong>Preferred Start:</strong> ${preferredDates}</p>
+              <p><strong>Payer:</strong> ${h(firstName)} ${h(lastName)}</p>
+              <p><strong>Company:</strong> ${h(company)}</p>
+              <p><strong>Email:</strong> ${h(email)}</p>
+              <p><strong>Phone:</strong> ${h(phone) || "Not provided"}</p>
+              <p><strong>Cohort:</strong> ${h(cohortData.title || preferredDates)}</p>
               <p><strong>Attendees (${attendeeCount}):</strong></p>
               <ul>${attendeeListHtml}</ul>
               <p><strong>Paid:</strong> $${(totalAmountCents / 100).toFixed(2)} via Stripe</p>
-              ${promoCodeUsed ? `<p><strong>Coupon:</strong> <code>${promoCodeUsed}</code> (−$${(discountCents / 100).toFixed(2)})</p>` : ""}
-              <p><strong>Message:</strong> ${message || "None"}</p>
+              ${promoCodeUsed ? `<p><strong>Coupon:</strong> <code>${h(promoCodeUsed)}</code> (−$${(discountCents / 100).toFixed(2)})</p>` : ""}
+              <p><strong>Message:</strong> ${message ? h(message).replace(/\n/g, "<br/>") : "None"}</p>
               ${enrollNoteHtml}
               <hr/>
-              <p style="color:#888;font-size:12px;">Stripe Session: ${sessionId}</p>
+              <p style="color:#888;font-size:12px;">Stripe Session: ${h(sessionId)}</p>
               <p style="color:#888;font-size:12px;">Every attendee has been emailed the Zoom link and .ics calendar invite. Google Calendar attendee-add fires per enrollee.</p>
             `,
           }),
@@ -306,10 +346,9 @@ export async function POST(request: Request) {
       }
     }
 
-    return NextResponse.json({
-      success: true,
-      details: { name: `${firstName} ${lastName}`.trim(), email, attendeeCount },
-    });
+    await markVerified(stripe, sessionId, details.cohortTitle);
+
+    return NextResponse.json({ success: true, details });
   } catch (err) {
     console.error("Verify error:", err);
     return NextResponse.json({ success: false, error: "Verification failed" }, { status: 500 });

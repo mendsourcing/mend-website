@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
-import { clampMeta, putChunked, type StripeMeta } from "@/lib/stripeMeta";
+import { MESSAGE_MAX, clampMeta, putChunked, type StripeMeta } from "@/lib/stripeMeta";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +11,7 @@ function getStripe() {
 }
 
 function isValidEmail(s: unknown): s is string {
-  return typeof s === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+  return typeof s === "string" && s.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 }
 
 function isNonEmptyString(s: unknown): s is string {
@@ -19,8 +19,13 @@ function isNonEmptyString(s: unknown): s is string {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const { firstName, lastName, email, phone, company, location, preferredDates, message } = body;
+  let body: Record<string, unknown>;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
+  }
+  const { firstName, lastName, email, phone, company, location, city, preferredDates, message } = body;
 
   if (!isNonEmptyString(firstName)) {
     return NextResponse.json({ error: "First name is required." }, { status: 400 });
@@ -31,8 +36,12 @@ export async function POST(request: Request) {
   if (!isNonEmptyString(company)) {
     return NextResponse.json({ error: "Company is required." }, { status: 400 });
   }
+  if (typeof message === "string" && Array.from(message).length > MESSAGE_MAX) {
+    return NextResponse.json({ error: `Message is too long (max ${MESSAGE_MAX.toLocaleString()} characters).` }, { status: 400 });
+  }
 
   const travelToClient = location === "come_to_me";
+  const cityStr = travelToClient && typeof city === "string" ? city.trim() : "";
   const totalCost = travelToClient ? 5000 : 4000;
   const depositAmount = 500; // $500 non-refundable deposit
 
@@ -48,12 +57,14 @@ export async function POST(request: Request) {
       email: clampMeta(email),
       phone: clampMeta(phone || ""),
       company: clampMeta(company.trim()),
-      location: travelToClient ? "Travel to client" : "Los Angeles, CA",
+      location: travelToClient
+        ? clampMeta(cityStr ? `Travel to client — ${cityStr}` : "Travel to client")
+        : "Los Angeles, CA",
       preferredDates: clampMeta(preferredDates || "TBD"),
       totalCost: totalCost.toString(),
       source: "MasterClass Enrollment",
     };
-    putChunked(metadata, "message", message || "");
+    putChunked(metadata, "message", message || "", 20);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],

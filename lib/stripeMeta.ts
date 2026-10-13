@@ -4,26 +4,54 @@
 // checkout session" and could not sign up.
 export const STRIPE_META_VALUE_MAX = 500;
 
-// Chunk below the hard cap so multi-byte punctuation (em-dashes, curly
-// quotes) has headroom however Stripe counts it.
-const CHUNK = 450;
-const MAX_CHUNKS = 6; // 2,700 chars preserved; the forms cap input at 2,000
+// Hard cap on the free-text message box, enforced in the forms
+// (maxLength) and again in the checkout routes (400).
+export const MESSAGE_MAX = 2000;
+
+// Stripe documents the cap as "500 characters" without saying whether
+// that means code points, UTF-16 units or bytes. Budgeting by UTF-8
+// bytes is the strictest of the three, so a chunk is safe under any
+// counting rule. Chunks never split a code point.
+const CHUNK_BYTES = 450;
+const DEFAULT_MAX_CHUNKS = 6;
+
+const utf8 = new TextEncoder();
 
 export type StripeMeta = Record<string, string>;
 
+function splitByBytes(value: unknown, maxChunks: number): string[] {
+  const chunks: string[] = [];
+  let current = "";
+  let bytes = 0;
+  for (const cp of Array.from(value == null ? "" : String(value))) {
+    const len = utf8.encode(cp).length;
+    if (bytes + len > CHUNK_BYTES) {
+      chunks.push(current);
+      if (chunks.length >= maxChunks) return chunks;
+      current = "";
+      bytes = 0;
+    }
+    current += cp;
+    bytes += len;
+  }
+  chunks.push(current);
+  return chunks;
+}
+
 export function clampMeta(value: unknown): string {
-  const s = value == null ? "" : String(value);
-  const cps = Array.from(s);
-  return cps.length > CHUNK ? cps.slice(0, CHUNK).join("") : s;
+  return splitByBytes(value, 1)[0];
 }
 
 // Spread a long value across `key`, `key_2`, `key_3`… so nothing is lost.
-export function putChunked(meta: StripeMeta, key: string, value: unknown): void {
-  const cps = Array.from(value == null ? "" : String(value));
-  meta[key] = cps.slice(0, CHUNK).join("");
-  for (let i = 1; i < MAX_CHUNKS && i * CHUNK < cps.length; i++) {
-    meta[`${key}_${i + 1}`] = cps.slice(i * CHUNK, (i + 1) * CHUNK).join("");
-  }
+export function putChunked(
+  meta: StripeMeta,
+  key: string,
+  value: unknown,
+  maxChunks: number = DEFAULT_MAX_CHUNKS,
+): void {
+  const chunks = splitByBytes(value, maxChunks);
+  meta[key] = chunks[0];
+  for (let i = 1; i < chunks.length; i++) meta[`${key}_${i + 1}`] = chunks[i];
 }
 
 export function readChunked(
@@ -34,4 +62,14 @@ export function readChunked(
   let out = meta[key] || "";
   for (let i = 2; meta[`${key}_${i}`]; i++) out += meta[`${key}_${i}`];
   return out;
+}
+
+// Customer-typed text goes into Resend HTML bodies; neutralise markup.
+export function escapeHtml(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
