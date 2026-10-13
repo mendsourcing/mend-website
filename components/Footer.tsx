@@ -10,7 +10,7 @@ const footerLinks = [
   },
   { label: "GovPacking", href: "/packaging-logistics" },
   { label: "GovTraining", href: "/govtraining" },
-  { label: "GovAdmin", href: "/govadmin" },
+  { label: "GovAdmin - Post Award", href: "/govadmin" },
   { label: "Quality", href: "/quality" },
   { label: "PO Terms & Conditions", href: "/po-terms-conditions" },
   { label: "Terms of Service", href: "/terms" },

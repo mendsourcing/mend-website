@@ -484,8 +484,8 @@ function CageCheck() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
           <Reveal direction="left" className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-8 md:p-10">
-            <div className="text-[11px] uppercase tracking-[2px] text-[#999] font-semibold mb-2">A typical consultant</div>
-            <div className="text-4xl font-black text-white/40 mb-6">0 to 5 <span className="text-base font-semibold text-white/40">awards</span></div>
+            <div className="text-[11px] uppercase tracking-[2px] text-[#999] font-semibold mb-2">A typical consultant · CAGE ????</div>
+            <div className="text-4xl font-black text-white/40 mb-6">0 to 5 <span className="text-base font-semibold text-white/40">own awards</span></div>
             <ul className="space-y-3">
               {consultantSide.map((t) => (
                 <li key={t} className="flex items-start gap-3 text-sm text-[#999]">
@@ -500,7 +500,7 @@ function CageCheck() {
               <a href="https://sam.gov/search/?index=ei&q=8HHU7" target="_blank" rel="noopener noreferrer" className="underline decoration-[#03ACED]/40 underline-offset-4 hover:decoration-[#03ACED]">8HHU7</a>
             </div>
             <div className="text-4xl font-black text-[#03ACED] mb-6 tabular-nums">
-              {awards !== null ? <AnimatedNumber to={awards} suffix="+" /> : "350+"} <span className="text-base font-semibold text-white/70">DLA awards</span>
+              {awards !== null ? <AnimatedNumber to={awards} suffix="+" /> : "350+"} <span className="text-base font-semibold text-white/70">own DLA awards</span>
             </div>
             <ul className="space-y-3">
               {mendSide.map((t) => (

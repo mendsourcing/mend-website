@@ -4,19 +4,33 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 
-const navItems = [
-  { label: "GovScraper", href: "/govscraper" },
-  { label: "GovPacking", href: "/packaging-logistics" },
+interface NavChild {
+  label: string;
+  href: string;
+  // Sub-page of the item above it (rendered indented)
+  indent?: boolean;
+}
+
+interface NavItem {
+  label: string;
+  // Omitted for pure menu headers like "GovCon Services"
+  href?: string;
+  children?: NavChild[];
+}
+
+const navItems: NavItem[] = [
   {
-    label: "GovTraining",
-    href: "/govtraining",
+    label: "GovCon Services",
     children: [
-      { label: "GovTraining MasterClass", href: "/masterclass" },
-      { label: "GovTraining Jumpstart!", href: "/jumpstart" },
-      { label: "Upcoming Courses", href: "/upcoming-courses" },
+      { label: "GovScraper", href: "/govscraper" },
+      { label: "GovPacking", href: "/packaging-logistics" },
+      { label: "GovAdmin - Post Award", href: "/govadmin" },
+      { label: "GovTraining", href: "/govtraining" },
+      { label: "GovTraining MasterClass", href: "/masterclass", indent: true },
+      { label: "GovTraining Jumpstart!", href: "/jumpstart", indent: true },
+      { label: "Upcoming Courses", href: "/upcoming-courses", indent: true },
     ],
   },
-  { label: "GovAdmin", href: "/govadmin" },
   {
     label: "Government Contracting",
     href: "/government-contracting",
@@ -66,7 +80,7 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop Nav */}
-      <div className="hidden xl:flex items-center gap-8">
+      <div className="hidden lg:flex items-center gap-8">
         {navItems.map((item) => (
           <div
             key={item.label}
@@ -76,12 +90,29 @@ export default function Navbar() {
             }
             onMouseLeave={() => setOpenDropdown(null)}
           >
-            <Link
-              href={item.href}
-              className="text-[#ccc] text-sm font-medium hover:text-[#03ACED] transition-colors"
-            >
-              {item.label}
-            </Link>
+            {item.href ? (
+              <Link
+                href={item.href}
+                className="text-[#ccc] text-sm font-medium hover:text-[#03ACED] transition-colors"
+              >
+                {item.label}
+              </Link>
+            ) : (
+              <button
+                type="button"
+                aria-haspopup="menu"
+                aria-expanded={openDropdown === item.label}
+                onClick={() =>
+                  setOpenDropdown(openDropdown === item.label ? null : item.label)
+                }
+                className="text-[#ccc] text-sm font-medium hover:text-[#03ACED] transition-colors inline-flex items-center gap-1"
+              >
+                {item.label}
+                <svg className="w-3 h-3 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            )}
             {item.children && openDropdown === item.label && (
               <div className="absolute top-full left-0 pt-2 min-w-[240px]">
                 <div className="bg-[#111] border border-white/10 rounded-lg py-2 shadow-xl">
@@ -89,7 +120,7 @@ export default function Navbar() {
                     <Link
                       key={child.href}
                       href={child.href}
-                      className="block px-4 py-2 text-sm text-[#ccc] hover:text-[#03ACED] hover:bg-white/5 transition-colors"
+                      className={`block py-2 text-sm hover:text-[#03ACED] hover:bg-white/5 transition-colors ${child.indent ? "pl-8 pr-4 text-[13px] text-[#aaa]" : "px-4 text-[#ccc]"}`}
                     >
                       {child.label}
                     </Link>
@@ -109,7 +140,7 @@ export default function Navbar() {
 
       {/* Mobile Toggle */}
       <button
-        className="xl:hidden text-white"
+        className="lg:hidden text-white"
         onClick={() => setMobileOpen(!mobileOpen)}
         aria-label="Toggle menu"
       >
@@ -139,21 +170,25 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="xl:hidden absolute top-[72px] left-0 w-full bg-[#0a0a0a]/98 backdrop-blur-xl border-b border-white/10 py-6 px-6">
+        <div className="lg:hidden absolute top-[72px] left-0 w-full bg-[#0a0a0a]/98 backdrop-blur-xl border-b border-white/10 py-6 px-6 max-h-[calc(100vh-72px)] overflow-y-auto">
           {navItems.map((item) => (
             <div key={item.label} className="mb-4">
-              <Link
-                href={item.href}
-                className="block text-white font-medium mb-2"
-                onClick={() => setMobileOpen(false)}
-              >
-                {item.label}
-              </Link>
+              {item.href ? (
+                <Link
+                  href={item.href}
+                  className="block text-white font-medium mb-2"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <span className="block text-white font-medium mb-2">{item.label}</span>
+              )}
               {item.children?.map((child) => (
                 <Link
                   key={child.href}
                   href={child.href}
-                  className="block pl-4 py-1 text-sm text-[#bbb] hover:text-[#03ACED]"
+                  className={`block py-1 text-sm hover:text-[#03ACED] ${child.indent ? "pl-8 text-[#999]" : "pl-4 text-[#bbb]"}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {child.label}
