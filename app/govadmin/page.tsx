@@ -131,8 +131,8 @@ const faqs = [
     a: "Never. We never have access to your bank information or your payment deposits. DFAS pays you directly to the bank account in your SAM registration. We make sure the paperwork gets it there on time.",
   },
   {
-    q: "Can we use GovAdmin without GovPacking?",
-    a: "Yes. GovAdmin covers the administration on every award whether you package in-house, use GovPacking, or use someone else.",
+    q: "Can we use GovAdmin without any other MeND service?",
+    a: "Yes. GovAdmin stands on its own and covers the administration on every award whether you package in-house, use GovPacking, or use someone else. That said, GovScraper, GovPacking, GovAdmin and GovTraining are built to work together for the full government contracting experience, from finding the RFQ to getting paid.",
   },
   {
     q: "What about CMMC?",
