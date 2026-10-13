@@ -128,7 +128,7 @@ const faqs = [
   },
   {
     q: "Do you touch our money?",
-    a: "Never. DFAS pays you directly to the bank account in your SAM registration. We make sure the paperwork gets it there on time.",
+    a: "Never. We never have access to your bank information or your payment deposits. DFAS pays you directly to the bank account in your SAM registration. We make sure the paperwork gets it there on time.",
   },
   {
     q: "Can we use GovAdmin without GovPacking?",
@@ -201,7 +201,7 @@ export default function GovAdminPage() {
           <Reveal direction="up" className="bg-[#03ACED]/[0.07] border border-[#03ACED]/30 rounded-2xl px-8 py-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
             <div className="text-xs uppercase tracking-[2px] text-[#03ACED] font-bold whitespace-nowrap">The one thing we don&apos;t do</div>
             <p className="text-sm text-[#ccc] leading-relaxed">
-              We don&apos;t bid for you, we don&apos;t take a percentage of your award, and we never compete for your work. Pass-through &ldquo;we&apos;ll bid as the prime&rdquo; arrangements put your revenue in someone else&apos;s name. GovAdmin keeps the award yours. We just run the paperwork.
+              We don&apos;t bid for you, we don&apos;t take a percentage of your award, and we never compete for your work. Pass-through &ldquo;we&apos;ll bid as the prime&rdquo; arrangements put your revenue in someone else&apos;s name. GovAdmin keeps the award yours. We just run the paperwork, and we never have access to your bank information or payment deposits.
             </p>
           </Reveal>
         </div>
@@ -512,24 +512,38 @@ function CageCheck() {
           </Reveal>
         </div>
 
-        <Reveal direction="up" delay={160} className="flex flex-wrap items-center gap-4">
-          <a
-            href="https://govscraper.com/cage-code"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white/[0.06] text-white px-6 py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/10 transition-colors"
-          >
-            Look up any CAGE on GovScraper ↗
-          </a>
-          <a
-            href="https://www.usaspending.gov/search"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white/[0.06] text-white px-6 py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/10 transition-colors"
-          >
-            See their award history on USAspending.gov ↗
-          </a>
-          <span className="text-xs text-[#999]">Then compare it to ours. We will wait.</span>
+        <Reveal direction="up" delay={160} className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-6 md:p-8">
+          <div className="text-[11px] uppercase tracking-[2px] text-[#03ACED] font-semibold mb-3">Do it right now, it takes 30 seconds</div>
+          <p className="text-sm text-[#bbb] leading-relaxed mb-5 max-w-3xl">
+            Open USAspending.gov Recipient Profiles and type in any consultant&apos;s company name. Every federal award they have ever received as a recipient is listed there. Then open ours. The award history is public record, and so is the difference.
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="https://www.usaspending.gov/recipient"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white/[0.06] text-white px-6 py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/10 transition-colors"
+            >
+              Search any company on USAspending.gov ↗
+            </a>
+            <a
+              href="https://www.usaspending.gov/recipient/4923fc91-1aea-9ee9-957d-2e632abf6d98-P/latest"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#03ACED] text-black px-6 py-3 rounded-lg font-bold text-sm hover:bg-[#02a0db] transition-colors"
+            >
+              See MeND Sourcing Solutions on USAspending.gov ↗
+            </a>
+            <a
+              href="https://govscraper.com/cage-code"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white/[0.06] text-white px-6 py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/10 transition-colors"
+            >
+              Look up any CAGE on GovScraper ↗
+            </a>
+          </div>
+          <p className="text-xs text-[#999] mt-4">Then compare it to ours. We will wait.</p>
         </Reveal>
       </div>
     </section>
