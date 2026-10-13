@@ -13,12 +13,12 @@ const handled = [
   {
     icon: "🧾",
     title: "WAWF Receiving Reports & Invoices",
-    desc: "We complete your PIEE items — the receiving report and invoice (Combo or 2-in-1) — submitted correctly the first time so DFAS pays on schedule. Rejections get reworked within one business day.",
+    desc: "We complete your PIEE items, the receiving report and invoice (Combo or 2-in-1), submitted correctly the first time so DFAS pays on schedule. Rejections get reworked within one business day.",
   },
   {
     icon: "📬",
     title: "Post-Award Requests",
-    desc: "Delivery-date extensions, administrative modifications, cancellations and clarifications — filed when needed, tracked until answered, so a slipped date never becomes a delinquency.",
+    desc: "Delivery-date extensions, administrative modifications, cancellations and clarifications. Filed when needed and tracked until answered, so a slipped date never becomes a delinquency.",
   },
   {
     icon: "📋",
@@ -28,23 +28,23 @@ const handled = [
   {
     icon: "🪪",
     title: "SAM.gov, CAGE & DIBBS",
-    desc: "Registrations tracked and renewed before they expire — SAM annual renewal, reps & certs, CAGE accuracy, DIBBS account health. A lapsed SAM means you can't be paid. It doesn't lapse on our watch.",
+    desc: "Registrations tracked and renewed before they expire: SAM annual renewal, reps & certs, CAGE accuracy, DIBBS account health. A lapsed SAM means you can't be paid. It doesn't lapse on our watch.",
   },
   {
     icon: "🔐",
     title: "JCP Certification (DD Form 2345)",
-    desc: "Keep your Joint Certification Program status current so you never lose access to the controlled technical data in C-Folders — the drawings you need to quote and build.",
+    desc: "Keep your Joint Certification Program status current so you never lose access to the controlled technical data in C-Folders, the drawings you need to quote and build.",
   },
   {
     icon: "📊",
     title: "Award Tracking & Status",
-    desc: "Every open award in one tracker — produced, shipped, accepted, invoiced, paid, closed. Weekly status to you, monthly registration report, nothing falls through.",
+    desc: "Every open award in one tracker: produced, shipped, accepted, invoiced, paid, closed. Weekly status to you, monthly registration report, nothing falls through.",
   },
 ];
 
 const alsoIncluded = [
-  "SBA set-aside status (SDVOSB, VOSB, WOSB, 8(a), HUBZone) — recertification dates and filings",
-  "SPRS / NIST SP 800-171 score — validity tracking and resubmission",
+  "SBA set-aside status (SDVOSB, VOSB, WOSB, 8(a), HUBZone): recertification dates and filings",
+  "SPRS / NIST SP 800-171 score: validity tracking and resubmission",
   "DFAS payment follow-up and contract closeout",
   "Reps & certs refresh at SAM renewal",
 ];
@@ -56,11 +56,11 @@ const outcomes = [
   },
   {
     title: "Nothing Lapses",
-    desc: "SAM, CAGE, DIBBS, JCP, SBA and SPRS renewed on a calendar we own — with 90/60/30-day reminders to you.",
+    desc: "SAM, CAGE, DIBBS, JCP, SBA and SPRS renewed on a calendar we own, with 90/60/30-day reminders to you.",
   },
   {
     title: "Review-Ready Records",
-    desc: "Every award, submission and acknowledgement filed where you — or a DCMA QAR — can find it in seconds.",
+    desc: "Every award, submission and acknowledgement filed where you, or a DCMA QAR, can find it in seconds.",
   },
   {
     title: "Your Evenings Back",
@@ -72,7 +72,7 @@ const steps = [
   {
     num: "01",
     title: "Post-Award Review",
-    desc: "A 30-minute call. We look at your open awards, your registrations, and who's doing the admin today — then scope the account.",
+    desc: "A 30-minute call. We look at your open awards, your registrations, and who's doing the admin today, then scope the account.",
   },
   {
     num: "02",
@@ -82,7 +82,7 @@ const steps = [
   {
     num: "03",
     title: "We Run Every Award",
-    desc: "Contract review, receiving reports, invoices, post-award requests, payment follow-up and closeout — on every award you win.",
+    desc: "Contract review, receiving reports, invoices, post-award requests, payment follow-up and closeout, on every award you win.",
   },
   {
     num: "04",
@@ -93,14 +93,14 @@ const steps = [
 
 const whoFor = [
   { title: "Manufacturers & OEMs", desc: "You build the part. We handle the government paperwork that gets it accepted and paid." },
-  { title: "Distributors & Resellers", desc: "High award counts, thin margins — every rejected invoice hurts. We keep the queue clean." },
+  { title: "Distributors & Resellers", desc: "High award counts and thin margins mean every rejected invoice hurts. We keep the queue clean." },
   { title: "New DLA Suppliers", desc: "First few awards in hand and no idea what PIEE is. We've done this 350+ times; we'll show you once and then do it for you." },
   { title: "Owners Doing It Themselves", desc: "If you're the one logging into WAWF at night, this is the hire that pays for itself." },
 ];
 
 const whyMend = [
   {
-    title: "We've Done It 350+ Times — For Ourselves",
+    title: "We've Done It 350+ Times, For Ourselves",
     desc: "MeND is a DLA supplier first. Every receiving report, invoice and post-award request we file for you is one we've filed on our own awards.",
   },
   {
@@ -120,7 +120,7 @@ const whyMend = [
 const faqs = [
   {
     q: "Do you bid on contracts for us?",
-    a: "No. GovAdmin starts the day you win. If you want help finding and bidding opportunities, that's GovScraper and GovTraining — separate tools, your name on the bid.",
+    a: "No. GovAdmin starts the day you win. If you want help finding and bidding opportunities, that's GovScraper and GovTraining: separate tools, your name on the bid.",
   },
   {
     q: "What do we need to give you?",
@@ -164,10 +164,10 @@ export default function GovAdminPage() {
                 You Won the Award. <span className="text-[#03ACED]">We Handle Everything After.</span>
               </Reveal>
               <Reveal direction="up" delay={260} as="p" className="text-lg text-[#bbb] leading-relaxed mb-4 max-w-2xl">
-                Receiving reports, invoices, post-award requests, SAM.gov, DIBBS, JCP, SBA and SPRS upkeep, and award tracking — run by the team that has administered 350+ DLA awards of its own.
+                Receiving reports, government invoices, post-award requests for modifications, SAM.gov registrations, DIBBS registrations, JCP certification renewals, SBA certification renewals, SPRS upkeep, and award tracking. All run by the team that has administered 350+ DLA awards of its own.
               </Reveal>
               <Reveal direction="up" delay={340} as="ul" className="space-y-2 mb-8">
-                {["WAWF receiving reports & invoices filed right the first time", "Registrations that never lapse — SAM, CAGE, DIBBS, JCP, SBA, SPRS", "We don't bid for you. You win it; we run it."].map((item) => (
+                {["WAWF receiving reports & invoices filed right the first time", "Registrations that never lapse: SAM, CAGE, DIBBS, JCP, SBA, SPRS", "We don't bid for you. You win it; we run it."].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-sm text-[#ccc]">
                     <span className="text-[#03ACED]">✓</span> {item}
                   </li>
@@ -201,7 +201,7 @@ export default function GovAdminPage() {
           <Reveal direction="up" className="bg-[#03ACED]/[0.07] border border-[#03ACED]/30 rounded-2xl px-8 py-6 flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
             <div className="text-xs uppercase tracking-[2px] text-[#03ACED] font-bold whitespace-nowrap">The one thing we don&apos;t do</div>
             <p className="text-sm text-[#ccc] leading-relaxed">
-              We don&apos;t bid for you, we don&apos;t take a percentage of your award, and we never compete for your work. Pass-through &ldquo;we&apos;ll bid as the prime&rdquo; arrangements put your revenue in someone else&apos;s name. GovAdmin keeps the award yours — we just run the paperwork.
+              We don&apos;t bid for you, we don&apos;t take a percentage of your award, and we never compete for your work. Pass-through &ldquo;we&apos;ll bid as the prime&rdquo; arrangements put your revenue in someone else&apos;s name. GovAdmin keeps the award yours. We just run the paperwork.
             </p>
           </Reveal>
         </div>
@@ -601,7 +601,7 @@ function ReviewForm() {
           <label className="block text-xs font-medium text-[#bbb] mb-2">Awards in the last 12 months</label>
           <select name="awards" className={`${inputCls} bg-[#111]`} defaultValue="">
             <option value="" className="bg-[#111]">Choose one...</option>
-            {["None yet — just getting started", "1–5", "6–20", "21–50", "50+"].map((o) => (
+            {["None yet, just getting started", "1–5", "6–20", "21–50", "50+"].map((o) => (
               <option key={o} value={o} className="bg-[#111]">{o}</option>
             ))}
           </select>
@@ -610,7 +610,7 @@ function ReviewForm() {
           <label className="block text-xs font-medium text-[#bbb] mb-2">Who handles WAWF today?</label>
           <select name="wawf" className={`${inputCls} bg-[#111]`} defaultValue="">
             <option value="" className="bg-[#111]">Choose one...</option>
-            {["Me, the owner", "Office / bookkeeper", "A consultant", "Nobody — it's late", "We haven't needed it yet"].map((o) => (
+            {["Me, the owner", "Office / bookkeeper", "A consultant", "Nobody, it's late", "We haven't needed it yet"].map((o) => (
               <option key={o} value={o} className="bg-[#111]">{o}</option>
             ))}
           </select>

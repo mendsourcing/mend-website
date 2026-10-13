@@ -47,7 +47,7 @@ const services = [
   },
   {
     name: "GovAdmin",
-    desc: "You won the award — we handle everything after. WAWF receiving reports and invoices, post-award requests, SAM.gov, DIBBS, JCP and SBA upkeep, and tracking every award to paid. We don't bid for you; we run what you win.",
+    desc: "You won the award. We handle everything after. WAWF receiving reports and invoices, post-award requests, SAM.gov, DIBBS, JCP and SBA upkeep, and tracking every award to paid. We don't bid for you; we run what you win.",
     forThose: "Get the paperwork off your desk and get paid faster.",
     href: "/govadmin",
     cta: "Book a Post-Award Review",
