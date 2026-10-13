@@ -101,7 +101,7 @@ const whoFor = [
 const whyMend = [
   {
     title: "We've Done It 350+ Times, For Ourselves",
-    desc: "MeND is an SDVOSB and a DLA supplier first. Every receiving report, invoice and post-award request we file for you is one we've filed on our own awards.",
+    desc: "MeND is an SDVOSB and a DLA supplier first. Every receiving report, invoice and post-award request we file for you is one we've filed on our own awards. Most consultants have never filed one on their own CAGE code. Ask them.",
   },
   {
     title: "AS9100D & ISO 9001:2015 Certified",
@@ -349,6 +349,9 @@ export default function GovAdminPage() {
         </div>
       </section>
 
+      {/* CAGE CHECK */}
+      <CageCheck />
+
       {/* PRICING */}
       <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0a0a0a] to-[#0d1117]">
         <div className="max-w-4xl mx-auto">
@@ -428,8 +431,8 @@ function Wordmark({ className = "" }: { className?: string }) {
   );
 }
 
-// Live proof, same source as the homepage stat cards.
-function ProofPanel() {
+// Live DLA award count, same source as the homepage stat cards.
+function useAwardCount() {
   const [awards, setAwards] = useState<number | null>(null);
 
   useEffect(() => {
@@ -441,6 +444,98 @@ function ProofPanel() {
       })
       .catch(() => {});
   }, []);
+
+  return awards;
+}
+
+const consultantSide = [
+  "0 to 5 federal awards on their own CAGE code, if any",
+  "Advice from reading about WAWF, not from filing it",
+  "No quality system behind the paperwork",
+  "Every lesson learned was learned on a client",
+];
+
+const mendSide = [
+  "DLA awards on our own CAGE code, counted live above",
+  "Every receiving report, invoice and post-award request filed on our own awards first",
+  "AS9100D and ISO 9001:2015 certified quality system",
+  "SDVOSB, veteran owned and operated, DoW supplier since 2010",
+];
+
+// The trust argument: award history is public. Make them look it up.
+function CageCheck() {
+  const awards = useAwardCount();
+
+  return (
+    <section className="py-16 md:py-24 px-6 md:px-15 bg-gradient-to-b from-[#0d1117] to-[#0a0a0a]">
+      <div className="max-w-7xl mx-auto">
+        <Reveal direction="up" className="text-xs uppercase tracking-[3px] text-[#03ACED] font-semibold mb-4">
+          Check the CAGE Code
+        </Reveal>
+        <Reveal direction="up" delay={80} as="h2" className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
+          Ask Any Consultant for Their CAGE Code. Then Look It Up.
+        </Reveal>
+        <Reveal direction="up" delay={160} as="p" className="text-[#bbb] mb-12 max-w-3xl leading-relaxed">
+          A CAGE code is public, and so is every federal award ever made to it. Most consultants selling post-award help have zero to fewer than five awards of their own. They have read about WAWF. We have filed it {awards !== null ? awards.toLocaleString() : "350"}+ times, on our own money, under our own CAGE. How can you trust someone to run your awards who has never run their own?
+        </Reveal>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+          <Reveal direction="left" className="bg-white/[0.02] border border-white/[0.06] rounded-2xl p-8 md:p-10">
+            <div className="text-[11px] uppercase tracking-[2px] text-[#999] font-semibold mb-2">A typical consultant</div>
+            <div className="text-4xl font-black text-white/40 mb-6">0 to 5 <span className="text-base font-semibold text-white/40">awards</span></div>
+            <ul className="space-y-3">
+              {consultantSide.map((t) => (
+                <li key={t} className="flex items-start gap-3 text-sm text-[#999]">
+                  <span className="text-red-400/80 mt-0.5">✕</span> {t}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <Reveal direction="right" delay={120} className="bg-gradient-to-br from-[#03ACED]/15 via-[#03ACED]/5 to-transparent border border-[#03ACED]/40 rounded-2xl p-8 md:p-10">
+            <div className="text-[11px] uppercase tracking-[2px] text-[#03ACED] font-semibold mb-2">
+              MeND Sourcing Solutions · CAGE{" "}
+              <a href="https://sam.gov/search/?index=ei&q=8HHU7" target="_blank" rel="noopener noreferrer" className="underline decoration-[#03ACED]/40 underline-offset-4 hover:decoration-[#03ACED]">8HHU7</a>
+            </div>
+            <div className="text-4xl font-black text-[#03ACED] mb-6 tabular-nums">
+              {awards !== null ? <AnimatedNumber to={awards} suffix="+" /> : "350+"} <span className="text-base font-semibold text-white/70">DLA awards</span>
+            </div>
+            <ul className="space-y-3">
+              {mendSide.map((t) => (
+                <li key={t} className="flex items-start gap-3 text-sm text-[#ccc]">
+                  <span className="text-[#03ACED] mt-0.5">✓</span> {t}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+
+        <Reveal direction="up" delay={160} className="flex flex-wrap items-center gap-4">
+          <a
+            href="https://sam.gov/search/?index=ei"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white/[0.06] text-white px-6 py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/10 transition-colors"
+          >
+            Look up any CAGE on SAM.gov ↗
+          </a>
+          <a
+            href="https://www.usaspending.gov/search"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white/[0.06] text-white px-6 py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/10 transition-colors"
+          >
+            See their award history on USAspending.gov ↗
+          </a>
+          <span className="text-xs text-[#999]">Then compare it to ours. We will wait.</span>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// Live proof, same source as the homepage stat cards.
+function ProofPanel() {
+  const awards = useAwardCount();
 
   const years = new Date().getFullYear() - 2010;
 
