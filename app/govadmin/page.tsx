@@ -136,7 +136,7 @@ const faqs = [
   },
   {
     q: "What about CMMC?",
-    a: "CMMC Level 1 and Level 2 self-assessment prep is available as an add-on. We prepare the assessment, SSP and SPRS submission; a third-party C3PAO assessment, if you need one, is separate.",
+    a: "CMMC Level 1 and Level 2 self-assessment prep is available as an add-on: we prepare the assessment, the SSP and the SPRS submission. The third-party C3PAO assessment requirement (CMMC Phase 2) was suspended by the Department of War in July 2026 with no restart date, so we do not offer it. If it comes back, we will tell you before it shows up in a solicitation.",
   },
   {
     q: "How is it priced?",
