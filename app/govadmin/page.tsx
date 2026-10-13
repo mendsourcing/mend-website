@@ -158,7 +158,7 @@ export default function GovAdminPage() {
                 Post-Award Contract Administration
               </Reveal>
               <Reveal direction="up" delay={80}>
-                <Wordmark className="text-4xl md:text-5xl mb-6" />
+                <Wordmark className="mb-6" />
               </Reveal>
               <Reveal direction="up" delay={180} as="h1" className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
                 You Won the Award. <span className="text-[#03ACED]">We Handle Everything After.</span>
@@ -421,12 +421,15 @@ export default function GovAdminPage() {
   );
 }
 
-// Text wordmark until a designed logo exists — matches the Gov___ family.
+// Text wordmark by design: no standalone logo for this product.
 function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <div className={`font-black tracking-tight leading-none ${className}`} aria-label="GovAdmin">
-      <span className="text-white">Gov</span>
-      <span className="text-[#03ACED]">Admin</span>
+    <div className={className} aria-label="GovAdmin, powered by MeND Sourcing">
+      <div className="text-4xl md:text-5xl font-black tracking-tight leading-none">
+        <span className="text-white">Gov</span>
+        <span className="text-[#03ACED]">Admin</span>
+      </div>
+      <div className="mt-2 text-[10px] uppercase tracking-[3px] text-white/50 font-semibold">Powered by MeND Sourcing</div>
     </div>
   );
 }

@@ -201,8 +201,11 @@ export default function HomePage() {
                       className="h-10 w-auto brightness-0 invert transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="text-[28px] font-black tracking-tight leading-none transition-transform duration-500 group-hover:scale-105" aria-label={svc.name}>
-                      <span className="text-white">Gov</span><span className="text-[#03ACED]">{svc.name.replace(/^Gov/, "")}</span>
+                    <div className="transition-transform duration-500 group-hover:scale-105" aria-label={`${svc.name}, powered by MeND Sourcing`}>
+                      <div className="text-[28px] font-black tracking-tight leading-none">
+                        <span className="text-white">Gov</span><span className="text-[#03ACED]">{svc.name.replace(/^Gov/, "")}</span>
+                      </div>
+                      <div className="text-[9px] uppercase tracking-[2px] text-white/40 font-semibold mt-1">Powered by MeND Sourcing</div>
                     </div>
                   )}
                 </div>
