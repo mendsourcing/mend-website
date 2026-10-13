@@ -514,12 +514,12 @@ function CageCheck() {
 
         <Reveal direction="up" delay={160} className="flex flex-wrap items-center gap-4">
           <a
-            href="https://sam.gov/search/?index=ei"
+            href="https://govscraper.com/cage-code"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-white/[0.06] text-white px-6 py-3 rounded-lg font-semibold text-sm border border-white/[0.12] hover:bg-white/10 transition-colors"
           >
-            Look up any CAGE on SAM.gov ↗
+            Look up any CAGE on GovScraper ↗
           </a>
           <a
             href="https://www.usaspending.gov/search"
