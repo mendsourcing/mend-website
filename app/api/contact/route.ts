@@ -1,4 +1,12 @@
 import { NextResponse } from "next/server";
+import {
+  type ContactPayload,
+  internalSubject,
+  internalHtml,
+  confirmationSubject,
+  confirmationHtml,
+  metaSummary,
+} from "@/lib/contactEmails";
 
 const CRM_URL = process.env.CRM_URL || "https://services.mendsourcing.com";
 const TURNSTILE_VERIFY_URL =
@@ -64,6 +72,18 @@ export async function POST(request: Request) {
     );
   }
 
+  const payload: ContactPayload = {
+    firstName: String(firstName || "").trim(),
+    lastName: String(lastName || "").trim(),
+    email: String(email || "").trim(),
+    phone: String(phone || "").trim(),
+    company: String(company || "").trim(),
+    topic: topic ? String(topic) : undefined,
+    message: message ? String(message) : "",
+    source: formSource,
+    meta: formMeta as Record<string, unknown> | undefined,
+  };
+
   // 1. Send email via Resend with BCC
   if (process.env.RESEND_API_KEY) {
     try {
@@ -77,18 +97,9 @@ export async function POST(request: Request) {
           from: "MeND Website <sales@mendsourcing.com>",
           to: [toAddress],
           bcc: ["tristan@mendsourcing.com"],
-          subject: `New Contact: ${topic || "General"} - ${firstName} ${lastName || ""} (${company})`,
-          html: `
-            <h2>New Contact Form Submission</h2>
-            <p><strong>Name:</strong> ${firstName} ${lastName || ""}</p>
-            <p><strong>Company:</strong> ${company}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-            <p><strong>Topic:</strong> ${topic || "Not selected"}</p>
-            <p><strong>Message:</strong> ${message || "No message"}</p>
-            <hr/>
-            <p style="color:#888;font-size:12px;">Submitted via: ${formSource}</p>
-          `,
+          reply_to: payload.email,
+          subject: internalSubject(payload),
+          html: internalHtml(payload),
         }),
       });
 
@@ -106,44 +117,34 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           from: "MeND Sourcing Solutions <sales@mendsourcing.com>",
-          to: [email],
-          subject: `We received your message, ${firstName}!`,
-          html: `
-            <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">
-              <h2 style="color:#03ACED;">Thank you for reaching out, ${firstName}!</h2>
-              <p>We've received your message and our team will get back to you within 24 hours.</p>
-              <p><strong>Here's what you submitted:</strong></p>
-              <ul>
-                <li><strong>Topic:</strong> ${topic || "General inquiry"}</li>
-                <li><strong>Company:</strong> ${company}</li>
-              </ul>
-              <p>In the meantime, feel free to explore our services at <a href="https://mendsourcing.com" style="color:#03ACED;">mendsourcing.com</a>.</p>
-              <hr style="border:none;border-top:1px solid #eee;margin:24px 0;"/>
-              <p style="color:#888;font-size:12px;">MeND Sourcing Solutions<br/>1713 E. 58th Pl. Unit G, Los Angeles, CA 90001<br/>sales@mendsourcing.com</p>
-            </div>
-          `,
+          to: [payload.email],
+          subject: confirmationSubject(payload),
+          html: confirmationHtml(payload),
         }),
       }).catch(() => {});
     } catch (err) {
       console.error("Email send error:", err);
     }
   } else {
-    console.log("Contact form submission:", { firstName, lastName, email, phone, company, topic, message });
+    console.log("Contact form submission (no RESEND_API_KEY):", { source: formSource, company: payload.company });
   }
 
-  // 2. Push to CRM - cross-reference customer, create contact, log activity
+  // 2. Push to CRM - cross-reference customer, create contact, log activity.
+  // The structured fields ride along as `meta`; until the CRM stores them
+  // as columns, a one-line summary is appended to the note so nothing is lost.
+  const summary = metaSummary(payload.meta);
   try {
     await fetch(`${CRM_URL}/api/website-contact`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        firstName,
-        lastName: lastName || "",
-        email,
-        phone: phone || "",
-        company,
-        topic: topic || "General",
-        message: message || "",
+        firstName: payload.firstName,
+        lastName: payload.lastName || "",
+        email: payload.email,
+        phone: payload.phone || "",
+        company: payload.company,
+        topic: payload.topic || "General",
+        message: summary ? `${payload.message || ""}${payload.message ? "\n\n" : ""}${summary}` : payload.message || "",
         source: formSource,
         ...(formMeta ? { meta: formMeta } : {}),
       }),

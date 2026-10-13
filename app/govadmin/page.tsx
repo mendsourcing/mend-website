@@ -616,14 +616,7 @@ function ReviewForm() {
           phone: data.get("phone"),
           company: data.get("company"),
           topic: "GovAdmin - Post-Award Review Request",
-          message: [
-            "Post-Award Review request from GovAdmin page.",
-            `CAGE code: ${data.get("cage") || "Not provided"}`,
-            `Awards in last 12 months: ${data.get("awards") || "Not provided"}`,
-            `Registrations in place: ${registrations.length ? registrations.join(", ") : "None selected"}`,
-            `Who handles WAWF today: ${data.get("wawf") || "Not provided"}`,
-            `Message: ${data.get("message") || "None"}`,
-          ].join("\n"),
+          message: String(data.get("message") || ""),
           source: "GovAdmin Post-Award Review Form",
           meta: {
             product: "govadmin",
