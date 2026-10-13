@@ -66,7 +66,7 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop Nav */}
-      <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+      <div className="hidden xl:flex items-center gap-8">
         {navItems.map((item) => (
           <div
             key={item.label}
@@ -109,7 +109,7 @@ export default function Navbar() {
 
       {/* Mobile Toggle */}
       <button
-        className="lg:hidden text-white"
+        className="xl:hidden text-white"
         onClick={() => setMobileOpen(!mobileOpen)}
         aria-label="Toggle menu"
       >
@@ -139,7 +139,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden absolute top-[72px] left-0 w-full bg-[#0a0a0a]/98 backdrop-blur-xl border-b border-white/10 py-6 px-6">
+        <div className="xl:hidden absolute top-[72px] left-0 w-full bg-[#0a0a0a]/98 backdrop-blur-xl border-b border-white/10 py-6 px-6">
           {navItems.map((item) => (
             <div key={item.label} className="mb-4">
               <Link
