@@ -452,7 +452,7 @@ function useAwardCount() {
 }
 
 const consultantSide = [
-  "0 to 5 federal awards on their own CAGE code, if any",
+  "Typically 0 to 5 federal awards on their own CAGE code, if any",
   "Advice from reading about WAWF, not from filing it",
   "No quality system behind the paperwork",
   "Every lesson learned was learned on a client",
@@ -479,7 +479,7 @@ function CageCheck() {
           Ask Any Consultant for Their CAGE Code. Then Look It Up.
         </Reveal>
         <Reveal direction="up" delay={160} as="p" className="text-[#bbb] mb-12 max-w-3xl leading-relaxed">
-          A CAGE code is public, and so is every federal award ever made to it. Most consultants selling post-award help have zero to fewer than five awards of their own. They have read about WAWF. We have filed it {awards !== null ? awards.toLocaleString() : "350"}+ times, on our own money, under our own CAGE. How can you trust someone to run your awards who has never run their own?
+          A CAGE code is public, and so is every federal award ever made to it. In our experience, most consultants selling post-award help have zero to fewer than five awards of their own. They have read about WAWF. We have filed it {awards !== null ? awards.toLocaleString() : "350"}+ times, on our own money, under our own CAGE. How can you trust someone to run your awards who has never run their own?
         </Reveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
