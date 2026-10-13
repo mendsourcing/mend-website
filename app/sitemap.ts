@@ -10,6 +10,7 @@ const routes = [
   "/masterclass",
   "/jumpstart",
   "/upcoming-courses",
+  "/govadmin",
   "/government-contracting",
   "/government-defense-contracting",
   "/part-identifier",

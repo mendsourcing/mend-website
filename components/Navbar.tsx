@@ -16,6 +16,7 @@ const navItems = [
       { label: "Upcoming Courses", href: "/upcoming-courses" },
     ],
   },
+  { label: "GovAdmin", href: "/govadmin" },
   {
     label: "Government Contracting",
     href: "/government-contracting",
@@ -65,7 +66,7 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop Nav */}
-      <div className="hidden lg:flex items-center gap-8">
+      <div className="hidden lg:flex items-center gap-6 xl:gap-8">
         {navItems.map((item) => (
           <div
             key={item.label}

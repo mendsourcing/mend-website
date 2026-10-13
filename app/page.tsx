@@ -45,6 +45,13 @@ const services = [
     href: "/govtraining",
     cta: "Win More Contracts",
   },
+  {
+    name: "GovAdmin",
+    desc: "You won the award — we handle everything after. WAWF receiving reports and invoices, post-award requests, SAM.gov, DIBBS, JCP and SBA upkeep, and tracking every award to paid. We don't bid for you; we run what you win.",
+    forThose: "Get the paperwork off your desk and get paid faster.",
+    href: "/govadmin",
+    cta: "Book a Post-Award Review",
+  },
 ];
 
 const b2gServices = [
@@ -175,23 +182,29 @@ export default function HomePage() {
             Powerful tools and training designed to help you win and
             manage government contracts.
           </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {services.map((svc, i) => (
               <Reveal
                 key={svc.name}
                 direction="up"
                 delay={i * 120}
-                className="group bg-white/[0.03] border border-white/[0.06] rounded-2xl p-10 transition-all hover:border-[#03ACED]/30 hover:bg-[#03ACED]/[0.03] hover:-translate-y-1 relative overflow-hidden flex flex-col"
+                className="group bg-white/[0.03] border border-white/[0.06] rounded-2xl p-8 transition-all hover:border-[#03ACED]/30 hover:bg-[#03ACED]/[0.03] hover:-translate-y-1 relative overflow-hidden flex flex-col"
               >
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#03ACED] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="h-12 mb-6 flex items-center overflow-hidden">
-                  <Image
-                    src={svc.logo}
-                    alt={svc.name}
-                    width={200}
-                    height={48}
-                    className="h-10 w-auto brightness-0 invert transition-transform duration-500 group-hover:scale-105"
-                  />
+                  {"logo" in svc && svc.logo ? (
+                    <Image
+                      src={svc.logo}
+                      alt={svc.name}
+                      width={200}
+                      height={48}
+                      className="h-10 w-auto brightness-0 invert transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="text-[28px] font-black tracking-tight leading-none transition-transform duration-500 group-hover:scale-105" aria-label={svc.name}>
+                      <span className="text-white">Gov</span><span className="text-[#03ACED]">{svc.name.replace(/^Gov/, "")}</span>
+                    </div>
+                  )}
                 </div>
                 <h3 className="text-[22px] font-bold mb-3">{svc.name}</h3>
                 <p className="text-[15px] text-[#bbb] leading-relaxed mb-4 flex-1">
