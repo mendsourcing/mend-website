@@ -46,6 +46,7 @@ const services = [
     cta: "Win More Contracts",
   },
   {
+    logo: "/images/govadmin-logo.png",
     name: "GovAdmin",
     desc: "You won the award. We handle everything after. WAWF receiving reports and invoices, post-award requests, SAM.gov, DIBBS, JCP and SBA upkeep, and tracking every award to paid. We don't bid for you; we run what you win.",
     forThose: "Get the paperwork off your desk and get paid faster.",
@@ -192,22 +193,13 @@ export default function HomePage() {
               >
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#03ACED] to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                 <div className="h-12 mb-6 flex items-center overflow-hidden">
-                  {"logo" in svc && svc.logo ? (
-                    <Image
-                      src={svc.logo}
-                      alt={svc.name}
-                      width={200}
-                      height={48}
-                      className="h-10 w-auto brightness-0 invert transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="transition-transform duration-500 group-hover:scale-105" aria-label={`${svc.name}, powered by MeND Sourcing`}>
-                      <div className="text-[28px] font-black tracking-tight leading-none">
-                        <span className="text-white">Gov</span><span className="text-[#03ACED]">{svc.name.replace(/^Gov/, "")}</span>
-                      </div>
-                      <div className="text-[9px] uppercase tracking-[2px] text-white/40 font-semibold mt-1">Powered by MeND Sourcing</div>
-                    </div>
-                  )}
+                  <Image
+                    src={svc.logo}
+                    alt={svc.name}
+                    width={200}
+                    height={48}
+                    className="h-10 w-auto brightness-0 invert transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
                 <h3 className="text-[22px] font-bold mb-3">{svc.name}</h3>
                 <p className="text-[15px] text-[#bbb] leading-relaxed mb-4 flex-1">

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import AnimatedNumber from "@/components/AnimatedNumber";
 import TurnstileWidget from "@/components/TurnstileWidget";
@@ -158,7 +159,13 @@ export default function GovAdminPage() {
                 Post-Award Contract Administration
               </Reveal>
               <Reveal direction="up" delay={80}>
-                <Wordmark className="mb-6" />
+                <Image
+                  src="/images/govadmin-logo.png"
+                  alt="GovAdmin"
+                  width={300}
+                  height={53}
+                  className="h-14 w-auto brightness-0 invert mb-6"
+                />
               </Reveal>
               <Reveal direction="up" delay={180} as="h1" className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-6">
                 You Won the Award. <span className="text-[#03ACED]">We Handle Everything After.</span>
@@ -418,19 +425,6 @@ export default function GovAdminPage() {
         </Link>
       </section>
     </>
-  );
-}
-
-// Text wordmark by design: no standalone logo for this product.
-function Wordmark({ className = "" }: { className?: string }) {
-  return (
-    <div className={className} aria-label="GovAdmin, powered by MeND Sourcing">
-      <div className="text-4xl md:text-5xl font-black tracking-tight leading-none">
-        <span className="text-white">Gov</span>
-        <span className="text-[#03ACED]">Admin</span>
-      </div>
-      <div className="mt-2 text-[10px] uppercase tracking-[3px] text-white/50 font-semibold">Powered by MeND Sourcing</div>
-    </div>
   );
 }
 

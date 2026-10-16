@@ -18,6 +18,9 @@ export interface ContactPayload {
 
 const CYAN = "#03ACED";
 const CALENDLY_GOVADMIN = "https://www.calendly.com/mendsourcing/govadmin";
+// Absolute URL so mail clients can load it. Black wordmark, so it sits on the
+// white card, not the dark header bar.
+const GOVADMIN_LOGO = "https://mendsourcing.com/images/govadmin-logo.png";
 
 // Human labels for the structured fields product forms send in `meta`.
 const META_LABELS: Record<string, string> = {
@@ -149,6 +152,7 @@ export function confirmationSubject(p: ContactPayload): string {
 export function confirmationHtml(p: ContactPayload): string {
   if (isGovAdmin(p)) {
     const inner = `
+<img src="${GOVADMIN_LOGO}" width="200" height="35" alt="GovAdmin" style="display:block;border:0;outline:none;width:200px;height:35px;margin:0 0 22px;" />
 <h1 style="margin:0 0 10px;font-size:22px;color:#111;">Thanks, ${h(p.firstName)}. Your Post-Award Review request is in.</h1>
 <p style="margin:0 0 18px;font-size:15px;line-height:1.7;color:#333;">We'll reach out within one business day. If you'd rather lock in a time now, pick a slot below and we'll come to the call having already looked at your open awards and registrations.</p>
 <div style="margin:0 0 24px;">${button(CALENDLY_GOVADMIN, "Book your 30-minute Post-Award Review")}</div>
