@@ -1,5 +1,6 @@
 "use client";
 
+import { getAttribution } from "@/lib/attribution";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -476,6 +477,7 @@ function ConsultForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          attribution: getAttribution(),
           firstName: data.get("firstName"),
           lastName: data.get("lastName"),
           email: data.get("email"),

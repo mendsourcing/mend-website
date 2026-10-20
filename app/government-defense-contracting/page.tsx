@@ -1,5 +1,6 @@
 "use client";
 
+import { getAttribution } from "@/lib/attribution";
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
@@ -55,6 +56,7 @@ export default function DefenseContractingPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          attribution: getAttribution(),
           firstName: data.get("firstName"),
           lastName: data.get("lastName"),
           email: data.get("email"),

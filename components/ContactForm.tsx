@@ -1,5 +1,6 @@
 "use client";
 
+import { getAttribution } from "@/lib/attribution";
 import { useState } from "react";
 import TurnstileWidget from "./TurnstileWidget";
 
@@ -34,6 +35,7 @@ export default function ContactForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          attribution: getAttribution(),
           firstName: data.get("firstName"),
           lastName: data.get("lastName"),
           email: data.get("email"),

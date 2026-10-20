@@ -75,6 +75,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} antialiased`}>
       <body className="min-h-screen flex flex-col bg-[#0a0a0a] text-white">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(!localStorage.getItem('mend_attr')){var q=new URLSearchParams(location.search);var a={utm_source:q.get('utm_source')||'',utm_medium:q.get('utm_medium')||'',utm_campaign:q.get('utm_campaign')||'',utm_content:q.get('utm_content')||'',gclid:q.get('gclid')||'',landing_page:location.pathname,referrer:document.referrer||''};if(a.utm_source||a.gclid||a.referrer||a.landing_page){localStorage.setItem('mend_attr',JSON.stringify(a));}}}catch(e){}`,
+          }}
+        />
+
         {GA_ID && (
           <>
             <Script

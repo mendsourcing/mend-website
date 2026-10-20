@@ -1,5 +1,6 @@
 "use client";
 
+import { getAttribution } from "@/lib/attribution";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -605,6 +606,7 @@ function ReviewForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          attribution: getAttribution(),
           firstName: data.get("firstName"),
           lastName: data.get("lastName"),
           email: data.get("email"),

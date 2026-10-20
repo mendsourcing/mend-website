@@ -166,6 +166,7 @@ export async function POST(request: Request) {
       headers: { "Content-Type": "application/json" },
       signal: AbortSignal.timeout(5000),
       body: JSON.stringify({
+        attribution: (payload as unknown as Record<string, unknown>).attribution || undefined,
         firstName: payload.firstName,
         lastName: payload.lastName || "",
         email: payload.email,
