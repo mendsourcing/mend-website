@@ -2,7 +2,7 @@ import { defineRailway, github, project, service } from "railway/iac";
 // This repository manages only its own resources in the environment. Other
 // repositories export their own partial name.
 // See https://docs.railway.com/infrastructure-as-code#multi-repo-projects
-export const partial = "MeND - Main Website";
+export const partial = "mend-main-website";
 export default defineRailway(() => {
   const MeNDMainWebsite = service("MeND - Main Website", {
     source: github("mendsourcing/mend-website", { branch: "main", checkSuites: false }),
