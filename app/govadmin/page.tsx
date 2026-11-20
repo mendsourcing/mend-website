@@ -1,6 +1,7 @@
 "use client";
 
 import { getAttribution } from "@/lib/attribution";
+import { trackLead } from "@/lib/analytics";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -627,6 +628,7 @@ function ReviewForm() {
       });
       if (res.ok) {
         setStatus("sent");
+        trackLead("govadmin");
         form.reset();
       } else {
         const serverMsg = (await res.json().catch(() => null))?.error;

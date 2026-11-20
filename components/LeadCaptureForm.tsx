@@ -7,8 +7,16 @@
  * returns one, e.g. the Vertical Guide) or a thank-you note.
  */
 import { useState } from "react";
+import { getAttribution } from "@/lib/attribution";
+import { trackLead } from "@/lib/analytics";
 
 const LEAD_ENDPOINT = "https://services.mendsourcing.com/api/lead";
+
+// GA4 / PostHog `form` label per lead magnet. Falls back to the CRM source.
+const FORM_LABEL: Record<string, "guide" | "newsletter"> = {
+  verticalguide: "guide",
+  newsletter: "newsletter",
+};
 
 export default function LeadCaptureForm({ tag, source, potential, cta = "Send Me the Guide", successNote = "Check your inbox — it's on the way." }: {
   tag: string;
@@ -32,12 +40,15 @@ export default function LeadCaptureForm({ tag, source, potential, cta = "Send Me
       const res = await fetch(LEAD_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, company, tag, source, potential, website_url: websiteUrl }),
+        // `attribution` = first-touch UTMs captured by the layout script
+        // (same as the product forms) so the CRM lead row carries platform credit.
+        body: JSON.stringify({ email, name, company, tag, source, potential, website_url: websiteUrl, attribution: getAttribution() }),
       });
       const j = await res.json();
       if (!res.ok) throw new Error(j.error || "failed");
       setDownload(j.download || null);
       setStatus("sent");
+      trackLead(FORM_LABEL[source] || source, { tag, source, potential });
     } catch {
       setStatus("error");
     }

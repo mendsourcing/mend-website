@@ -1,6 +1,7 @@
 "use client";
 
 import { getAttribution } from "@/lib/attribution";
+import { trackLead } from "@/lib/analytics";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -491,6 +492,7 @@ function ConsultForm() {
       });
       if (res.ok) {
         setStatus("sent");
+        trackLead("govtraining");
         form.reset();
       } else {
         setStatus("error");

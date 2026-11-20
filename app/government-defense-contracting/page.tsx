@@ -1,6 +1,7 @@
 "use client";
 
 import { getAttribution } from "@/lib/attribution";
+import { trackLead } from "@/lib/analytics";
 import { useState, useEffect } from "react";
 import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
@@ -70,6 +71,7 @@ export default function DefenseContractingPage() {
       });
       if (res.ok) {
         setFormStatus("sent");
+        trackLead("government-defense-contracting");
         form.reset();
       } else {
         setFormStatus("error");
