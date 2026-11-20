@@ -1,9 +1,30 @@
 import Reveal from "@/components/Reveal";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 
-export const metadata = {
-  title: "The Weekly MeND Newsletter | MeND Sourcing Solutions",
-  description: "One email a week built to help you win government contracts: our real numbers, insights into the DLA, and tools you can use.",
+import type { Metadata } from "next";
+
+const newsletterTitle = "The Weekly MeND Newsletter | MeND Sourcing Solutions";
+const newsletterDescription =
+  "One email a week built to help you win government contracts: our real numbers, insights into the DLA, and tools you can use.";
+
+export const metadata: Metadata = {
+  title: newsletterTitle,
+  description: newsletterDescription,
+  alternates: { canonical: "/newsletter" },
+  openGraph: {
+    type: "website",
+    url: "https://mendsourcing.com/newsletter",
+    siteName: "MeND Sourcing Solutions",
+    title: newsletterTitle,
+    description: newsletterDescription,
+    images: [{ url: "/images/og-newsletter.png", width: 1200, height: 630, alt: "The Weekly MeND newsletter" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: newsletterTitle,
+    description: newsletterDescription,
+    images: ["/images/og-newsletter.png"],
+  },
 };
 
 const weeklyItems = [

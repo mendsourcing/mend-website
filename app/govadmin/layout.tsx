@@ -11,6 +11,7 @@ export const metadata: Metadata = {
       "Receiving reports, invoices, post-award requests and registration upkeep for DLA & DoW suppliers. We don't bid for you. We run what you win.",
     url: "https://mendsourcing.com/govadmin",
     type: "website",
+    images: [{ url: "/images/og-default.png", width: 1200, height: 630, alt: "MeND Sourcing Solutions" }],
   },
 };
 

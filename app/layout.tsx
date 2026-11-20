@@ -43,12 +43,21 @@ export const metadata: Metadata = {
     title: "MeND Sourcing Solutions | Government Contracting at Peak Efficiency",
     description:
       "Simplifying government contracting. Veteran-owned SDVOSB, AS9100 & ISO9001 certified, pursuing CMMC Level 2.",
+    images: [
+      {
+        url: "/images/og-default.png",
+        width: 1200,
+        height: 630,
+        alt: "MeND Sourcing Solutions. Win Government Contracts.",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "MeND Sourcing Solutions | Government Contracting at Peak Efficiency",
     description:
       "Simplifying government contracting. Veteran-owned SDVOSB, AS9100 & ISO9001 certified, pursuing CMMC Level 2.",
+    images: ["/images/og-default.png"],
   },
   robots: {
     index: true,

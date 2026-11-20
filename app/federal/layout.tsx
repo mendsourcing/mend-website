@@ -35,12 +35,14 @@ export const metadata: Metadata = {
     siteName: "MeND Sourcing Solutions",
     type: "website",
     locale: "en_US",
+    images: [{ url: "/images/og-default.png", width: 1200, height: 630, alt: "MeND Sourcing Solutions" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Federal & Cybersecurity — CMMC Level 2 Compliance | MeND Sourcing Solutions",
     description:
       "Securing the defense supply chain through CMMC compliance. CMMC enforcement begins November 2026, full implementation by 2028.",
+    images: ["/images/og-default.png"],
   },
   robots: {
     index: true,

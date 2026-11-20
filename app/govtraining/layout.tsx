@@ -11,6 +11,7 @@ export const metadata: Metadata = {
       "Master government contracting with MeND's GovTraining programs. From Jumpstart to MasterClass — practical, instructor-led courses.",
     url: "https://mendsourcing.com/govtraining",
     type: "website",
+    images: [{ url: "/images/og-default.png", width: 1200, height: 630, alt: "MeND Sourcing Solutions" }],
   },
 };
 

@@ -1,9 +1,30 @@
 import Reveal from "@/components/Reveal";
 import LeadCaptureForm from "@/components/LeadCaptureForm";
 
-export const metadata = {
-  title: "Free GovCon Vertical Guide | MeND Sourcing Solutions",
-  description: "The GovCon Vertical Guide — your fast-track playbook to winning DLA contracts. Free 14-page PDF from MeND Sourcing Solutions.",
+import type { Metadata } from "next";
+
+const guideTitle = "Free GovCon Vertical Guide | MeND Sourcing Solutions";
+const guideDescription =
+  "The GovCon Vertical Guide: your fast-track playbook to winning DLA contracts. Free 14-page PDF from MeND Sourcing Solutions.";
+
+export const metadata: Metadata = {
+  title: guideTitle,
+  description: guideDescription,
+  alternates: { canonical: "/guide" },
+  openGraph: {
+    type: "website",
+    url: "https://mendsourcing.com/guide",
+    siteName: "MeND Sourcing Solutions",
+    title: guideTitle,
+    description: guideDescription,
+    images: [{ url: "/images/og-guide.png", width: 1200, height: 630, alt: "Free GovCon Guide from MeND Sourcing Solutions" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: guideTitle,
+    description: guideDescription,
+    images: ["/images/og-guide.png"],
+  },
 };
 
 const insideItems = [
