@@ -1,6 +1,7 @@
 "use client";
 
 import { getAttribution } from "@/lib/attribution";
+import { trackLead } from "@/lib/analytics";
 import { useState } from "react";
 import TurnstileWidget from "./TurnstileWidget";
 
@@ -49,6 +50,7 @@ export default function ContactForm() {
 
       if (res.ok) {
         setStatus("sent");
+        trackLead("contact");
         form.reset();
       } else {
         setStatus("error");
